@@ -2,7 +2,7 @@
 using Goldix.Application.Models.Identity;
 using Goldix.Domain.Entities.Identity;
 
-namespace TennisPark.Infrastructure.Services.Identity;
+namespace Goldix.Infrastructure.Services.Identity;
 
 public class TokenService : ITokenService
 {
