@@ -26,5 +26,11 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 await app.ApplyMigrationsIfPending();
+await app.SeedData();
+
+var apiVersionSet = app.ConfigureApiVersioning();
+app.RegisterEndpoints(apiVersionSet);
+
+app.UseGlobalExceptionHandling();
 
 app.Run();

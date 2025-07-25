@@ -1,7 +1,7 @@
 ﻿using Goldix.Application.Exceptions;
-using Goldix.Application.Interfaces.Validator;
+using Goldix.Application.Interfaces.Infrastructure;
 
-namespace Goldix.Infrastructure.Services.Validator;
+namespace Goldix.Infrastructure.Services.Infrastructure;
 
 public class ValidationService(IServiceProvider serviceProvider) : IValidationService
 {

@@ -1,4 +1,4 @@
-﻿namespace Goldix.Application.Interfaces.Persistence;
+﻿namespace Goldix.Application.Interfaces.Repositories.Common;
 
 public interface IRepository<T> where T : class
 {

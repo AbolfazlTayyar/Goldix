@@ -1,14 +1,15 @@
 ﻿using Goldix.Application.Exceptions;
-using Goldix.Application.Interfaces.Identity;
+using Goldix.Application.Interfaces.Repositories.Common;
+using Goldix.Application.Interfaces.Services.Identity;
 using Goldix.Domain.Entities.Identity;
 
 namespace Goldix.Infrastructure.Services.Identity;
 
-public class AuthenticationService(UserManager<ApplicationUser> userManager) : IAuthenticationService
+public class AuthenticationService(UserManager<ApplicationUser> userManager, IUnitOfWork unitOfWork) : IAuthenticationService
 {
-    public async Task<ApplicationUser> ValidateUserAsync(string username, string password)
+    public async Task<ApplicationUser> ValidateUserAsync(string username, string password, CancellationToken cancellationToken)
     {
-        var user = await userManager.FindByNameAsync(username);
+        var user = await unitOfWork.UserRepository.GetUserByPhoneNumberAsync(username, cancellationToken);
         if (user is null)
             throw new BadRequestException("Invalid username or password!");
 

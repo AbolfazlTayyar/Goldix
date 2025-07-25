@@ -52,7 +52,6 @@ public class GlobalExceptionHandlingMiddleware
                 break;
         }
 
-
         await context.Response.WriteAsJsonAsync(response);
     }
 }

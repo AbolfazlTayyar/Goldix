@@ -7,3 +7,4 @@ global using System.Globalization;
 global using Microsoft.Extensions.DependencyInjection;
 global using System.Reflection;
 global using AutoMapper;
+global using Microsoft.AspNetCore.Identity;

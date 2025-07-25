@@ -32,7 +32,9 @@ public static class ExceptionResponse
         //    "An unhandled exception occurred");
 
         ///development
+        //return ApiResponse<object>.FailureResult(
+        //   exception?.InnerException.ToString() ?? exception.ToString());
         return ApiResponse<object>.FailureResult(
-           exception.InnerException.ToString());
+           exception.InnerException != null ? exception.InnerException.ToString() : exception.ToString());
     }
 }

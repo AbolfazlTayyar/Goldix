@@ -1,13 +1,13 @@
-﻿using Goldix.Application.Interfaces.Identity;
-using Goldix.Application.Interfaces.Persistence;
-using Goldix.Application.Interfaces.Validator;
+﻿using Goldix.Application.Behaviors;
+using Goldix.Application.Interfaces.Infrastructure;
+using Goldix.Application.Interfaces.Repositories.Common;
+using Goldix.Application.Interfaces.Services.Identity;
+using Goldix.Application.Models.Identity;
 using Goldix.Domain.Entities.Identity;
 using Goldix.Infrastructure.Persistence;
 using Goldix.Infrastructure.Repositories.Common;
 using Goldix.Infrastructure.Services.Identity;
-using Goldix.Infrastructure.Services.Validator;
-using Goldix.Application.Behaviors;
-using Goldix.Application.Models.Identity;
+using Goldix.Infrastructure.Services.Infrastructure;
 
 namespace Goldix.Infrastructure;
 
@@ -25,6 +25,8 @@ public static class ConfigureServices
         services.AddScoped<IClaimsService, ClaimsService>();
         services.AddScoped<ITokenService, TokenService>();
         services.AddScoped<IUserService, UserService>();
+
+        services.AddScoped<IUnitOfWork, UnitOfWork>();
 
         services.AddMediatR(options =>
         {

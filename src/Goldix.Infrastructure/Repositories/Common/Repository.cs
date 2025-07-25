@@ -1,4 +1,4 @@
-﻿using Goldix.Application.Interfaces.Persistence;
+﻿using Goldix.Application.Interfaces.Repositories.Common;
 
 namespace Goldix.Infrastructure.Repositories.Common;
 

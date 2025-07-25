@@ -1,4 +1,4 @@
-﻿namespace Goldix.Application.Interfaces.Validator;
+﻿namespace Goldix.Application.Interfaces.Infrastructure;
 
 public interface IValidationService
 {

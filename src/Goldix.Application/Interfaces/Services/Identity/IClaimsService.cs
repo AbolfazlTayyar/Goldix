@@ -1,6 +1,6 @@
 ﻿using Goldix.Domain.Entities.Identity;
 
-namespace Goldix.Application.Interfaces.Identity;
+namespace Goldix.Application.Interfaces.Services.Identity;
 
 public interface IClaimsService
 {

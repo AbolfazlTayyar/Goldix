@@ -1,4 +1,4 @@
-﻿using Goldix.Application.Interfaces.Identity;
+﻿using Goldix.Application.Interfaces.Services.Identity;
 using Goldix.Domain.Entities.Identity;
 
 namespace Goldix.Infrastructure.Services.Identity;
