@@ -1,13 +1,13 @@
 ﻿using Goldix.Application.Behaviors;
 using Goldix.Application.Interfaces.Infrastructure;
-using Goldix.Application.Interfaces.Repositories.Common;
 using Goldix.Application.Interfaces.Services.Identity;
+using Goldix.Application.Interfaces.Services.Notification;
 using Goldix.Application.Models.Identity;
 using Goldix.Domain.Entities.Identity;
 using Goldix.Infrastructure.Persistence;
-using Goldix.Infrastructure.Repositories.Common;
 using Goldix.Infrastructure.Services.Identity;
 using Goldix.Infrastructure.Services.Infrastructure;
+using Goldix.Infrastructure.Services.Notification;
 
 namespace Goldix.Infrastructure;
 
@@ -18,15 +18,12 @@ public static class ConfigureServices
         services.AddDbContext<ApplicationDbContext>(options =>
             options.UseSqlServer(configuration.GetConnectionString("DefaultConnection")));
 
-        services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
-
         services.AddScoped<IValidationService, ValidationService>();
         services.AddScoped<IAuthenticationService, AuthenticationService>();
         services.AddScoped<IClaimsService, ClaimsService>();
         services.AddScoped<ITokenService, TokenService>();
         services.AddScoped<IUserService, UserService>();
-
-        services.AddScoped<IUnitOfWork, UnitOfWork>();
+        services.AddScoped<INotificationService, NotificationService>();
 
         services.AddMediatR(options =>
         {

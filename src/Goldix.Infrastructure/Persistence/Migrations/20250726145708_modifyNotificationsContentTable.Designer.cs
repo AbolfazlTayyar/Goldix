@@ -4,6 +4,7 @@ using Goldix.Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Goldix.Infrastructure.Persistence.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250726145708_modifyNotificationsContentTable")]
+    partial class modifyNotificationsContentTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -108,7 +111,7 @@ namespace Goldix.Infrastructure.Persistence.Migrations
                     b.ToTable("Users", "identity");
                 });
 
-            modelBuilder.Entity("Goldix.Domain.Entities.Notification.NotificationContent", b =>
+            modelBuilder.Entity("Goldix.Domain.Entities.Notification.NotificationsContent", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -136,36 +139,7 @@ namespace Goldix.Infrastructure.Persistence.Migrations
 
                     b.HasIndex("SenderId");
 
-                    b.ToTable("NotificationContents", "Notification");
-                });
-
-            modelBuilder.Entity("Goldix.Domain.Entities.Notification.UserNotification", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<bool>("IsRead")
-                        .HasColumnType("bit");
-
-                    b.Property<int>("NotificationContentId")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime?>("ReadedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("UserId")
-                        .IsRequired()
-                        .HasMaxLength(450)
-                        .HasColumnType("nvarchar(450)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("NotificationContentId");
-
-                    b.ToTable("UserNotifications", "Notification");
+                    b.ToTable("NotificationsContent", "Notification");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -301,26 +275,15 @@ namespace Goldix.Infrastructure.Persistence.Migrations
                     b.ToTable("UserTokens", "identity");
                 });
 
-            modelBuilder.Entity("Goldix.Domain.Entities.Notification.NotificationContent", b =>
+            modelBuilder.Entity("Goldix.Domain.Entities.Notification.NotificationsContent", b =>
                 {
                     b.HasOne("Goldix.Domain.Entities.Identity.ApplicationUser", "Sender")
-                        .WithMany("NotificationContents")
+                        .WithMany("NotificationsContent")
                         .HasForeignKey("SenderId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("Sender");
-                });
-
-            modelBuilder.Entity("Goldix.Domain.Entities.Notification.UserNotification", b =>
-                {
-                    b.HasOne("Goldix.Domain.Entities.Notification.NotificationContent", "NotificationContent")
-                        .WithMany("UserNotifications")
-                        .HasForeignKey("NotificationContentId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.Navigation("NotificationContent");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -376,12 +339,7 @@ namespace Goldix.Infrastructure.Persistence.Migrations
 
             modelBuilder.Entity("Goldix.Domain.Entities.Identity.ApplicationUser", b =>
                 {
-                    b.Navigation("NotificationContents");
-                });
-
-            modelBuilder.Entity("Goldix.Domain.Entities.Notification.NotificationContent", b =>
-                {
-                    b.Navigation("UserNotifications");
+                    b.Navigation("NotificationsContent");
                 });
 #pragma warning restore 612, 618
         }

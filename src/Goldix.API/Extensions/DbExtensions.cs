@@ -16,8 +16,8 @@ public static class DbExtensions
     public static async Task SeedData(this WebApplication app)
     {
         using var scope = app.Services.CreateScope();
-        var db = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+        var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
         var userService = scope.ServiceProvider.GetRequiredService<IUserService>();
-        await DbInitializer.SeedIdentity(db, userService);
+        await DbInitializer.SeedIdentity(roleManager, userService);
     }
 }

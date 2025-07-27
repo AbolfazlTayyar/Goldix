@@ -19,48 +19,16 @@ public class DbInitializer
         }
     }
 
-    public static async Task SeedIdentity(ApplicationDbContext db, IUserService userService)
+    public static async Task SeedIdentity(RoleManager<IdentityRole> roleManager, IUserService userService)
     {
-        if (db.Roles.Any())
-            return;
-
-        using var transaction = db.Database.BeginTransaction();
-
-        try
+        if (!roleManager.Roles.Any())
         {
-            await AddRoles(db);
+            await roleManager.CreateAsync(new IdentityRole { Name = RoleConstants.SUPER_ADMIN, NormalizedName = RoleConstants.SUPER_ADMIN.ToUpper(), ConcurrencyStamp = Guid.NewGuid().ToString() });
+            await roleManager.CreateAsync(new IdentityRole { Name = RoleConstants.ADMIN, NormalizedName = RoleConstants.ADMIN.ToUpper(), ConcurrencyStamp = Guid.NewGuid().ToString() });
+            await roleManager.CreateAsync(new IdentityRole { Name = RoleConstants.USER, NormalizedName = RoleConstants.USER.ToUpper(), ConcurrencyStamp = Guid.NewGuid().ToString() });
 
             var superAdminUser = await userService.RegisterUserAsync("09372144430", "ابوالفضل", "طیار", "@Bolfazl0916350", RoleConstants.SUPER_ADMIN);
-
-            await transaction.CommitAsync();
+            var adminUser = await userService.RegisterUserAsync("09163503284", "عبدی", "طیار", "@Bolfazl0916350", RoleConstants.ADMIN);
         }
-        catch
-        {
-            await transaction.RollbackAsync();
-            throw;
-        }
-    }
-
-    private static async Task AddRoles(ApplicationDbContext db)
-    {
-        var roles = new[]
-        {
-            CreateRole(RoleConstants.SUPER_ADMIN),
-            CreateRole(RoleConstants.ADMIN),
-            CreateRole(RoleConstants.USER),
-        };
-
-        db.Roles.AddRange(roles);
-        await db.SaveChangesAsync();
-    }
-
-    private static IdentityRole CreateRole(string roleName)
-    {
-        return new IdentityRole
-        {
-            Name = roleName,
-            NormalizedName = roleName.ToUpper(),
-            ConcurrencyStamp = Guid.NewGuid().ToString()
-        };
     }
 }

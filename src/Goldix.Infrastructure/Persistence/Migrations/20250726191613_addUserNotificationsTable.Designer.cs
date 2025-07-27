@@ -4,6 +4,7 @@ using Goldix.Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Goldix.Infrastructure.Persistence.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250726191613_addUserNotificationsTable")]
+    partial class addUserNotificationsTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -136,7 +139,7 @@ namespace Goldix.Infrastructure.Persistence.Migrations
 
                     b.HasIndex("SenderId");
 
-                    b.ToTable("NotificationContents", "Notification");
+                    b.ToTable("NotificationsContent", "Notification");
                 });
 
             modelBuilder.Entity("Goldix.Domain.Entities.Notification.UserNotification", b =>
@@ -304,7 +307,7 @@ namespace Goldix.Infrastructure.Persistence.Migrations
             modelBuilder.Entity("Goldix.Domain.Entities.Notification.NotificationContent", b =>
                 {
                     b.HasOne("Goldix.Domain.Entities.Identity.ApplicationUser", "Sender")
-                        .WithMany("NotificationContents")
+                        .WithMany("NotificationsContent")
                         .HasForeignKey("SenderId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
@@ -376,7 +379,7 @@ namespace Goldix.Infrastructure.Persistence.Migrations
 
             modelBuilder.Entity("Goldix.Domain.Entities.Identity.ApplicationUser", b =>
                 {
-                    b.Navigation("NotificationContents");
+                    b.Navigation("NotificationsContent");
                 });
 
             modelBuilder.Entity("Goldix.Domain.Entities.Notification.NotificationContent", b =>

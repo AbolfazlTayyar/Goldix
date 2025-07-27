@@ -1,0 +1,36 @@
+﻿using Goldix.Application.Interfaces.Services.Notification;
+using Goldix.Application.Models.Notification;
+using Goldix.Domain.Constants;
+using Goldix.Domain.Entities.Identity;
+using Goldix.Domain.Entities.Notification;
+using Goldix.Infrastructure.Persistence;
+
+namespace Goldix.Infrastructure.Services.Notification;
+
+public class NotificationService(ApplicationDbContext db, IMapper mapper, UserManager<ApplicationUser> userManager) : INotificationService
+{
+    public async Task CreateNotificationAndSendToUsersAsync(NotificationContentDto dto, CancellationToken cancellationToken)
+    {
+        using var transaction = await db.Database.BeginTransactionAsync(cancellationToken);
+
+        var mappedNotificationContent = mapper.Map<NotificationContent>(dto);
+        await db.NotificationContents.AddAsync(mappedNotificationContent, cancellationToken);
+        await db.SaveChangesAsync(cancellationToken);
+
+        var users = await userManager.GetUsersInRoleAsync(RoleConstants.USER);
+        if (users.Count == 0)
+            throw new InvalidOperationException("No users found in USER role");
+
+        var notifications = users.Select(user => new UserNotification
+        {
+            NotificationContentId = mappedNotificationContent.Id,
+            IsRead = false,
+            UserId = user.Id,
+        }).ToList();
+
+        await db.UserNotifications.AddRangeAsync(notifications, cancellationToken);
+
+        await db.SaveChangesAsync(cancellationToken);
+        await transaction.CommitAsync(cancellationToken);
+    }
+}
