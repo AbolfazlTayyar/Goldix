@@ -17,41 +17,62 @@ public class GlobalExceptionHandlingMiddleware
         try
         {
             await _next(context);
+
+            if (context.Response.StatusCode == 401 || context.Response.StatusCode == 403)
+                await HandleResponseAsync(context);
         }
         catch (Exception ex)
         {
-            await HandleExceptionAsync(context, ex);
+            await HandleResponseAsync(context, ex);
         }
     }
 
-    private static async Task HandleExceptionAsync(HttpContext context, Exception exception)
+    private static async Task HandleResponseAsync(HttpContext context, Exception exception = null)
     {
+        if (context.Response.HasStarted)
+            return;
+
         context.Response.ContentType = "application/json";
-
         ApiResponse<object> response = null;
-        switch (exception)
+
+        if (exception != null)
         {
-            case CustomValidationException validationEx:
-                context.Response.StatusCode = (int)HttpStatusCode.BadRequest;
-                response = ExceptionResponse.CreateValidationResponse(validationEx);
-                break;
-
-            case BadRequestException badRequestEx:
-                context.Response.StatusCode = (int)HttpStatusCode.BadRequest;
-                response = ExceptionResponse.CreateBadRequestResponse(badRequestEx);
-                break;
-
-            case NotFoundException notFoundEx:
-                context.Response.StatusCode = (int)HttpStatusCode.NotFound;
-                response = ExceptionResponse.CreateNotFoundResponse(notFoundEx);
-                break;
-
-            default:
-                context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
-                response = ExceptionResponse.CreateUnhandledErrorResponse(exception);
-                break;
+            switch (exception)
+            {
+                case CustomValidationException validationEx:
+                    context.Response.StatusCode = (int)HttpStatusCode.BadRequest;
+                    response = ExceptionResponse.CreateValidationResponse(validationEx);
+                    break;
+                case BadRequestException badRequestEx:
+                    context.Response.StatusCode = (int)HttpStatusCode.BadRequest;
+                    response = ExceptionResponse.CreateBadRequestResponse(badRequestEx);
+                    break;
+                case NotFoundException notFoundEx:
+                    context.Response.StatusCode = (int)HttpStatusCode.NotFound;
+                    response = ExceptionResponse.CreateNotFoundResponse(notFoundEx);
+                    break;
+                default:
+                    context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                    response = ExceptionResponse.CreateUnhandledErrorResponse(exception);
+                    break;
+            }
+        }
+        else
+        {
+            switch (context.Response.StatusCode)
+            {
+                case 401:
+                    response = ExceptionResponse.CreateUnauthorizedResponse();
+                    break;
+                case 403:
+                    response = ExceptionResponse.CreateForbiddenResponse();
+                    break;
+                default:
+                    return;
+            }
         }
 
-        await context.Response.WriteAsJsonAsync(response);
+        if (response is not null)
+            await context.Response.WriteAsJsonAsync(response);
     }
 }

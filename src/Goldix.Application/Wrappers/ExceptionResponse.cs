@@ -25,6 +25,18 @@ public static class ExceptionResponse
             "Resource not found");
     }
 
+    public static ApiResponse<object> CreateUnauthorizedResponse()
+    {
+        return ApiResponse<object>.FailureResult(
+            "Unauthorized request");
+    }
+
+    public static ApiResponse<object> CreateForbiddenResponse()
+    {
+        return ApiResponse<object>.FailureResult(
+            "Forbidden request");
+    }
+
     public static ApiResponse<object> CreateUnhandledErrorResponse(Exception exception)
     {
         ///production

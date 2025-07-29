@@ -22,6 +22,9 @@ app.UseAntiforgery();
 
 app.UseHttpsRedirection();
 
+app.UseTokenDecryption();
+app.UseGlobalExceptionHandling();
+
 app.UseAuthentication();
 app.UseAuthorization();
 
@@ -30,7 +33,5 @@ await app.SeedData();
 
 var apiVersionSet = app.ConfigureApiVersioning();
 app.RegisterEndpoints(apiVersionSet);
-
-app.UseGlobalExceptionHandling();
 
 app.Run();
