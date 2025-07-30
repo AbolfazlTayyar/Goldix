@@ -2,4 +2,4 @@
 
 namespace Goldix.Application.Commands.Notification;
 
-public record CreateNotificationCommand(NotificationContentDto dto) : IRequest;
+public record CreateNotificationCommand(CreateNotificationDto dto) : IRequest;

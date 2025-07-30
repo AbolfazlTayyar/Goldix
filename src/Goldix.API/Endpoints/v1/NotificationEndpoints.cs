@@ -2,6 +2,7 @@
 using Goldix.API.Filters;
 using Goldix.Application.Commands.Notification;
 using Goldix.Application.Models.Notification;
+using Goldix.Application.Queries.Notification;
 using Goldix.Application.Wrappers;
 using Goldix.Domain.Constants;
 
@@ -15,12 +16,19 @@ public class NotificationEndpoints : IEndpointDefinition
             .WithApiVersionSet(apiVersionSet)
             .HasApiVersion(1.0);
 
-        notification.MapPost("", async (NotificationContentDto dto, IMediator mediator, CancellationToken cancellationToken) =>
+        notification.MapPost("", async (CreateNotificationDto dto, IMediator mediator, CancellationToken cancellationToken) =>
         {
             await mediator.Send(new CreateNotificationCommand(dto), cancellationToken);
 
-            return ApiResponse<NotificationContentDto>.SuccessResult();
-        }).AddEndpointFilter<ValidationFilter<NotificationContentDto>>()
+            return ApiResponse<CreateNotificationDto>.SuccessResult();
+        }).AddEndpointFilter<ValidationFilter<CreateNotificationDto>>()
           .RequireAuthorization(policy => policy.RequireRole(RoleConstants.ADMIN));
+
+        notification.MapGet("", async (IMediator mediator, CancellationToken cancellationToken) =>
+        {
+            var result = await mediator.Send(new GetAllNotificationsQuery(), cancellationToken);
+
+            return ApiResponse<List<NotificationDto>>.SuccessResult(result);
+        }).RequireAuthorization(policy => policy.RequireRole(RoleConstants.ADMIN));
     }
 }

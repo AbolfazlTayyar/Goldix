@@ -27,8 +27,9 @@ public class DbInitializer
             await roleManager.CreateAsync(new IdentityRole { Name = RoleConstants.ADMIN, NormalizedName = RoleConstants.ADMIN.ToUpper(), ConcurrencyStamp = Guid.NewGuid().ToString() });
             await roleManager.CreateAsync(new IdentityRole { Name = RoleConstants.USER, NormalizedName = RoleConstants.USER.ToUpper(), ConcurrencyStamp = Guid.NewGuid().ToString() });
 
-            var superAdminUser = await userService.RegisterUserAsync("09372144430", "ابوالفضل", "طیار", "@Bolfazl0916350", RoleConstants.SUPER_ADMIN);
-            var adminUser = await userService.RegisterUserAsync("09163503284", "عبدی", "طیار", "@Bolfazl0916350", RoleConstants.ADMIN);
+            await userService.RegisterUserAsync("09372144430", "ابوالفضل", "طیار", "@Bolfazl0916350", RoleConstants.SUPER_ADMIN);
+            await userService.RegisterUserAsync("09163503284", "عبدی", "طیار", "@Bolfazl0916350", RoleConstants.ADMIN);
+            await userService.RegisterUserAsync("09163081897", "سهیلا", "بویری", "@Bolfazl0916350", RoleConstants.ADMIN);
         }
     }
 }

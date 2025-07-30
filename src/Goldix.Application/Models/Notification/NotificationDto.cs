@@ -3,10 +3,10 @@ using Goldix.Domain.Entities.Notification;
 
 namespace Goldix.Application.Models.Notification;
 
-public class NotificationContentDto : IMapFrom<NotificationContent>
+public class NotificationDto
 {
-    public string SenderId { get; set; }
+    public string SenderName { get; set; }
     public string Title { get; set; }
     public string Description { get; set; }
-    public DateTime CreatedAt { get; set; } = DateTime.Now;
+    public string CreatedAt { get; set; }
 }

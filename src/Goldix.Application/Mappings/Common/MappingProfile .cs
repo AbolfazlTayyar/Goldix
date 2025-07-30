@@ -1,4 +1,4 @@
-﻿namespace Goldix.Application.Mappings;
+﻿namespace Goldix.Application.Mappings.Common;
 
 public class MappingProfile : Profile
 {

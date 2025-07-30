@@ -4,5 +4,5 @@ namespace Goldix.Application.Interfaces.Services.Notification;
 
 public interface INotificationService
 {
-    Task CreateNotificationAndSendToUsersAsync(NotificationContentDto dto, CancellationToken cancellationToken);
+    Task CreateNotificationAndSendToUsersAsync(CreateNotificationDto dto, CancellationToken cancellationToken);
 }

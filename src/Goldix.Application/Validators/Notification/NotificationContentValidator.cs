@@ -3,7 +3,7 @@ using Goldix.Domain.Constants;
 
 namespace Goldix.Application.Validators.Notification;
 
-public class NotificationContentValidator : AbstractValidator<NotificationContentDto>
+public class NotificationContentValidator : AbstractValidator<CreateNotificationDto>
 {
     public NotificationContentValidator()
     {

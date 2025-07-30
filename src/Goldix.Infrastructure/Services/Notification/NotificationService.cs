@@ -9,12 +9,14 @@ namespace Goldix.Infrastructure.Services.Notification;
 
 public class NotificationService(ApplicationDbContext db, IMapper mapper, UserManager<ApplicationUser> userManager) : INotificationService
 {
-    public async Task CreateNotificationAndSendToUsersAsync(NotificationContentDto dto, CancellationToken cancellationToken)
+    public async Task CreateNotificationAndSendToUsersAsync(CreateNotificationDto dto, CancellationToken cancellationToken)
     {
         using var transaction = await db.Database.BeginTransactionAsync(cancellationToken);
 
-        var mappedNotificationContent = mapper.Map<NotificationContent>(dto);
-        await db.NotificationContents.AddAsync(mappedNotificationContent, cancellationToken);
+        var notification = mapper.Map<NotificationContent>(dto);
+        notification.CreatedAt = DateTime.Now;
+
+        await db.NotificationContents.AddAsync(notification, cancellationToken);
         await db.SaveChangesAsync(cancellationToken);
 
         var users = await userManager.GetUsersInRoleAsync(RoleConstants.USER);
@@ -23,7 +25,7 @@ public class NotificationService(ApplicationDbContext db, IMapper mapper, UserMa
 
         var notifications = users.Select(user => new UserNotification
         {
-            NotificationContentId = mappedNotificationContent.Id,
+            NotificationContentId = notification.Id,
             IsRead = false,
             UserId = user.Id,
         }).ToList();
