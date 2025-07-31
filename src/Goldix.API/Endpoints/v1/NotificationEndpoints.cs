@@ -30,5 +30,12 @@ public class NotificationEndpoints : IEndpointDefinition
 
             return ApiResponse<List<NotificationDto>>.SuccessResult(result);
         }).RequireAuthorization(policy => policy.RequireRole(RoleConstants.ADMIN));
+
+        notification.MapPatch("{id:int:min(1)}/read", async (int id, IMediator mediator, CancellationToken cancellationToken) =>
+        {
+            await mediator.Send(new MarkNotificationAsReadCommand(id), cancellationToken);
+
+            return ApiResponse<MarkNotificationAsReadCommand>.SuccessResult();
+        }).RequireAuthorization(policy => policy.RequireRole(RoleConstants.USER));
     }
 }
