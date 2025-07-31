@@ -1,7 +1,7 @@
 ﻿using Goldix.Application.Interfaces.Services.Identity;
 using Goldix.Domain.Constants;
 
-namespace Goldix.Infrastructure.Persistence.Extensions;
+namespace Goldix.Infrastructure.Persistence;
 
 public class DbInitializer
 {

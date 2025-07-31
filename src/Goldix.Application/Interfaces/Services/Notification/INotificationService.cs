@@ -1,8 +1,9 @@
-﻿using Goldix.Application.Models.Notification;
+﻿using Goldix.Application.Interfaces.Infrastructure;
+using Goldix.Application.Models.Notification;
 
 namespace Goldix.Application.Interfaces.Services.Notification;
 
-public interface INotificationService
+public interface INotificationService : IScopedService
 {
     Task CreateNotificationAndSendToUsersAsync(CreateNotificationDto dto, CancellationToken cancellationToken);
 }

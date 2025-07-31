@@ -1,6 +1,5 @@
 ﻿using Goldix.Application.Interfaces.Services.Identity;
 using Goldix.Infrastructure.Persistence;
-using Goldix.Infrastructure.Persistence.Extensions;
 
 namespace Goldix.API.Extensions;
 
