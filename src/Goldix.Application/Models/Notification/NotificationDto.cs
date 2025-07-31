@@ -1,7 +1,4 @@
-﻿using Goldix.Application.Mappings;
-using Goldix.Domain.Entities.Notification;
-
-namespace Goldix.Application.Models.Notification;
+﻿namespace Goldix.Application.Models.Notification;
 
 public class NotificationDto
 {

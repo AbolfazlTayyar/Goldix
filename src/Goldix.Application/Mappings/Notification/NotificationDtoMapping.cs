@@ -12,5 +12,11 @@ public class NotificationDtoMapping : Profile
             .ReverseMap()
             .ForMember(d => d.SenderName, opt => opt.MapFrom(x => $"{x.Sender.FirstName} {x.Sender.LastName}"))
             .AfterMap((src, dest) => dest.CreatedAt = src.CreatedAt.ToShamsiDate());
+
+        CreateMap<NotificationDto, UserNotification>()
+            .ReverseMap()
+            .ForMember(d => d.Title, opt => opt.MapFrom(x => x.NotificationContent.Title))
+            .ForMember(d => d.Description, opt => opt.MapFrom(x => x.NotificationContent.Description))
+            .ForMember(d => d.CreatedAt, opt => opt.MapFrom(x => x.NotificationContent.CreatedAt.ToShamsiDate()));
     }
 }

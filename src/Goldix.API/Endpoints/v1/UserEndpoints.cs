@@ -1,10 +1,13 @@
 ﻿using Goldix.API.Abstractions;
 using Goldix.API.Filters;
 using Goldix.Application.Commands.User;
+using Goldix.Application.Extensions;
 using Goldix.Application.Models.Identity.GetToken;
 using Goldix.Application.Models.Identity.Register;
+using Goldix.Application.Models.Notification;
 using Goldix.Application.Queries.User;
 using Goldix.Application.Wrappers;
+using Goldix.Domain.Constants;
 
 namespace Goldix.API.Endpoints.v1;
 
@@ -29,5 +32,13 @@ public class UserEndpoints : IEndpointDefinition
 
             return ApiResponse<RegisterResponsetDto>.SuccessResult(result);
         }).AddEndpointFilter<ValidationFilter<RegisterRequestDto>>();
+
+        user.MapGet("/notifications", async (ClaimsPrincipal user, IMediator mediator, CancellationToken cancellationToken) =>
+        {
+            var userId = user.GetCurrentUserId();
+            var result = await mediator.Send(new GetUserNotificationsQuery(userId), cancellationToken);
+
+            return ApiResponse<List<NotificationDto>>.SuccessResult(result);
+        }).RequireAuthorization(policy => policy.RequireRole(RoleConstants.USER));
     }
 }
