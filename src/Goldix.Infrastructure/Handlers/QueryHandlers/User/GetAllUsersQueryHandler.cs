@@ -14,7 +14,7 @@ public class GetAllUsersQueryHandler(UserManager<ApplicationUser> userManager, I
 
         var result = await userManager.Users
             .AsNoTracking()
-            .Where(x => x.Status == status)
+            .Where(x => x.Status == status && x.IsActive)
             .ProjectTo<UserDto>(mapper.ConfigurationProvider)
             .ToListAsync(cancellationToken);
 

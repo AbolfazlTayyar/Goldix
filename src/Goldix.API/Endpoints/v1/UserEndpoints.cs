@@ -48,5 +48,12 @@ public class UserEndpoints : IEndpointDefinition
 
             return ApiResponse<List<UserDto>>.Ok(result);
         }).RequireAuthorization(policy => policy.RequireRole(RoleConstants.ADMIN));
+
+        user.MapPatch("{id}/deactivate", async (string id, IMediator mediator, CancellationToken cancellationToken) =>
+        {
+            await mediator.Send(new DeactivateUserCommand(id), cancellationToken);
+
+            return ApiResponse.Ok();
+        }).RequireAuthorization(policy => policy.RequireRole(RoleConstants.ADMIN));
     }
 }
