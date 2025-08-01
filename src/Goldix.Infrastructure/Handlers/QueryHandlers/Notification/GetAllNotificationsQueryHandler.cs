@@ -8,11 +8,11 @@ public class GetAllNotificationsQueryHandler(ApplicationDbContext db, IMapper ma
 {
     public async Task<List<NotificationDto>> Handle(GetAllNotificationsQuery request, CancellationToken cancellationToken)
     {
-        var notifications = await db.NotificationContents
+        var result = await db.NotificationContents
+            .AsNoTracking()
             .Include(x => x.Sender)
+            .ProjectTo<NotificationDto>(mapper.ConfigurationProvider)
             .ToListAsync(cancellationToken);
-
-        var result = mapper.Map<List<NotificationDto>>(notifications);
 
         return result;
     }

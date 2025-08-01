@@ -23,14 +23,14 @@ public class UserEndpoints : IEndpointDefinition
         {
             var result = await mediator.Send(new GetTokenQuery(dto), cancellationToken);
 
-            return ApiResponse<GetTokenResponseDto>.SuccessResult(result);
+            return ApiResponse<GetTokenResponseDto>.Ok(result);
         }).AddEndpointFilter<ValidationFilter<GetTokenRequestDto>>();
 
         user.MapPost("/register", async (RegisterRequestDto dto, IMediator mediator, CancellationToken cancellationToken) =>
         {
             var result = await mediator.Send(new RegisterCommand(dto), cancellationToken);
 
-            return ApiResponse<RegisterResponsetDto>.SuccessResult(result);
+            return ApiResponse<RegisterResponsetDto>.Ok(result);
         }).AddEndpointFilter<ValidationFilter<RegisterRequestDto>>();
 
         user.MapGet("/notifications", async (ClaimsPrincipal user, IMediator mediator, CancellationToken cancellationToken) =>
@@ -38,7 +38,7 @@ public class UserEndpoints : IEndpointDefinition
             var userId = user.GetCurrentUserId();
             var result = await mediator.Send(new GetUserNotificationsQuery(userId), cancellationToken);
 
-            return ApiResponse<List<NotificationDto>>.SuccessResult(result);
+            return ApiResponse<List<NotificationDto>>.Ok(result);
         }).RequireAuthorization(policy => policy.RequireRole(RoleConstants.USER));
     }
 }

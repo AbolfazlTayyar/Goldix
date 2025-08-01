@@ -1,5 +1,6 @@
 ﻿using Goldix.Domain.Entities.Identity;
 using Goldix.Domain.Entities.Notification;
+using Goldix.Domain.Entities.Setting;
 using Goldix.Infrastructure.Helpers.Extensions;
 
 namespace Goldix.Infrastructure.Persistence;
@@ -12,6 +13,7 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
 
     public DbSet<NotificationContent> NotificationContents { get; set; }
     public DbSet<UserNotification> UserNotifications { get; set; }
+    public DbSet<ApplicationSetting> ApplicationSettings { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

@@ -20,7 +20,7 @@ public class NotificationEndpoints : IEndpointDefinition
         {
             await mediator.Send(new CreateNotificationCommand(dto), cancellationToken);
 
-            return ApiResponse<CreateNotificationDto>.SuccessResult();
+            return ApiResponse.Ok();
         }).AddEndpointFilter<ValidationFilter<CreateNotificationDto>>()
           .RequireAuthorization(policy => policy.RequireRole(RoleConstants.ADMIN));
 
@@ -28,14 +28,14 @@ public class NotificationEndpoints : IEndpointDefinition
         {
             var result = await mediator.Send(new GetAllNotificationsQuery(), cancellationToken);
 
-            return ApiResponse<List<NotificationDto>>.SuccessResult(result);
+            return ApiResponse<List<NotificationDto>>.Ok(result);
         }).RequireAuthorization(policy => policy.RequireRole(RoleConstants.ADMIN));
 
         notification.MapPatch("{id:int:min(1)}/read", async (int id, IMediator mediator, CancellationToken cancellationToken) =>
         {
             await mediator.Send(new MarkNotificationAsReadCommand(id), cancellationToken);
 
-            return ApiResponse<MarkNotificationAsReadCommand>.SuccessResult();
+            return ApiResponse.Ok();
         }).RequireAuthorization(policy => policy.RequireRole(RoleConstants.USER));
     }
 }

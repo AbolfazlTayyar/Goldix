@@ -5,53 +5,18 @@ public class ApiResponse<T>
     public bool Success { get; set; }
     public string Message { get; set; }
     public T Data { get; set; }
-    public IEnumerable<string> Errors { get; set; }
+    public List<string> Errors { get; set; } = new();
 
-    // Success response with data
-    public static ApiResponse<T> SuccessResult(T data, string message = "Operation successful")
-    {
-        return new ApiResponse<T>
-        {
-            Success = true,
-            Message = message,
-            Data = data,
-            Errors = new List<string>()
-        };
-    }
+    public static ApiResponse<T> Ok(T data) => new() { Success = true, Data = data };
+    public static ApiResponse<T> Ok(T data, string message) => new() { Success = true, Data = data, Message = message };
+    public static ApiResponse<T> Fail(string error) => new() { Success = false, Errors = [error] };
+    public static ApiResponse<T> Fail(List<string> errors) => new() { Success = false, Errors = errors };
+}
 
-    // Success response without data
-    public static ApiResponse<T> SuccessResult(string message = "Operation successful")
-    {
-        return new ApiResponse<T>
-        {
-            Success = true,
-            Message = message,
-            Data = default,
-            Errors = new List<string>()
-        };
-    }
-
-    // Failure response
-    public static ApiResponse<T> FailureResult(IEnumerable<string> errors, string message = "Operation failed")
-    {
-        return new ApiResponse<T>
-        {
-            Success = false,
-            Message = message,
-            Data = default,
-            Errors = errors
-        };
-    }
-
-    // Single error failure response
-    public static ApiResponse<T> FailureResult(string error, string message = "Operation failed")
-    {
-        return new ApiResponse<T>
-        {
-            Success = false,
-            Message = message,
-            Data = default,
-            Errors = new List<string> { error }
-        };
-    }
+public class ApiResponse : ApiResponse<object>
+{
+    public static new ApiResponse Ok() => new() { Success = true };
+    public static new ApiResponse Ok(string message) => new() { Success = true, Message = message };
+    public static new ApiResponse Fail(string error) => new() { Success = false, Errors = [error] };
+    public static new ApiResponse Fail(List<string> errors) => new() { Success = false, Errors = errors };
 }

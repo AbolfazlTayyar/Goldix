@@ -6,35 +6,32 @@ public static class ExceptionResponse
 {
     public static ApiResponse<object> CreateValidationResponse(CustomValidationException exception)
     {
-        return ApiResponse<object>.FailureResult(
-            exception.Errors.Select(e => e.ErrorMessage),
-            "Validation failed");
+        var response = ApiResponse.Fail(exception.Errors.Select(e => e.ErrorMessage).ToList());
+        return response;
     }
 
     public static ApiResponse<object> CreateBadRequestResponse(BadRequestException exception)
     {
-        return ApiResponse<object>.FailureResult(
-            exception.Message,
-            "Bad request");
+        var response = ApiResponse.Fail(exception.Message);
+        return response;
     }
 
     public static ApiResponse<object> CreateNotFoundResponse(NotFoundException exception)
     {
-        return ApiResponse<object>.FailureResult(
-            exception.Message,
-            "Resource not found");
+        var response = ApiResponse.Fail(exception.Message);
+        return response;
     }
 
     public static ApiResponse<object> CreateUnauthorizedResponse()
     {
-        return ApiResponse<object>.FailureResult(
-            "Unauthorized request");
+        var response = ApiResponse.Fail("");
+        return response;
     }
 
     public static ApiResponse<object> CreateForbiddenResponse()
     {
-        return ApiResponse<object>.FailureResult(
-            "Forbidden request");
+        var response = ApiResponse.Fail("");
+        return response;
     }
 
     public static ApiResponse<object> CreateUnhandledErrorResponse(Exception exception)
@@ -46,7 +43,9 @@ public static class ExceptionResponse
         ///development
         //return ApiResponse<object>.FailureResult(
         //   exception?.InnerException.ToString() ?? exception.ToString());
-        return ApiResponse<object>.FailureResult(
-           exception.InnerException != null ? exception.InnerException.ToString() : exception.ToString());
+
+        var response = ApiResponse.Fail(exception.InnerException != null ? exception.InnerException.ToString() : exception.ToString());
+        response.Message = "An unhandled exception occurred";
+        return response;
     }
 }

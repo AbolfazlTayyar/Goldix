@@ -15,7 +15,7 @@ public class TokenEndpoints : IEndpointDefinition
         {
             var generatedToken = token.GetAndStoreTokens(context);
 
-            return ApiResponse<AntiforgeryTokenSet>.SuccessResult(generatedToken);
+            return ApiResponse<AntiforgeryTokenSet>.Ok(generatedToken);
         });
     }
 }
