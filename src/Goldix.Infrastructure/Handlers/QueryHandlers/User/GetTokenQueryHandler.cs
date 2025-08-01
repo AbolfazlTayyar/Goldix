@@ -1,5 +1,5 @@
 ﻿using Goldix.Application.Interfaces.Services.Identity;
-using Goldix.Application.Models.Identity.GetToken;
+using Goldix.Application.Models.User.GetToken;
 using Goldix.Application.Queries.User;
 
 namespace Goldix.Infrastructure.Handlers.QueryHandlers.User;

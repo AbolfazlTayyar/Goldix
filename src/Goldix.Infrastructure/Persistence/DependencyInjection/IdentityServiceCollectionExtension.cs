@@ -1,5 +1,5 @@
-﻿using Goldix.Application.Models.Identity;
-using Goldix.Domain.Entities.Identity;
+﻿using Goldix.Application.Models.User;
+using Goldix.Domain.Entities.User;
 
 namespace Goldix.Infrastructure.Persistence.DependencyInjection;
 

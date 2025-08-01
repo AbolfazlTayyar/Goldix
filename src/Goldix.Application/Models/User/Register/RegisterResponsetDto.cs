@@ -1,4 +1,4 @@
-﻿namespace Goldix.Application.Models.Identity.Register;
+﻿namespace Goldix.Application.Models.User.Register;
 
 public class RegisterResponsetDto
 {

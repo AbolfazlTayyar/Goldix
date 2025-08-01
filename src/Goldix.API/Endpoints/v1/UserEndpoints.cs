@@ -2,12 +2,13 @@
 using Goldix.API.Filters;
 using Goldix.Application.Commands.User;
 using Goldix.Application.Extensions;
-using Goldix.Application.Models.Identity.GetToken;
-using Goldix.Application.Models.Identity.Register;
+using Goldix.Application.Models.User.GetToken;
+using Goldix.Application.Models.User.Register;
 using Goldix.Application.Models.Notification;
 using Goldix.Application.Queries.User;
 using Goldix.Application.Wrappers;
 using Goldix.Domain.Constants;
+using Goldix.Application.Models.User;
 
 namespace Goldix.API.Endpoints.v1;
 
@@ -40,5 +41,12 @@ public class UserEndpoints : IEndpointDefinition
 
             return ApiResponse<List<NotificationDto>>.Ok(result);
         }).RequireAuthorization(policy => policy.RequireRole(RoleConstants.USER));
+
+        user.MapGet("", async (IMediator mediator, CancellationToken cancellationToken) =>
+        {
+            var result = await mediator.Send(new GetAllUsersQuery(), cancellationToken);
+
+            return ApiResponse<List<UserDto>>.Ok(result);
+        }).RequireAuthorization(policy => policy.RequireRole(RoleConstants.ADMIN));
     }
 }

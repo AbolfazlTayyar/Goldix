@@ -1,6 +1,6 @@
 ﻿using Goldix.Application.Exceptions;
 using Goldix.Application.Interfaces.Services.Identity;
-using Goldix.Domain.Entities.Identity;
+using Goldix.Domain.Entities.User;
 using Goldix.Infrastructure.Persistence;
 
 namespace Goldix.Infrastructure.Services.Identity;

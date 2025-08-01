@@ -1,5 +1,5 @@
 ﻿using Goldix.Domain.Common;
-using Goldix.Domain.Entities.Identity;
+using Goldix.Domain.Entities.User;
 
 namespace Goldix.Domain.Entities.Notification;
 

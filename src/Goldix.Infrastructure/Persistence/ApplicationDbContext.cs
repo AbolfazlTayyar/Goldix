@@ -1,4 +1,4 @@
-﻿using Goldix.Domain.Entities.Identity;
+﻿using Goldix.Domain.Entities.User;
 using Goldix.Domain.Entities.Notification;
 using Goldix.Domain.Entities.Setting;
 using Goldix.Infrastructure.Helpers.Extensions;

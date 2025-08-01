@@ -1,4 +1,4 @@
-﻿using Goldix.Application.Models.Identity.GetToken;
+﻿using Goldix.Application.Models.User.GetToken;
 using Goldix.Domain.Constants;
 
 namespace Goldix.Application.Validators.User;

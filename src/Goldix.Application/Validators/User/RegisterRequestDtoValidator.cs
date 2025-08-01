@@ -1,4 +1,4 @@
-﻿using Goldix.Application.Models.Identity.Register;
+﻿using Goldix.Application.Models.User.Register;
 using Goldix.Domain.Constants;
 
 namespace Goldix.Application.Validators.User;

@@ -1,7 +1,7 @@
 ﻿using Goldix.Application.Interfaces.Services.Notification;
 using Goldix.Application.Models.Notification;
 using Goldix.Domain.Constants;
-using Goldix.Domain.Entities.Identity;
+using Goldix.Domain.Entities.User;
 using Goldix.Domain.Entities.Notification;
 using Goldix.Infrastructure.Persistence;
 

@@ -1,6 +1,6 @@
 ﻿using Goldix.Application.Commands.User;
 using Goldix.Application.Interfaces.Services.Identity;
-using Goldix.Application.Models.Identity.Register;
+using Goldix.Application.Models.User.Register;
 using Goldix.Domain.Constants;
 
 namespace Goldix.Infrastructure.Handlers.CommandHandlers.User;

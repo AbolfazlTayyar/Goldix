@@ -1,5 +1,5 @@
 ﻿using Goldix.Application.Interfaces.Services.Identity;
-using Goldix.Domain.Entities.Identity;
+using Goldix.Domain.Entities.User;
 
 namespace Goldix.Infrastructure.Services.Identity;
 

@@ -1,7 +1,7 @@
 ﻿using Goldix.Application.Interfaces.Services.Identity;
-using Goldix.Application.Models.Identity;
-using Goldix.Application.Models.Identity.GetToken;
-using Goldix.Domain.Entities.Identity;
+using Goldix.Application.Models.User;
+using Goldix.Application.Models.User.GetToken;
+using Goldix.Domain.Entities.User;
 using System.Security.Cryptography;
 
 namespace Goldix.Infrastructure.Services.Identity;

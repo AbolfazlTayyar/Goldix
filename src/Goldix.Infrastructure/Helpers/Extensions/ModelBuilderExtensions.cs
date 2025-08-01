@@ -1,4 +1,4 @@
-﻿using Goldix.Domain.Entities.Identity;
+﻿using Goldix.Domain.Entities.User;
 
 namespace Goldix.Infrastructure.Helpers.Extensions;
 

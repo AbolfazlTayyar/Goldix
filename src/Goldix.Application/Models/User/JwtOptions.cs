@@ -1,4 +1,4 @@
-﻿namespace Goldix.Application.Models.Identity;
+﻿namespace Goldix.Application.Models.User;
 
 public class JwtOptions
 {

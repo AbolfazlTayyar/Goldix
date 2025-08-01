@@ -1,4 +1,4 @@
-﻿namespace Goldix.Application.Models.Identity.GetToken;
+﻿namespace Goldix.Application.Models.User.GetToken;
 
 public class GetTokenResponseDto
 {
