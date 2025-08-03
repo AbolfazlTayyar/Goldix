@@ -13,8 +13,11 @@ public class ValidationFilter<T> : IEndpointFilter
 
     public async ValueTask<object?> InvokeAsync(EndpointFilterInvocationContext context, EndpointFilterDelegate next)
     {
-        T argToValidate = context.GetArgument<T>(0);
-        await _validationService.ValidateAsync(argToValidate);
+        var argToValidate = context.Arguments.OfType<T>().FirstOrDefault();
+        
+        if (argToValidate != null)
+            await _validationService.ValidateAsync(argToValidate);
+
         return await next.Invoke(context);
     }
 }

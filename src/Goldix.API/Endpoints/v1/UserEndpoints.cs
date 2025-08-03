@@ -31,7 +31,7 @@ public class UserEndpoints : IEndpointDefinition
         {
             var result = await mediator.Send(new RegisterCommand(dto), cancellationToken);
 
-            return ApiResponse<RegisterResponsetDto>.Ok(result);
+            return ApiResponse<RegisterResponseDto>.Ok(result);
         }).AddEndpointFilter<ValidationFilter<RegisterRequestDto>>();
 
         user.MapGet("/notifications", async (ClaimsPrincipal user, IMediator mediator, CancellationToken cancellationToken) =>

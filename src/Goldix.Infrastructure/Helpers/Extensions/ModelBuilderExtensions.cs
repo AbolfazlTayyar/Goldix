@@ -23,12 +23,12 @@ public static class ModelBuilderExtensions
     /// <param name="modelBuilder"></param>
     public static void ConfigureIdentityTables(this ModelBuilder modelBuilder)
     {
-        modelBuilder.Entity<ApplicationUser>().ToTable("Users", "identity");
-        modelBuilder.Entity<IdentityRole>().ToTable("Roles", "identity");
-        modelBuilder.Entity<IdentityUserRole<string>>().ToTable("UserRoles", "identity");
-        modelBuilder.Entity<IdentityUserClaim<string>>().ToTable("UserClaims", "identity");
-        modelBuilder.Entity<IdentityUserLogin<string>>().ToTable("UserLogins", "identity");
-        modelBuilder.Entity<IdentityRoleClaim<string>>().ToTable("RoleClaims", "identity");
-        modelBuilder.Entity<IdentityUserToken<string>>().ToTable("UserTokens", "identity");
+        modelBuilder.Entity<ApplicationUser>().ToTable("Users", "Identity");
+        modelBuilder.Entity<IdentityRole>().ToTable("Roles", "Identity");
+        modelBuilder.Entity<IdentityUserRole<string>>().ToTable("UserRoles", "Identity");
+        modelBuilder.Entity<IdentityUserClaim<string>>().ToTable("UserClaims", "Identity");
+        modelBuilder.Entity<IdentityUserLogin<string>>().ToTable("UserLogins", "Identity");
+        modelBuilder.Entity<IdentityRoleClaim<string>>().ToTable("RoleClaims", "Identity");
+        modelBuilder.Entity<IdentityUserToken<string>>().ToTable("UserTokens", "Identity");
     }
 }

@@ -2,6 +2,7 @@
 using Goldix.Domain.Entities.Notification;
 using Goldix.Domain.Entities.Setting;
 using Goldix.Infrastructure.Helpers.Extensions;
+using Goldix.Domain.Entities.WalletManagement;
 
 namespace Goldix.Infrastructure.Persistence;
 
@@ -14,6 +15,9 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     public DbSet<NotificationContent> NotificationContents { get; set; }
     public DbSet<UserNotification> UserNotifications { get; set; }
     public DbSet<ApplicationSetting> ApplicationSettings { get; set; }
+    public DbSet<Wallet> Wallets { get; set; }
+    public DbSet<WalletTransaction> WalletTransactions { get; set; }
+    public DbSet<UserRequest> UserRequests { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

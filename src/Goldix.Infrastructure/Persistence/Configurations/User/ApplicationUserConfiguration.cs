@@ -1,7 +1,9 @@
 ﻿using Goldix.Domain.Constants;
 using Goldix.Domain.Entities.User;
-using Goldix.Domain.Enums;
+using Goldix.Domain.Entities.WalletManagement;
+using Goldix.Domain.Enums.User;
 using Goldix.Infrastructure.Helpers.Extensions;
+using Microsoft.EntityFrameworkCore;
 
 namespace Goldix.Infrastructure.Persistence.Configurations.User;
 
@@ -27,17 +29,12 @@ public class ApplicationUserConfiguration : IEntityTypeConfiguration<Application
         builder.Property(x => x.Status)
             .HasMaxLength(DataSchemaConstants.DEFAULT_NAME_LENGTH)
             .IsRequired()
-            .HasDefaultValue(UserStatusEnum.waiting.ToDisplay());
+            .HasDefaultValue(UserStatus.waiting.ToDisplay());
 
         builder.Property(x => x.ImageUrl)
             .IsRequired(false);
 
         builder.Property(x => x.GroupId)
             .IsRequired(false);
-
-        builder.Property(x => x.WalletBalance)
-            .HasPrecision(18, 2)
-            .IsRequired()
-            .HasDefaultValue(0);
     }
 }

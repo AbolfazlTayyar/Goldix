@@ -185,12 +185,6 @@ namespace Goldix.Infrastructure.Persistence.Migrations
                         .HasMaxLength(256)
                         .HasColumnType("nvarchar(256)");
 
-                    b.Property<decimal>("WalletBalance")
-                        .ValueGeneratedOnAdd()
-                        .HasPrecision(18, 2)
-                        .HasColumnType("decimal(18,2)")
-                        .HasDefaultValue(0m);
-
                     b.HasKey("Id");
 
                     b.HasIndex("NormalizedEmail")
@@ -201,7 +195,135 @@ namespace Goldix.Infrastructure.Persistence.Migrations
                         .HasDatabaseName("UserNameIndex")
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
-                    b.ToTable("Users", "identity");
+                    b.ToTable("Users", "Identity");
+                });
+
+            modelBuilder.Entity("Goldix.Domain.Entities.User.UserRequest", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<byte>("ProductCount")
+                        .HasColumnType("tinyint");
+
+                    b.Property<int>("ProductId")
+                        .HasColumnType("int");
+
+                    b.Property<decimal>("ProductPrice")
+                        .HasPrecision(18, 2)
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<decimal>("ProductTotalPrice")
+                        .HasPrecision(18, 2)
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasMaxLength(450)
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("UserRequests", "Identity");
+                });
+
+            modelBuilder.Entity("Goldix.Domain.Entities.WalletManagement.Wallet", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<decimal>("Balance")
+                        .ValueGeneratedOnAdd()
+                        .HasPrecision(18, 2)
+                        .HasColumnType("decimal(18,2)")
+                        .HasDefaultValue(0m);
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasMaxLength(450)
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId")
+                        .IsUnique();
+
+                    b.ToTable("Wallets", "Wallet");
+                });
+
+            modelBuilder.Entity("Goldix.Domain.Entities.WalletManagement.WalletTransaction", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("AdminId")
+                        .IsRequired()
+                        .HasMaxLength(450)
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<decimal>("Amount")
+                        .HasPrecision(18, 2)
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<decimal>("BalanceAfter")
+                        .HasPrecision(18, 2)
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<decimal>("BalanceBefore")
+                        .HasPrecision(18, 2)
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Reason")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<int?>("UserRequestId")
+                        .HasMaxLength(450)
+                        .HasColumnType("int");
+
+                    b.Property<int>("WalletId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AdminId");
+
+                    b.HasIndex("UserRequestId")
+                        .IsUnique()
+                        .HasFilter("[UserRequestId] IS NOT NULL");
+
+                    b.HasIndex("WalletId");
+
+                    b.ToTable("WalletTransactions", "Wallet");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -228,7 +350,7 @@ namespace Goldix.Infrastructure.Persistence.Migrations
                         .HasDatabaseName("RoleNameIndex")
                         .HasFilter("[NormalizedName] IS NOT NULL");
 
-                    b.ToTable("Roles", "identity");
+                    b.ToTable("Roles", "Identity");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -253,7 +375,7 @@ namespace Goldix.Infrastructure.Persistence.Migrations
 
                     b.HasIndex("RoleId");
 
-                    b.ToTable("RoleClaims", "identity");
+                    b.ToTable("RoleClaims", "Identity");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
@@ -278,7 +400,7 @@ namespace Goldix.Infrastructure.Persistence.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("UserClaims", "identity");
+                    b.ToTable("UserClaims", "Identity");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
@@ -300,7 +422,7 @@ namespace Goldix.Infrastructure.Persistence.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("UserLogins", "identity");
+                    b.ToTable("UserLogins", "Identity");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<string>", b =>
@@ -315,7 +437,7 @@ namespace Goldix.Infrastructure.Persistence.Migrations
 
                     b.HasIndex("RoleId");
 
-                    b.ToTable("UserRoles", "identity");
+                    b.ToTable("UserRoles", "Identity");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
@@ -334,7 +456,7 @@ namespace Goldix.Infrastructure.Persistence.Migrations
 
                     b.HasKey("UserId", "LoginProvider", "Name");
 
-                    b.ToTable("UserTokens", "identity");
+                    b.ToTable("UserTokens", "Identity");
                 });
 
             modelBuilder.Entity("Goldix.Domain.Entities.Notification.NotificationContent", b =>
@@ -357,6 +479,53 @@ namespace Goldix.Infrastructure.Persistence.Migrations
                         .IsRequired();
 
                     b.Navigation("NotificationContent");
+                });
+
+            modelBuilder.Entity("Goldix.Domain.Entities.User.UserRequest", b =>
+                {
+                    b.HasOne("Goldix.Domain.Entities.User.ApplicationUser", "User")
+                        .WithMany("UserRequests")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("Goldix.Domain.Entities.WalletManagement.Wallet", b =>
+                {
+                    b.HasOne("Goldix.Domain.Entities.User.ApplicationUser", "User")
+                        .WithOne("Wallet")
+                        .HasForeignKey("Goldix.Domain.Entities.WalletManagement.Wallet", "UserId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("Goldix.Domain.Entities.WalletManagement.WalletTransaction", b =>
+                {
+                    b.HasOne("Goldix.Domain.Entities.User.ApplicationUser", "Admin")
+                        .WithMany("WalletTransactions")
+                        .HasForeignKey("AdminId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("Goldix.Domain.Entities.User.UserRequest", "UserRequest")
+                        .WithOne("WalletTransaction")
+                        .HasForeignKey("Goldix.Domain.Entities.WalletManagement.WalletTransaction", "UserRequestId");
+
+                    b.HasOne("Goldix.Domain.Entities.WalletManagement.Wallet", "Wallet")
+                        .WithMany("WalletTransactions")
+                        .HasForeignKey("WalletId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Admin");
+
+                    b.Navigation("UserRequest");
+
+                    b.Navigation("Wallet");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -418,6 +587,24 @@ namespace Goldix.Infrastructure.Persistence.Migrations
             modelBuilder.Entity("Goldix.Domain.Entities.User.ApplicationUser", b =>
                 {
                     b.Navigation("NotificationContents");
+
+                    b.Navigation("UserRequests");
+
+                    b.Navigation("Wallet")
+                        .IsRequired();
+
+                    b.Navigation("WalletTransactions");
+                });
+
+            modelBuilder.Entity("Goldix.Domain.Entities.User.UserRequest", b =>
+                {
+                    b.Navigation("WalletTransaction")
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Goldix.Domain.Entities.WalletManagement.Wallet", b =>
+                {
+                    b.Navigation("WalletTransactions");
                 });
 #pragma warning restore 612, 618
         }

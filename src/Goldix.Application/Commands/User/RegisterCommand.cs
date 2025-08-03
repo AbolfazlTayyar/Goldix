@@ -2,4 +2,4 @@
 
 namespace Goldix.Application.Commands.User;
 
-public record RegisterCommand(RegisterRequestDto dto) : IRequest<RegisterResponsetDto>;
+public record RegisterCommand(RegisterRequestDto dto) : IRequest<RegisterResponseDto>;

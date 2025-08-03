@@ -1,8 +1,6 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿namespace Goldix.Domain.Enums.User;
 
-namespace Goldix.Domain.Enums;
-
-public enum UserStatusEnum
+public enum UserStatus
 {
     [Display(Name = "در انتظار تایید")]
     waiting = 0,

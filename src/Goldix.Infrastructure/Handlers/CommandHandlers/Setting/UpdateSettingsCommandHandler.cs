@@ -10,7 +10,7 @@ public class UpdateSettingsCommandHandler(ApplicationDbContext db, IMapper mappe
     {
         var settings = await db.ApplicationSettings.FirstOrDefaultAsync(cancellationToken);
         if (settings == null)
-            throw new NotFoundException("settings not found!");
+            throw new NotFoundException();
 
         settings.SmsApiKey = request.dto.SmsApiKey;
 
