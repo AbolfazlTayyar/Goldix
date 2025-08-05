@@ -42,9 +42,9 @@ public class UserEndpoints : IEndpointDefinition
             return ApiResponse<List<NotificationDto>>.Ok(result);
         }).RequireAuthorization(policy => policy.RequireRole(RoleConstants.USER));
 
-        user.MapGet("", async (IMediator mediator, CancellationToken cancellationToken) =>
+        user.MapGet("", async ([AsParameters] GetAllUsersByStatusDto dto, IMediator mediator, CancellationToken cancellationToken) =>
         {
-            var result = await mediator.Send(new GetAllUsersQuery(), cancellationToken);
+            var result = await mediator.Send(new GetAllUsersByStatusQuery(dto), cancellationToken);
 
             return ApiResponse<List<UserDto>>.Ok(result);
         }).RequireAuthorization(policy => policy.RequireRole(RoleConstants.ADMIN));
