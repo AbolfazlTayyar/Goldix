@@ -3,7 +3,7 @@ using Goldix.Domain.Constants;
 
 namespace Goldix.Application.Validators.Product;
 
-public class CreateMeasurementUnitDtoValidator : AbstractValidator<CreateMeasurementUnitDto>
+public class CreateMeasurementUnitDtoValidator : AbstractValidator<MeasurementUnitDto>
 {
     public CreateMeasurementUnitDtoValidator()
     {

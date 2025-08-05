@@ -3,6 +3,7 @@ using Goldix.Domain.Entities.Notification;
 using Goldix.Domain.Entities.Setting;
 using Goldix.Infrastructure.Helpers.Extensions;
 using Goldix.Domain.Entities.WalletManagement;
+using Goldix.Domain.Entities.Product;
 
 namespace Goldix.Infrastructure.Persistence;
 
@@ -18,6 +19,7 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     public DbSet<Wallet> Wallets { get; set; }
     public DbSet<WalletTransaction> WalletTransactions { get; set; }
     public DbSet<UserRequest> UserRequests { get; set; }
+    public DbSet<MeasurementUnit> MeasurementUnits { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

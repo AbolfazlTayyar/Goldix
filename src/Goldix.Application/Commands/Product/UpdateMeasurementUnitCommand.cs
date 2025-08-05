@@ -2,4 +2,4 @@
 
 namespace Goldix.Application.Commands.Product;
 
-public record CreateMeasurementUnitCommand(MeasurementUnitDto dto) : IRequest;
+public record UpdateMeasurementUnitCommand(MeasurementUnitDto dto) : IRequest;
