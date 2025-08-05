@@ -3,9 +3,9 @@ using Goldix.Domain.Constants;
 
 namespace Goldix.Application.Validators.Notification;
 
-public class NotificationContentValidator : AbstractValidator<CreateNotificationDto>
+public class NotificationContentDtoValidator : AbstractValidator<CreateNotificationDto>
 {
-    public NotificationContentValidator()
+    public NotificationContentDtoValidator()
     {
         RuleFor(x => x.SenderId)
             .NotEmpty()

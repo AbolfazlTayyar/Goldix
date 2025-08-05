@@ -8,8 +8,8 @@ public class CreateSettingsCommandHandler(ApplicationDbContext db, IMapper mappe
 {
     public async Task Handle(CreateSettingsCommand request, CancellationToken cancellationToken)
     {
-        var record = mapper.Map<ApplicationSetting>(request.dto);
-        await db.ApplicationSettings.AddAsync(record, cancellationToken);
+        var settings = mapper.Map<ApplicationSetting>(request.dto);
+        await db.ApplicationSettings.AddAsync(settings, cancellationToken);
         await db.SaveChangesAsync(cancellationToken);
     }
 }

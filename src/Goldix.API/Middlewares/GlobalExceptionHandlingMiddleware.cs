@@ -51,6 +51,10 @@ public class GlobalExceptionHandlingMiddleware
                     context.Response.StatusCode = (int)HttpStatusCode.NotFound;
                     response = ExceptionResponse.CreateNotFoundResponse(notFoundEx);
                     break;
+                case JsonException or { InnerException: JsonException }:
+                    context.Response.StatusCode = (int)HttpStatusCode.BadRequest;
+                    response = ExceptionResponse.CreateJsonExceptionResponse(exception);
+                    break;
                 default:
                     context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
                     response = ExceptionResponse.CreateUnhandledErrorResponse(exception);

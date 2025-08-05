@@ -1,4 +1,5 @@
 ﻿using Goldix.Application.Exceptions;
+using System.Text.Json;
 
 namespace Goldix.Application.Wrappers;
 
@@ -17,6 +18,12 @@ public static class ExceptionResponse
     }
 
     public static ApiResponse<object> CreateNotFoundResponse(NotFoundException exception)
+    {
+        var response = ApiResponse.Fail(exception.Message);
+        return response;
+    }
+
+    public static ApiResponse<object> CreateJsonExceptionResponse(Exception exception)
     {
         var response = ApiResponse.Fail(exception.Message);
         return response;

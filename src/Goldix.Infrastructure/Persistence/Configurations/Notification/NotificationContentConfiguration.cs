@@ -14,8 +14,8 @@ public class NotificationContentConfiguration : IEntityTypeConfiguration<Notific
             .IsRequired();
 
         builder.Property(x => x.Title)
-            .IsRequired(false)
-            .HasMaxLength(DataSchemaConstants.DEFAULT_STRING_LENGTH);
+            .HasMaxLength(DataSchemaConstants.DEFAULT_STRING_LENGTH)
+            .IsRequired(false);
 
         builder.Property(x => x.Description)
             .IsRequired();
