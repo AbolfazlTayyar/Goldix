@@ -23,6 +23,13 @@ public class MeasurementUnitEndpoints : IEndpointDefinition
             return ApiResponse.Ok(result);
         }).RequireAuthorization(policy => policy.RequireRole(RoleConstants.ADMIN));
 
+        measurementUnit.MapGet("{id:int:min(1)}", async (int id, IMediator mediator, CancellationToken cancellationToken) =>
+        {
+            var result = await mediator.Send(new GetMeasurementUnitByIdQuery(id), cancellationToken);
+
+            return ApiResponse.Ok(result);
+        }).RequireAuthorization(policy => policy.RequireRole(RoleConstants.ADMIN));
+
         measurementUnit.MapPost("", async (MeasurementUnitDto dto, IMediator mediator, CancellationToken cancellationToken) =>
         {
             await mediator.Send(new CreateMeasurementUnitCommand(dto), cancellationToken);
