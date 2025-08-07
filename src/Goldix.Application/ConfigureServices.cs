@@ -10,6 +10,7 @@ public static class ConfigureServices
 
         ValidatorOptions.Global.LanguageManager = new FluentValidationCustomLanguageManager();
         ValidatorOptions.Global.DefaultClassLevelCascadeMode = CascadeMode.Stop;
+        ValidatorOptions.Global.DefaultRuleLevelCascadeMode = CascadeMode.Stop;
 
         services.AddAutoMapper(Assembly.GetExecutingAssembly());
 

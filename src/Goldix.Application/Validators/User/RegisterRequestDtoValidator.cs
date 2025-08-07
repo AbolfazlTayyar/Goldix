@@ -28,7 +28,6 @@ public class RegisterRequestDtoValidator : AbstractValidator<RegisterRequestDto>
             .WithName("تکرار رمز عبور");
 
         RuleFor(x => x.Password)
-            .Cascade(CascadeMode.Stop)
             .NotEmpty()
             .MinimumLength(DataSchemaConstants.DEFAULT_PASSWORD_LENGTH)
             .WithMessage(".رمز عبور باید حداقل ۸ کاراکتر باشد")

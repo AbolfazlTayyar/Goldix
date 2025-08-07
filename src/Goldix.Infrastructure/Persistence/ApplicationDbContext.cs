@@ -20,6 +20,7 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     public DbSet<WalletTransaction> WalletTransactions { get; set; }
     public DbSet<UserRequest> UserRequests { get; set; }
     public DbSet<MeasurementUnit> MeasurementUnits { get; set; }
+    public DbSet<Product> Products { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
