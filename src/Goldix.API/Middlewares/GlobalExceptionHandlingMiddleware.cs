@@ -43,7 +43,7 @@ public class GlobalExceptionHandlingMiddleware
                     context.Response.StatusCode = (int)HttpStatusCode.BadRequest;
                     response = ExceptionResponse.CreateValidationResponse(validationEx);
                     break;
-                case BadRequestException badRequestEx:
+                case Exception badRequestEx when badRequestEx is BadRequestException or BadHttpRequestException:
                     context.Response.StatusCode = (int)HttpStatusCode.BadRequest;
                     response = ExceptionResponse.CreateBadRequestResponse(badRequestEx);
                     break;

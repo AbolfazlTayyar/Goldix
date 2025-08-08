@@ -1,5 +1,4 @@
 ﻿using Goldix.Application.Exceptions;
-using System.Text.Json;
 
 namespace Goldix.Application.Wrappers;
 
@@ -11,7 +10,7 @@ public static class ExceptionResponse
         return response;
     }
 
-    public static ApiResponse<object> CreateBadRequestResponse(BadRequestException exception)
+    public static ApiResponse<object> CreateBadRequestResponse(Exception exception)
     {
         var response = ApiResponse.Fail(exception.Message);
         return response;
