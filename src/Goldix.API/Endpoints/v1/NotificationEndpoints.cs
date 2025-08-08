@@ -2,6 +2,7 @@
 using Goldix.API.Filters;
 using Goldix.Application.Commands.Notification;
 using Goldix.Application.Models.Notification;
+using Goldix.Application.Models.Pagination;
 using Goldix.Application.Queries.Notification;
 using Goldix.Application.Wrappers;
 using Goldix.Domain.Constants;
@@ -24,11 +25,18 @@ public class NotificationEndpoints : IEndpointDefinition
         }).AddEndpointFilter<ValidationFilter<CreateNotificationDto>>()
           .RequireAuthorization(policy => policy.RequireRole(RoleConstants.ADMIN));
 
-        notification.MapGet("", async (IMediator mediator, CancellationToken cancellationToken) =>
+        notification.MapGet("", async ([FromQuery] int page, [FromQuery] int pageSize, IMediator mediator, CancellationToken cancellationToken) =>
         {
-            var result = await mediator.Send(new GetAllNotificationsQuery(), cancellationToken);
+            PagedRequest pagedRequest = new()
+            {
+                Page = page,
+                PageSize = pageSize
+            };
+            pagedRequest.Validate();
 
-            return ApiResponse<List<NotificationDto>>.Ok(result);
+            var result = await mediator.Send(new GetAllNotificationsQuery(pagedRequest.Page, pagedRequest.PageSize), cancellationToken);
+
+            return ApiResponse.Ok(result);
         }).RequireAuthorization(policy => policy.RequireRole(RoleConstants.ADMIN));
 
         notification.MapPatch("{id:int:min(1)}/read", async (int id, IMediator mediator, CancellationToken cancellationToken) =>

@@ -1,6 +1,7 @@
 ﻿using Goldix.API.Abstractions;
 using Goldix.API.Filters;
 using Goldix.Application.Commands.Product;
+using Goldix.Application.Models.Pagination;
 using Goldix.Application.Models.Product;
 using Goldix.Application.Queries.Product;
 using Goldix.Application.Wrappers;
@@ -16,9 +17,16 @@ public class MeasurementUnitEndpoints : IEndpointDefinition
             .WithApiVersionSet(apiVersionSet)
             .HasApiVersion(1.0);
 
-        measurementUnit.MapGet("", async (IMediator mediator, CancellationToken cancellationToken) =>
+        measurementUnit.MapGet("", async ([FromQuery] int page, [FromQuery] int pageSize, IMediator mediator, CancellationToken cancellationToken) =>
         {
-            var result = await mediator.Send(new GetAllMeasurementUnitsQuery(), cancellationToken);
+            PagedRequest pagedRequest = new()
+            {
+                Page = page,
+                PageSize = pageSize
+            };
+            pagedRequest.Validate();
+
+            var result = await mediator.Send(new GetAllMeasurementUnitsQuery(pagedRequest.Page, pagedRequest.PageSize), cancellationToken);
 
             return ApiResponse.Ok(result);
         }).RequireAuthorization(policy => policy.RequireRole(RoleConstants.ADMIN));

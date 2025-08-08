@@ -9,6 +9,7 @@ using Goldix.Application.Queries.User;
 using Goldix.Application.Wrappers;
 using Goldix.Domain.Constants;
 using Goldix.Application.Models.User;
+using Goldix.Application.Models.Pagination;
 
 namespace Goldix.API.Endpoints.v1;
 
@@ -42,11 +43,18 @@ public class UserEndpoints : IEndpointDefinition
             return ApiResponse<List<NotificationDto>>.Ok(result);
         }).RequireAuthorization(policy => policy.RequireRole(RoleConstants.USER));
 
-        user.MapGet("", async ([AsParameters] GetAllUsersByStatusDto dto, IMediator mediator, CancellationToken cancellationToken) =>
+        user.MapGet("", async ([FromQuery] int page, [FromQuery] int pageSize, [AsParameters] GetAllUsersByStatusDto dto, IMediator mediator, CancellationToken cancellationToken) =>
         {
-            var result = await mediator.Send(new GetAllUsersByStatusQuery(dto), cancellationToken);
+            PagedRequest pagedRequest = new()
+            {
+                Page = page,
+                PageSize = pageSize
+            };
+            pagedRequest.Validate();
 
-            return ApiResponse<List<UserDto>>.Ok(result);
+            var result = await mediator.Send(new GetAllUsersByStatusQuery(dto, pagedRequest.Page, pagedRequest.PageSize), cancellationToken);
+
+            return ApiResponse.Ok(result);
         }).RequireAuthorization(policy => policy.RequireRole(RoleConstants.ADMIN));
 
         user.MapPatch("{id}/deactivate", async (string id, IMediator mediator, CancellationToken cancellationToken) =>

@@ -1,5 +1,6 @@
 ﻿using Goldix.Application.Models.User;
 using Goldix.Application.Queries.User;
+using Goldix.Application.Wrappers;
 using Goldix.Domain.Constants;
 using Goldix.Domain.Entities.User;
 using Goldix.Infrastructure.Helpers.Extensions;
@@ -8,20 +9,32 @@ using Goldix.Infrastructure.Persistence;
 namespace Goldix.Infrastructure.Handlers.QueryHandlers.User;
 
 public class GetAllUsersByStatusQueryHandler(UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager,
-    ApplicationDbContext db, IMapper mapper) : IRequestHandler<GetAllUsersByStatusQuery, List<UserDto>>
+    ApplicationDbContext db, IMapper mapper) : IRequestHandler<GetAllUsersByStatusQuery, PagedResult<UserDto>>
 {
-    public async Task<List<UserDto>> Handle(GetAllUsersByStatusQuery request, CancellationToken cancellationToken)
+    public async Task<PagedResult<UserDto>> Handle(GetAllUsersByStatusQuery request, CancellationToken cancellationToken)
     {
         var status = (request.dto.Status).ToDisplay();
         var userRole = await roleManager.FindByNameAsync(RoleConstants.USER);
 
-        var result = await userManager.Users
+        var baseQuery = userManager.Users
             .AsNoTracking()
             .Where(x => x.Status == status && x.IsActive)
-            .Where(x => db.UserRoles.Any(z => z.UserId == x.Id && z.RoleId == userRole.Id))
+            .Where(x => db.UserRoles.Any(z => z.UserId == x.Id && z.RoleId == userRole.Id));
+
+        var count = await baseQuery.CountAsync(cancellationToken);
+
+        var result = await baseQuery
             .ProjectTo<UserDto>(mapper.ConfigurationProvider)
+            .Skip((request.page - 1) * request.pageSize)
+            .Take(request.pageSize)
             .ToListAsync(cancellationToken);
 
-        return result;
+        return new PagedResult<UserDto>
+        {
+            Items = result,
+            TotalCount = count,
+            Page = request.page,
+            PageSize = request.pageSize,
+        };
     }
 }
