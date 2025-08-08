@@ -15,7 +15,8 @@ public class MeasurementUnitEndpoints : IEndpointDefinition
     {
         var measurementUnit = app.MapGroup("/api/v{version:apiVersion}/measurement-units")
             .WithApiVersionSet(apiVersionSet)
-            .HasApiVersion(1.0);
+            .HasApiVersion(1.0)
+            .RequireAuthorization(policy => policy.RequireRole(RoleConstants.ADMIN));
 
         measurementUnit.MapGet("", async ([FromQuery] int page, [FromQuery] int pageSize, IMediator mediator, CancellationToken cancellationToken) =>
         {
@@ -29,37 +30,34 @@ public class MeasurementUnitEndpoints : IEndpointDefinition
             var result = await mediator.Send(new GetAllMeasurementUnitsQuery(pagedRequest.Page, pagedRequest.PageSize), cancellationToken);
 
             return ApiResponse.Ok(result);
-        }).RequireAuthorization(policy => policy.RequireRole(RoleConstants.ADMIN));
+        });
 
         measurementUnit.MapGet("{id:int:min(1)}", async (int id, IMediator mediator, CancellationToken cancellationToken) =>
         {
             var result = await mediator.Send(new GetMeasurementUnitByIdQuery(id), cancellationToken);
 
             return ApiResponse.Ok(result);
-        }).RequireAuthorization(policy => policy.RequireRole(RoleConstants.ADMIN));
+        });
 
         measurementUnit.MapPost("", async (MeasurementUnitDto dto, IMediator mediator, CancellationToken cancellationToken) =>
         {
             await mediator.Send(new CreateMeasurementUnitCommand(dto), cancellationToken);
 
             return ApiResponse.Ok();
-        }).AddEndpointFilter<ValidationFilter<MeasurementUnitDto>>()
-          .RequireAuthorization(policy => policy.RequireRole(RoleConstants.ADMIN));
+        }).AddEndpointFilter<ValidationFilter<MeasurementUnitDto>>();
 
         measurementUnit.MapPut("{id:int:min(1)}", async (MeasurementUnitDto dto, IMediator mediator, CancellationToken cancellationToken) =>
         {
             await mediator.Send(new UpdateMeasurementUnitCommand(dto), cancellationToken);
 
             return ApiResponse.Ok();
-        }).AddEndpointFilter<ValidationFilter<MeasurementUnitDto>>()
-          .RequireAuthorization(policy => policy.RequireRole(RoleConstants.ADMIN));
+        }).AddEndpointFilter<ValidationFilter<MeasurementUnitDto>>();
 
         measurementUnit.MapDelete("{id:int:min(1)}", async (int id, IMediator mediator, CancellationToken cancellationToken) =>
         {
             await mediator.Send(new DeleteMeasurementUnitCommand(id), cancellationToken);
 
             return ApiResponse.Ok();
-        }).AddEndpointFilter<ValidationFilter<MeasurementUnitDto>>()
-          .RequireAuthorization(policy => policy.RequireRole(RoleConstants.ADMIN));
+        }).AddEndpointFilter<ValidationFilter<MeasurementUnitDto>>();
     }
 }

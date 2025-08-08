@@ -15,7 +15,8 @@ public class ProductEndpoints : IEndpointDefinition
     {
         var product = app.MapGroup("/api/v{version:apiVersion}/products")
             .WithApiVersionSet(apiVersionSet)
-            .HasApiVersion(1.0);
+            .HasApiVersion(1.0)
+            .RequireAuthorization(policy => policy.RequireRole(RoleConstants.ADMIN));
 
         product.MapGet("", async ([FromQuery] int page, [FromQuery] int pageSize, IMediator mediator, CancellationToken cancellationToken) =>
         {
@@ -29,36 +30,34 @@ public class ProductEndpoints : IEndpointDefinition
             var result = await mediator.Send(new GetAllProductsQuery(pagedRequest.Page, pagedRequest.PageSize), cancellationToken);
 
             return ApiResponse.Ok(result);
-        }).RequireAuthorization(policy => policy.RequireRole(RoleConstants.ADMIN));
+        });
 
         product.MapGet("{id:int:min(1)}", async (int id, IMediator mediator, CancellationToken cancellationToken) =>
         {
             var result = await mediator.Send(new GetProductByIdQuery(id), cancellationToken);
 
             return ApiResponse.Ok(result);
-        }).RequireAuthorization(policy => policy.RequireRole(RoleConstants.ADMIN));
+        });
 
         product.MapPost("", async (ProductDto dto, IMediator mediator, CancellationToken cancellationToken) =>
         {
             await mediator.Send(new CreateProductCommand(dto), cancellationToken);
 
             return ApiResponse.Ok();
-        }).AddEndpointFilter<ValidationFilter<ProductDto>>()
-         .RequireAuthorization(policy => policy.RequireRole(RoleConstants.ADMIN));
+        }).AddEndpointFilter<ValidationFilter<ProductDto>>();
 
         product.MapPut("{id:int:min(1)}", async (int id, ProductDto dto, IMediator mediator, CancellationToken cancellationToken) =>
         {
             await mediator.Send(new UpdateProductCommand(id, dto), cancellationToken);
 
             return ApiResponse.Ok();
-        }).AddEndpointFilter<ValidationFilter<ProductDto>>()
-          .RequireAuthorization(policy => policy.RequireRole(RoleConstants.ADMIN));
-
+        }).AddEndpointFilter<ValidationFilter<ProductDto>>();
+          
         product.MapDelete("{id:int:min(1)}", async (int id, IMediator mediator, CancellationToken cancellationToken) =>
         {
             await mediator.Send(new DeleteProductCommand(id), cancellationToken);
 
             return ApiResponse.Ok();
-        }).RequireAuthorization(policy => policy.RequireRole(RoleConstants.ADMIN));
+        });
     }
 }
