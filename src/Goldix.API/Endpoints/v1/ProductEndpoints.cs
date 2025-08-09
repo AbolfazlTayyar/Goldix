@@ -52,12 +52,19 @@ public class ProductEndpoints : IEndpointDefinition
 
             return ApiResponse.Ok();
         }).AddEndpointFilter<ValidationFilter<ProductDto>>();
-          
+
         product.MapDelete("{id:int:min(1)}", async (int id, IMediator mediator, CancellationToken cancellationToken) =>
         {
             await mediator.Send(new DeleteProductCommand(id), cancellationToken);
 
             return ApiResponse.Ok();
         });
+
+        product.MapPatch("{id:int:min(1)}/pricing", async (int id, PricingDto dto, IMediator mediator, CancellationToken cancellationToken) =>
+        {
+            await mediator.Send(new ModifyProductPricesCommand(id, dto), cancellationToken);
+
+            return ApiResponse.Ok();
+        }).AddEndpointFilter<ValidationFilter<PricingDto>>();
     }
 }
