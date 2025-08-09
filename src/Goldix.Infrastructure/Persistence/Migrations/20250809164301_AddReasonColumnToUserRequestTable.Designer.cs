@@ -4,6 +4,7 @@ using Goldix.Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Goldix.Infrastructure.Persistence.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250809164301_AddReasonColumnToUserRequestTable")]
+    partial class AddReasonColumnToUserRequestTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -318,8 +321,6 @@ namespace Goldix.Infrastructure.Persistence.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ProductId");
-
                     b.HasIndex("UserId");
 
                     b.ToTable("UserRequests", "Identity");
@@ -579,19 +580,11 @@ namespace Goldix.Infrastructure.Persistence.Migrations
 
             modelBuilder.Entity("Goldix.Domain.Entities.User.UserRequest", b =>
                 {
-                    b.HasOne("Goldix.Domain.Entities.Product.Product", "Product")
-                        .WithMany("UserRequests")
-                        .HasForeignKey("ProductId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
                     b.HasOne("Goldix.Domain.Entities.User.ApplicationUser", "User")
                         .WithMany("UserRequests")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
-
-                    b.Navigation("Product");
 
                     b.Navigation("User");
                 });
@@ -686,11 +679,6 @@ namespace Goldix.Infrastructure.Persistence.Migrations
             modelBuilder.Entity("Goldix.Domain.Entities.Notification.NotificationContent", b =>
                 {
                     b.Navigation("UserNotifications");
-                });
-
-            modelBuilder.Entity("Goldix.Domain.Entities.Product.Product", b =>
-                {
-                    b.Navigation("UserRequests");
                 });
 
             modelBuilder.Entity("Goldix.Domain.Entities.User.ApplicationUser", b =>

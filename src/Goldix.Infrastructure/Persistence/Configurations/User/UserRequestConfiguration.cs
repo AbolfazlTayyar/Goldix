@@ -1,5 +1,5 @@
 ﻿using Goldix.Domain.Constants;
-using Goldix.Domain.Entities.User;
+using Goldix.Domain.Entities.UserRequest;
 
 namespace Goldix.Infrastructure.Persistence.Configurations.User;
 
@@ -31,6 +31,10 @@ public class UserRequestConfiguration : IEntityTypeConfiguration<UserRequest>
             .IsRequired();
 
         builder.Property(x => x.Status)
+            .HasMaxLength(DataSchemaConstants.DEFAULT_ENUM_LENGTH)
+            .IsRequired();
+
+        builder.Property(x => x.Reason)
             .HasMaxLength(DataSchemaConstants.DEFAULT_ENUM_LENGTH)
             .IsRequired();
     }

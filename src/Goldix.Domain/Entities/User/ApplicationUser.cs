@@ -16,7 +16,7 @@ public class ApplicationUser : IdentityUser
 
     #region Navigation Properties
     public List<NotificationContent> NotificationContents { get; set; }
-    public List<UserRequest> UserRequests { get; set; }
+    public List<UserRequest.UserRequest> UserRequests { get; set; }
     public List<WalletTransaction> WalletTransactions { get; set; }
     public Wallet Wallet { get; set; }
     #endregion

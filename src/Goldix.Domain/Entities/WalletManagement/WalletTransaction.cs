@@ -18,7 +18,7 @@ public class WalletTransaction : BaseEntity
     public string Reason { get; set; }
 
     #region Navigation Properties
-    public UserRequest UserRequest { get; set; }
+    public UserRequest.UserRequest UserRequest { get; set; }
     public ApplicationUser Admin { get; set; }
     public Wallet Wallet { get; set; }
     #endregion

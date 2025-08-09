@@ -2,12 +2,12 @@
 
 namespace Goldix.Application.Behaviors;
 
-public class ValidationBehaviour<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse>
+public class ValidationBehavior<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse>
         where TRequest : IRequest<TResponse>
 {
     private readonly IValidationService _validationService;
 
-    public ValidationBehaviour(IValidationService validationService)
+    public ValidationBehavior(IValidationService validationService)
     {
         _validationService = validationService;
     }

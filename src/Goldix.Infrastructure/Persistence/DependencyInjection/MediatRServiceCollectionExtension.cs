@@ -9,7 +9,7 @@ public static class MediatRServiceCollectionExtension
         services.AddMediatR(options =>
         {
             options.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly());
-        }).AddScoped(typeof(IPipelineBehavior<,>), typeof(ValidationBehaviour<,>));
+        }).AddScoped(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));
 
         return services;
     }

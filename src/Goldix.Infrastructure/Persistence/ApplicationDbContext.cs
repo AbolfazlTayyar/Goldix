@@ -4,6 +4,7 @@ using Goldix.Domain.Entities.Setting;
 using Goldix.Infrastructure.Helpers.Extensions;
 using Goldix.Domain.Entities.WalletManagement;
 using Goldix.Domain.Entities.Product;
+using Goldix.Domain.Entities.UserRequest;
 
 namespace Goldix.Infrastructure.Persistence;
 

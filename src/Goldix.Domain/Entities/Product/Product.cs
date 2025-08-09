@@ -17,5 +17,6 @@ public class Product : BaseEntity
 
     #region Navigation Properties
     public MeasurementUnit MeasurementUnit { get; set; }
+    public List<UserRequest.UserRequest> UserRequests { get; set; }
     #endregion
 }
