@@ -1,4 +1,6 @@
 ﻿using Goldix.API.Abstractions;
+using Goldix.API.Filters;
+using Goldix.Application.Commands.UserRequest;
 using Goldix.Application.Models.Pagination;
 using Goldix.Application.Models.UserRequest;
 using Goldix.Application.Queries.UserRequest;
@@ -13,9 +15,10 @@ public class UserRequestEndpoints : IEndpointDefinition
     {
         var userRequest = app.MapGroup("/api/v{version:apiVersion}/user-requests")
                 .WithApiVersionSet(apiVersionSet)
-                .HasApiVersion(1.0);
+                .HasApiVersion(1.0)
+                .RequireAuthorization(policy => policy.RequireRole(RoleConstants.ADMIN));
 
-        userRequest.MapGet("", async ([FromQuery] int page, [FromQuery] int pageSize, [AsParameters] GetAllRequestsByStatusDto dto, IMediator mediator, CancellationToken cancellationToken) =>
+        userRequest.MapGet("", async ([FromQuery] int page, [FromQuery] int pageSize, [AsParameters] UserStatusDto dto, IMediator mediator, CancellationToken cancellationToken) =>
         {
             PagedRequest pagedRequest = new()
             {
@@ -27,6 +30,13 @@ public class UserRequestEndpoints : IEndpointDefinition
             var result = await mediator.Send(new GetAllUserRequestsByStatusQuery(dto, pagedRequest.Page, pagedRequest.PageSize), cancellationToken);
 
             return ApiResponse.Ok(result);
-        }).RequireAuthorization(policy => policy.RequireRole(RoleConstants.ADMIN));
+        });
+
+        userRequest.MapPatch("{id:int:min(1)}", async (int id, UserStatusDto dto, IMediator mediator, CancellationToken cancellationToken) =>
+        {
+            await mediator.Send(new ModifyUserRequestCommand(id, dto), cancellationToken);
+
+            return ApiResponse.Ok();
+        }).AddEndpointFilter<ValidationFilter<UserStatusDto>>();
     }
 }

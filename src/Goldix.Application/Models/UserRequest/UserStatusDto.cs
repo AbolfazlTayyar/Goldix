@@ -2,7 +2,7 @@
 
 namespace Goldix.Application.Models.UserRequest;
 
-public class GetAllRequestsByStatusDto
+public class UserStatusDto
 {
     public UserRequestStatus Status { get; set; }
 }
