@@ -9,7 +9,7 @@ public class CreateProductCommandHandler(ApplicationDbContext db, IMapper mapper
     {
         var product = mapper.Map<Domain.Entities.Product.Product>(request.dto);
 
-        product.CreateDate = DateTime.Now;
+        product.CreatedAt = DateTime.Now;
 
         await db.AddAsync(product, cancellationToken);
         await db.SaveChangesAsync(cancellationToken);

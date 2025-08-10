@@ -20,7 +20,7 @@ public class ApplicationUserConfiguration : IEntityTypeConfiguration<Application
             .HasMaxLength(DataSchemaConstants.DEFAULT_NAME_LENGTH)
             .IsRequired();
 
-        builder.Property(x => x.CreateDate)
+        builder.Property(x => x.CreatedAt)
             .IsRequired();
 
         builder.Property(x => x.IsActive)

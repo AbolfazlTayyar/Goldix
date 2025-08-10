@@ -9,7 +9,7 @@ public class ProductDtoMapping : Profile
     {
         CreateMap<ProductDto, Domain.Entities.Product.Product>()
             .ReverseMap()
-            .ForMember(d => d.CreateDate, opt => opt.MapFrom(x => x.CreateDate.ToShamsiDate()))
-            .ForMember(d => d.LastModifiedDate, opt => opt.MapFrom(x => x.LastModifiedDate.HasValue ? x.LastModifiedDate.Value.ToShamsiDate() : null));
+            .ForMember(d => d.CreatedAt, opt => opt.MapFrom(x => x.CreatedAt.ToShamsiDate()))
+            .ForMember(d => d.LastModifiedAt, opt => opt.MapFrom(x => x.LastModifiedAt.HasValue ? x.LastModifiedAt.Value.ToShamsiDate() : null));
     }
 }

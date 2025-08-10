@@ -22,7 +22,7 @@ public class ProductConfiguration : IEntityTypeConfiguration<Product>
             .HasPrecision(18, 2)
             .HasDefaultValue(0);
 
-        builder.Property(x => x.LastModifiedDate)
+        builder.Property(x => x.LastModifiedAt)
             .IsRequired(false);
 
         builder.Property(x => x.TradingStartTime)

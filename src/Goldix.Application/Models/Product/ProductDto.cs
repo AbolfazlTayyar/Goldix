@@ -11,6 +11,6 @@ public class ProductDto
     public int MeasurementUnitId { get; set; }
     public string MeasurementUnitName { get; set; }
     public string Comment { get; set; }
-    public string CreateDate { get; set; }
-    public string LastModifiedDate { get; set; }
+    public string CreatedAt { get; set; }
+    public string LastModifiedAt { get; set; }
 }

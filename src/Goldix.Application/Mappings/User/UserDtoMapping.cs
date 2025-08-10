@@ -10,6 +10,6 @@ public class UserDtoMapping : Profile
     {
         CreateMap<UserDto, ApplicationUser>()
             .ReverseMap()
-            .ForMember(d => d.CreateDate, opt => opt.MapFrom(x => x.CreateDate.ToShamsiDate()));
+            .ForMember(d => d.CreatedAt, opt => opt.MapFrom(x => x.CreatedAt.ToShamsiDate()));
     }
 }

@@ -23,7 +23,7 @@ public class UserService(ApplicationDbContext db, UserManager<ApplicationUser> u
             LastName = lastName,
             UserName = phoneNumber,
             PhoneNumber = phoneNumber,
-            CreateDate = DateTime.Now,
+            CreatedAt = DateTime.Now,
         };
 
         var createdUser = await userManager.CreateAsync(user, password);

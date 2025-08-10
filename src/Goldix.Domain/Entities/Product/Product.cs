@@ -7,8 +7,8 @@ public class Product : BaseEntity
     public string Name { get; set; }
     public decimal BuyPrice { get; set; }
     public decimal SellPrice { get; set; }
-    public DateTime CreateDate { get; set; }
-    public DateTime? LastModifiedDate { get; set; }
+    public DateTime CreatedAt { get; set; }
+    public DateTime? LastModifiedAt { get; set; }
     public TimeSpan? TradingStartTime { get; set; }
     public TimeSpan? TradingEndTime { get; set; }
     public bool IsActive { get; set; }

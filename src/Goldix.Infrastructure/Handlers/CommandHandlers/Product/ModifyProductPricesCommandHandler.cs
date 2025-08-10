@@ -15,7 +15,7 @@ public class ModifyProductPricesCommandHandler(ApplicationDbContext db) : IReque
         record.BuyPrice = decimal.Parse(request.dto.BuyPrice);
         record.SellPrice = decimal.Parse(request.dto.SellPrice);
 
-        record.LastModifiedDate = DateTime.Now;
+        record.LastModifiedAt = DateTime.Now;
 
         await db.SaveChangesAsync(cancellationToken);
     }
