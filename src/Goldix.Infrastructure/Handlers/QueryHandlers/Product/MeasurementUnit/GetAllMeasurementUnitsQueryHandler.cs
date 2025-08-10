@@ -1,9 +1,9 @@
 ﻿using Goldix.Application.Models.Product;
-using Goldix.Application.Queries.Product;
+using Goldix.Application.Queries.Product.MeasurementUnit;
 using Goldix.Application.Wrappers;
 using Goldix.Infrastructure.Persistence;
 
-namespace Goldix.Infrastructure.Handlers.QueryHandlers.Product;
+namespace Goldix.Infrastructure.Handlers.QueryHandlers.Product.MeasurementUnit;
 
 public class GetAllMeasurementUnitsQueryHandler(ApplicationDbContext db, IMapper mapper) : IRequestHandler<GetAllMeasurementUnitsQuery, PagedResult<MeasurementUnitDto>>
 {

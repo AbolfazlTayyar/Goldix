@@ -1,9 +1,9 @@
 ﻿using Goldix.Application.Exceptions;
 using Goldix.Application.Models.Product;
-using Goldix.Application.Queries.Product;
+using Goldix.Application.Queries.Product.MeasurementUnit;
 using Goldix.Infrastructure.Persistence;
 
-namespace Goldix.Infrastructure.Handlers.QueryHandlers.Product;
+namespace Goldix.Infrastructure.Handlers.QueryHandlers.Product.MeasurementUnit;
 
 public class GetMeasurementUnitByIdQueryHandler(ApplicationDbContext db, IMapper mapper) : IRequestHandler<GetMeasurementUnitByIdQuery, MeasurementUnitDto>
 {

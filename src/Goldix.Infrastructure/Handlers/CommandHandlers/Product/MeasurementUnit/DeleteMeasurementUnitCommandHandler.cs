@@ -1,8 +1,8 @@
-﻿using Goldix.Application.Commands.Product;
+﻿using Goldix.Application.Commands.Product.MeasurementUnit;
 using Goldix.Application.Exceptions;
 using Goldix.Infrastructure.Persistence;
 
-namespace Goldix.Infrastructure.Handlers.CommandHandlers.Product;
+namespace Goldix.Infrastructure.Handlers.CommandHandlers.Product.MeasurementUnit;
 
 public class DeleteMeasurementUnitCommandHandler(ApplicationDbContext db) : IRequestHandler<DeleteMeasurementUnitCommand>
 {

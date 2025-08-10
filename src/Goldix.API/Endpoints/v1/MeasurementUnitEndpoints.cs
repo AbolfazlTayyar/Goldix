@@ -1,9 +1,9 @@
 ﻿using Goldix.API.Abstractions;
 using Goldix.API.Filters;
-using Goldix.Application.Commands.Product;
+using Goldix.Application.Commands.Product.MeasurementUnit;
 using Goldix.Application.Models.Pagination;
 using Goldix.Application.Models.Product;
-using Goldix.Application.Queries.Product;
+using Goldix.Application.Queries.Product.MeasurementUnit;
 using Goldix.Application.Wrappers;
 using Goldix.Domain.Constants;
 
