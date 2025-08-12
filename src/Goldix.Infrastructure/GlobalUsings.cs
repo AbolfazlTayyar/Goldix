@@ -16,3 +16,4 @@ global using System.Reflection;
 global using System.Security.Claims;
 global using System.Text;
 global using AutoMapper.QueryableExtensions;
+global using Serilog;

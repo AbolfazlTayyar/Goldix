@@ -14,6 +14,8 @@ builder.Services.AddInfrastructureServices(builder.Configuration);
 builder.Services.AddApiVersioning();
 builder.Services.AddAuthorization();
 
+builder.Host.UseSerilog();
+
 // Configure the HTTP request pipeline.
 
 var app = builder.Build();

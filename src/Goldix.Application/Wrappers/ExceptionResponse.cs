@@ -40,16 +40,15 @@ public static class ExceptionResponse
         return response;
     }
 
-    public static ApiResponse<object> CreateUnhandledErrorResponse(Exception exception)
+    public static ApiResponse<object> CreateUnhandledErrorResponse(Exception exception, ILogger logger)
     {
         ///production
         //return ApiResponse<object>.FailureResult(
         //    "An unhandled exception occurred");
 
-        ///development
-        //return ApiResponse<object>.FailureResult(
-        //   exception?.InnerException.ToString() ?? exception.ToString());
+        logger.LogError(exception: exception.InnerException, message: exception.Message);
 
+        ///development
         var response = ApiResponse.Fail(exception.InnerException != null ? exception.InnerException.ToString() : exception.ToString());
         response.Message = "An unhandled exception occurred";
         return response;

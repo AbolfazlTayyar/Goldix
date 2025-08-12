@@ -7,3 +7,4 @@ global using Microsoft.AspNetCore.Identity;
 global using System.Security.Claims;
 global using System.Text.Json;
 global using Microsoft.AspNetCore.Mvc;
+global using Serilog;

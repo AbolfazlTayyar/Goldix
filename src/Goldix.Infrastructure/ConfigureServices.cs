@@ -1,5 +1,6 @@
 ﻿using Goldix.Application.Interfaces.Infrastructure;
 using Goldix.Infrastructure.Persistence.DependencyInjection;
+using Serilog;
 
 namespace Goldix.Infrastructure;
 
@@ -11,7 +12,8 @@ public static class ConfigureServices
             .AddMarkedServices(typeof(IValidationService).Assembly, Assembly.GetExecutingAssembly())
             .AddMediatRServices()
             .AddIdentityServices(configuration)
-            .AddAuthenticationServices(configuration);
+            .AddAuthenticationServices(configuration)
+            .AddSerilog(configuration);
 
         return services;
     }
