@@ -11,21 +11,21 @@ public class ProductDtoValidator : AbstractValidator<ProductDto>
         RuleFor(x => x.Name)
             .NotEmpty()
             .MaximumLength(DataSchemaConstants.DEFAULT_NAME_LENGTH)
-            .WithName("نام");
+            .WithName("نام کالا");
 
         RuleFor(x => x.BuyPrice)
             .NotNull()
             .Must(x => x.IsValidDecimal()).WithMessage("فرمت قیمت خرید صحیح نیست")
             .Must(x => x.IsPositiveDecimal()).WithMessage("قیمت خرید باید مثبت باشد")
             .Must(x => x.HaveCorrectPrecision()).WithMessage("حداکثر ۲ رقم اعشار در قیمت خرید مجاز است")
-            .WithName("قیمت خرید");
+            .WithName("قیمت خرید کالا");
 
         RuleFor(x => x.SellPrice)
             .NotNull()
             .Must(x => x.IsValidDecimal()).WithMessage("فرمت قیمت فروش صحیح نیست")
             .Must(x => x.IsPositiveDecimal()).WithMessage("قیمت فروش باید مثبت باشد")
             .Must(x => x.HaveCorrectPrecision()).WithMessage("حداکثر ۲ رقم اعشار در قیمت فروش مجاز است")
-            .WithName("قیمت فروش");
+            .WithName("قیمت فروش کالا");
 
         RuleFor(x => x.TradingStartTime)
             .NotEmpty()
@@ -38,7 +38,7 @@ public class ProductDtoValidator : AbstractValidator<ProductDto>
         RuleFor(x => x.MeasurementUnitId)
             .NotEmpty()
             .GreaterThanOrEqualTo(1)
-            .WithName("واحد");
+            .WithName("واحد کالا");
 
         RuleFor(x => x.IsActive)
             .NotEmpty()

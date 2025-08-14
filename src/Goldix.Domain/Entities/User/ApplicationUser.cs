@@ -19,5 +19,6 @@ public class ApplicationUser : IdentityUser
     public List<UserRequest.UserRequest> UserRequests { get; set; }
     public List<WalletTransaction> WalletTransactions { get; set; }
     public Wallet Wallet { get; set; }
+    public Group Group { get; set; }
     #endregion
 }

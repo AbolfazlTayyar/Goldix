@@ -17,19 +17,19 @@ public class SettingsEndpoints : IEndpointDefinition
                 .HasApiVersion(1.0)
                 .RequireAuthorization(policy => policy.RequireRole(RoleConstants.ADMIN));
 
-        user.MapPost("", async (CreateUpdateSettingsDto dto, IMediator mediator, CancellationToken cancellationToken) =>
+        user.MapPost("", async (SettingsDto dto, IMediator mediator, CancellationToken cancellationToken) =>
         {
             await mediator.Send(new CreateSettingsCommand(dto), cancellationToken);
 
             return ApiResponse.Ok();
-        }).AddEndpointFilter<ValidationFilter<CreateUpdateSettingsDto>>();
+        }).AddEndpointFilter<ValidationFilter<SettingsDto>>();
 
-        user.MapPut("", async (CreateUpdateSettingsDto dto, IMediator mediator, CancellationToken cancellationToken) =>
+        user.MapPut("", async (SettingsDto dto, IMediator mediator, CancellationToken cancellationToken) =>
         {
             await mediator.Send(new UpdateSettingsCommand(dto), cancellationToken);
 
             return ApiResponse.Ok();
-        }).AddEndpointFilter<ValidationFilter<CreateUpdateSettingsDto>>();
+        }).AddEndpointFilter<ValidationFilter<SettingsDto>>();
 
         user.MapGet("", async (IMediator mediator, CancellationToken cancellationToken) =>
         {

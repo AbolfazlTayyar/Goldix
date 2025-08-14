@@ -1,9 +1,7 @@
 ﻿using Goldix.Domain.Constants;
 using Goldix.Domain.Entities.User;
-using Goldix.Domain.Entities.WalletManagement;
 using Goldix.Domain.Enums.User;
 using Goldix.Infrastructure.Helpers.Extensions;
-using Microsoft.EntityFrameworkCore;
 
 namespace Goldix.Infrastructure.Persistence.Configurations.User;
 

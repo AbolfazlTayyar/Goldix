@@ -2,4 +2,4 @@
 
 namespace Goldix.Application.Commands.Setting;
 
-public record UpdateSettingsCommand(CreateUpdateSettingsDto dto) : IRequest;
+public record UpdateSettingsCommand(SettingsDto dto) : IRequest;

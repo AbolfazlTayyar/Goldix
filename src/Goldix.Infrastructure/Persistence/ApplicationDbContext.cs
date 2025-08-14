@@ -22,6 +22,7 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     public DbSet<UserRequest> UserRequests { get; set; }
     public DbSet<MeasurementUnit> MeasurementUnits { get; set; }
     public DbSet<Product> Products { get; set; }
+    public DbSet<Group> Groups { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

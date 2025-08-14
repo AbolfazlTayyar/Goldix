@@ -10,17 +10,17 @@ public class RegisterRequestDtoValidator : AbstractValidator<RegisterRequestDto>
         RuleFor(x => x.FirstName)
             .NotEmpty()
             .MaximumLength(DataSchemaConstants.DEFAULT_NAME_LENGTH)
-            .WithName("نام");
+            .WithName("نام کاربر");
 
         RuleFor(x => x.LastName)
             .NotEmpty()
             .MaximumLength(DataSchemaConstants.DEFAULT_NAME_LENGTH)
-            .WithName("نام خانوادگی");
+            .WithName("نام خانوادگی کاربر");
 
         RuleFor(x => x.PhoneNumber)
             .NotEmpty()
             .MaximumLength(DataSchemaConstants.DEFAULT_PHONE_NUMBER_LENGTH)
-            .WithName("شماره موبایل");
+            .WithName("شماره موبایل کاربر");
 
         RuleFor(x => x.RePassword)
             .Equal(x => x.Password)

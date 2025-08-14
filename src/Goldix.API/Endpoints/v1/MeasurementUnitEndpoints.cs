@@ -58,6 +58,6 @@ public class MeasurementUnitEndpoints : IEndpointDefinition
             await mediator.Send(new DeleteMeasurementUnitCommand(id), cancellationToken);
 
             return ApiResponse.Ok();
-        }).AddEndpointFilter<ValidationFilter<MeasurementUnitDto>>();
+        });
     }
 }

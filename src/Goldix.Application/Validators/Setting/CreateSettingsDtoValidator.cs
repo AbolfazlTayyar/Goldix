@@ -2,7 +2,7 @@
 
 namespace Goldix.Application.Validators.Settings;
 
-public class CreateSettingsDtoValidator : AbstractValidator<CreateUpdateSettingsDto>
+public class CreateSettingsDtoValidator : AbstractValidator<SettingsDto>
 {
     public CreateSettingsDtoValidator()
     {

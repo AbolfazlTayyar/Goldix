@@ -6,7 +6,7 @@ public static class StringDecimalExtensions
         => decimal.TryParse(value, NumberStyles.Number, CultureInfo.InvariantCulture, out _);
 
     public static bool IsPositiveDecimal(this string value)
-        => decimal.TryParse(value, out var result) && result > 0;
+        => decimal.TryParse(value, out var result) && result >= 0;
 
     public static bool HaveCorrectPrecision(this string value)
         => decimal.TryParse(value, out var result) &&

@@ -14,7 +14,7 @@ public class GetAllRequestsByStatusQueryHandler(ApplicationDbContext db, IMapper
 
         var baseQuery = db.UserRequests
             .AsNoTracking()
-            .Where(x => x.Status == status);
+            .Where(x => x.Status == status && x.User.IsActive);
 
         var count = await baseQuery.CountAsync(cancellationToken);
 

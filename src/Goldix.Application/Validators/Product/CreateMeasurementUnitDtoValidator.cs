@@ -10,6 +10,6 @@ public class CreateMeasurementUnitDtoValidator : AbstractValidator<MeasurementUn
         RuleFor(x => x.Name)
             .NotEmpty()
             .MaximumLength(DataSchemaConstants.DEFAULT_STRING_LENGTH)
-            .WithName("نام");
+            .WithName("نام واحد اندازه گیری");
     }
 }

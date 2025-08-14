@@ -10,14 +10,14 @@ public class NotificationContentDtoValidator : AbstractValidator<CreateNotificat
         RuleFor(x => x.SenderId)
             .NotEmpty()
             .MaximumLength(DataSchemaConstants.DEFAULT_USER_ID_LENGTH)
-            .WithName("شناسه کاربر فرستنده");
+            .WithName("شناسه کاربر فرستنده نوتیفیکیشن");
 
         RuleFor(x => x.Title)
             .MaximumLength(DataSchemaConstants.DEFAULT_STRING_LENGTH)
-            .WithName("عنوان");
+            .WithName("عنوان نوتیفیکیشن");
 
         RuleFor(x => x.Description)
             .NotEmpty()
-            .WithName("شرح");
+            .WithName("شرح نوتیفیکیشن");
     }
 }
