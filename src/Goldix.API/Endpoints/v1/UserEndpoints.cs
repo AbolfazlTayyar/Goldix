@@ -43,7 +43,7 @@ public class UserEndpoints : IEndpointDefinition
             return ApiResponse<List<NotificationDto>>.Ok(result);
         }).RequireAuthorization(policy => policy.RequireRole(RoleConstants.USER));
 
-        user.MapGet("", async ([FromQuery] int page, [FromQuery] int pageSize, [AsParameters] GetAllUsersByStatusDto dto, IMediator mediator, CancellationToken cancellationToken) =>
+        user.MapGet("", async ([FromQuery] int page, [FromQuery] int pageSize, [AsParameters] UserStatusDto dto, IMediator mediator, CancellationToken cancellationToken) =>
         {
             PagedRequest pagedRequest = new()
             {
@@ -60,6 +60,13 @@ public class UserEndpoints : IEndpointDefinition
         user.MapPatch("{id}/deactivate", async (string id, IMediator mediator, CancellationToken cancellationToken) =>
         {
             await mediator.Send(new DeactivateUserCommand(id), cancellationToken);
+
+            return ApiResponse.Ok();
+        }).RequireAuthorization(policy => policy.RequireRole(RoleConstants.ADMIN));
+
+        user.MapPatch("{id}/status", async (string id, [AsParameters] UserStatusDto dto, IMediator mediator, CancellationToken cancellationToken) =>
+        {
+            await mediator.Send(new ModifyUserStatusCommand(id, dto), cancellationToken);
 
             return ApiResponse.Ok();
         }).RequireAuthorization(policy => policy.RequireRole(RoleConstants.ADMIN));
