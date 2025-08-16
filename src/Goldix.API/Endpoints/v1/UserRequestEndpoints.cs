@@ -38,5 +38,19 @@ public class UserRequestEndpoints : IEndpointDefinition
 
             return ApiResponse.Ok();
         }).AddEndpointFilter<ValidationFilter<UserStatusDto>>();
+
+        userRequest.MapGet("/search", async ([FromQuery] int page, [FromQuery] int pageSize, [AsParameters] UserRequestSearchDto dto, IMediator mediator, CancellationToken cancellationToken) =>
+        {
+            PagedRequest pagedRequest = new()
+            {
+                Page = page,
+                PageSize = pageSize
+            };
+            pagedRequest.Validate();
+
+            var result = await mediator.Send(new GetUserRequestsBySearchQuery(dto, pagedRequest.Page, pagedRequest.PageSize), cancellationToken);
+
+            return ApiResponse.Ok(result);
+        });
     }
 }
