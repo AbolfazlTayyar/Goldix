@@ -1,5 +1,7 @@
 ﻿using Goldix.Application.Commands.Group;
 using Goldix.Application.Exceptions;
+using Goldix.Domain.Enums.User;
+using Goldix.Infrastructure.Helpers.Extensions;
 using Goldix.Infrastructure.Persistence;
 
 namespace Goldix.Infrastructure.Handlers.CommandHandlers.Group;
@@ -25,8 +27,9 @@ public class ModifyGroupMembersCommandHandler(ApplicationDbContext db) : IReques
         if (!isGroupExist)
             throw new BadRequestException();
 
+        var userStatus = UserStatus.confirmed.ToDisplay();
         var users = await db.Users
-            .Where(x => allPhoneNumbers.Contains(x.PhoneNumber))
+            .Where(x => allPhoneNumbers.Contains(x.PhoneNumber) && x.Status == userStatus)
             .ToListAsync(cancellationToken);
 
         var userLookup = users.ToDictionary(u => u.PhoneNumber, u => u);

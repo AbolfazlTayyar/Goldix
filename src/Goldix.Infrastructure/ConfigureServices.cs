@@ -1,6 +1,5 @@
 ﻿using Goldix.Application.Interfaces.Infrastructure;
 using Goldix.Infrastructure.Persistence.DependencyInjection;
-using Serilog;
 
 namespace Goldix.Infrastructure;
 

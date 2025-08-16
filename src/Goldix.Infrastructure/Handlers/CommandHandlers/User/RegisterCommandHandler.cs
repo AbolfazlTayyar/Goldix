@@ -12,7 +12,7 @@ public class RegisterCommandHandler(IUserService userService, ApplicationDbConte
     public async Task<RegisterResponseDto> Handle(RegisterCommand request, CancellationToken cancellationToken)
     {
         var user = await userService.RegisterUserAsync(request.dto.PhoneNumber, request.dto.FirstName, request.dto.LastName,
-                                                                    request.dto.Password, RoleConstants.USER, cancellationToken);
+                                                                    request.dto.Password, RoleConstants.USER, cancellationToken: cancellationToken);
 
         //wallet creation
         Wallet wallet = new()

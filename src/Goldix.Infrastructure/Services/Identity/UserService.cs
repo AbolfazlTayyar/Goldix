@@ -1,13 +1,15 @@
 ﻿using Goldix.Application.Exceptions;
 using Goldix.Application.Interfaces.Services.Identity;
 using Goldix.Domain.Entities.User;
+using Goldix.Domain.Enums.User;
+using Goldix.Infrastructure.Helpers.Extensions;
 using Goldix.Infrastructure.Persistence;
 
 namespace Goldix.Infrastructure.Services.Identity;
 
 public class UserService(ApplicationDbContext db, UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager) : IUserService
 {
-    public async Task<ApplicationUser> RegisterUserAsync(string phoneNumber, string firstName, string lastName, string password, string roleName, CancellationToken cancellationToken = default)
+    public async Task<ApplicationUser> RegisterUserAsync(string phoneNumber, string firstName, string lastName, string password, string roleName, UserStatus status = UserStatus.waiting, CancellationToken cancellationToken = default)
     {
         var userFromPhoneNumber = await userManager.FindByNameAsync(phoneNumber);
         if (userFromPhoneNumber is not null)
@@ -24,6 +26,7 @@ public class UserService(ApplicationDbContext db, UserManager<ApplicationUser> u
             UserName = phoneNumber,
             PhoneNumber = phoneNumber,
             CreatedAt = DateTime.Now,
+            Status = status.ToDisplay(),    
         };
 
         var createdUser = await userManager.CreateAsync(user, password);

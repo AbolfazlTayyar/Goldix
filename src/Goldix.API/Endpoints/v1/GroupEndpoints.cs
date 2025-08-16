@@ -57,5 +57,12 @@ public class GroupEndpoints : IEndpointDefinition
 
             return ApiResponse.Ok();
         }).AddEndpointFilter<ValidationFilter<ModifyGroupMembersDto>>();
+
+        group.MapGet("{id:int:min(1)}/members", async (int id, [FromQuery] int page, [FromQuery] int pageSize, IMediator mediator, CancellationToken cancellationToken) =>
+        {
+            var result = await mediator.Send(new GetAllUsersGroupQuery(id, page, pageSize), cancellationToken);
+
+            return ApiResponse.Ok(result);
+        });
     }
 }

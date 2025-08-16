@@ -4,6 +4,8 @@ using Goldix.Domain.Constants;
 using Goldix.Domain.Entities.User;
 using Goldix.Domain.Entities.Notification;
 using Goldix.Infrastructure.Persistence;
+using Goldix.Domain.Enums.User;
+using Goldix.Infrastructure.Helpers.Extensions;
 
 namespace Goldix.Infrastructure.Services.Notification;
 
@@ -23,12 +25,15 @@ public class NotificationService(ApplicationDbContext db, IMapper mapper, UserMa
         if (users.Count == 0)
             throw new InvalidOperationException("No users found in USER role");
 
-        var notifications = users.Select(user => new UserNotification
-        {
-            NotificationContentId = notification.Id,
-            IsRead = false,
-            UserId = user.Id,
-        }).ToList();
+        var confirmedStatus = UserStatus.confirmed.ToDisplay();
+        var notifications = users.Where(x => x.Status == confirmedStatus)
+            .Select(user => new UserNotification
+            {
+                NotificationContentId = notification.Id,
+                IsRead = false,
+                UserId = user.Id,
+            })
+            .ToList();
 
         await db.UserNotifications.AddRangeAsync(notifications, cancellationToken);
 
