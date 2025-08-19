@@ -18,6 +18,7 @@ public class ApplicationUser : IdentityUser
     #region Navigation Properties
     public List<NotificationContent> NotificationContents { get; set; }
     public List<UserNotification> UserNotifications { get; set; }
+    public List<WalletTransaction> WalletTransactions { get; set; }
     public Wallet Wallet { get; set; }
     public Group Group { get; set; }
 
