@@ -39,5 +39,10 @@ public class ProductConfiguration : IEntityTypeConfiguration<Product>
 
         builder.Property(x => x.IsActive)
             .HasDefaultValue(true);
+
+        builder.HasMany(x => x.TradeRequests)
+            .WithOne(x => x.Product)
+            .HasForeignKey(x => x.ProductId)
+            .OnDelete(DeleteBehavior.Restrict);
     }
 }

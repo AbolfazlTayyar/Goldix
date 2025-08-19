@@ -1,4 +1,4 @@
-﻿using Goldix.Domain.Common;
+﻿using Goldix.Domain.Entities.Common;
 
 namespace Goldix.Domain.Entities.Setting;
 

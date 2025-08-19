@@ -1,10 +1,10 @@
-﻿using Goldix.Domain.Entities.User;
-using Goldix.Domain.Entities.Notification;
-using Goldix.Domain.Entities.Setting;
-using Goldix.Infrastructure.Helpers.Extensions;
-using Goldix.Domain.Entities.WalletManagement;
+﻿using Goldix.Domain.Entities.Notification;
 using Goldix.Domain.Entities.Product;
-using Goldix.Domain.Entities.UserRequest;
+using Goldix.Domain.Entities.Setting;
+using Goldix.Domain.Entities.Trade;
+using Goldix.Domain.Entities.User;
+using Goldix.Domain.Entities.WalletManagement;
+using Goldix.Infrastructure.Helpers.Extensions;
 
 namespace Goldix.Infrastructure.Persistence;
 
@@ -19,10 +19,11 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     public DbSet<ApplicationSetting> ApplicationSettings { get; set; }
     public DbSet<Wallet> Wallets { get; set; }
     public DbSet<WalletTransaction> WalletTransactions { get; set; }
-    public DbSet<UserRequest> UserRequests { get; set; }
+    public DbSet<TradeRequest> TradeRequests { get; set; }
     public DbSet<MeasurementUnit> MeasurementUnits { get; set; }
     public DbSet<Product> Products { get; set; }
     public DbSet<Group> Groups { get; set; }
+    public DbSet<WalletIncreaseRequest> WalletIncreaseRequests { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -31,6 +32,7 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
         modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
         modelBuilder.AddRestrictDeleteBehaviorConvention();
         modelBuilder.ConfigureIdentityTables();
+        modelBuilder.IgnoreTables();
     }
 
     public override int SaveChanges()

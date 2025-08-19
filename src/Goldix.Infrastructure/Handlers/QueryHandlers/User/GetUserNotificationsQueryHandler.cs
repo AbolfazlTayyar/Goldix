@@ -10,7 +10,7 @@ public class GetUserNotificationsQueryHandler(ApplicationDbContext db, IMapper m
     {
         var result = await db.UserNotifications
             .AsNoTracking()
-            .Where(x => x.UserId == request.currentUserId)
+            .Where(x => x.ReceiverId == request.currentUserId)
             .Include(x => x.NotificationContent)
             .ProjectTo<NotificationDto>(mapper.ConfigurationProvider)
             .ToListAsync(cancellationToken);

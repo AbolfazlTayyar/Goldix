@@ -34,5 +34,10 @@ public class ApplicationUserConfiguration : IEntityTypeConfiguration<Application
 
         builder.Property(x => x.GroupId)
             .IsRequired(false);
+
+        builder.HasMany(x => x.NotificationContents)
+            .WithOne(x => x.Sender)
+            .HasForeignKey(x => x.SenderId)
+            .OnDelete(DeleteBehavior.Restrict);
     }
 }

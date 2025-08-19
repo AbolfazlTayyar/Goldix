@@ -22,5 +22,15 @@ public class NotificationContentConfiguration : IEntityTypeConfiguration<Notific
 
         builder.Property(x => x.CreatedAt)
             .IsRequired();
+
+        builder.HasOne(x => x.Sender)
+            .WithMany(x => x.NotificationContents)
+            .HasForeignKey(x => x.SenderId)
+            .OnDelete(DeleteBehavior.Restrict);
+
+        builder.HasMany(x => x.UserNotifications)
+            .WithOne(x => x.NotificationContent)
+            .HasForeignKey(x => x.NotificationContentId)
+            .OnDelete(DeleteBehavior.Restrict);
     }
 }

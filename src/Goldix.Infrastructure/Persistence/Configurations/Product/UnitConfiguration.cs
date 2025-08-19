@@ -15,5 +15,10 @@ public class MeasurementUnitConfiguration : IEntityTypeConfiguration<Measurement
 
         builder.Property(x => x.IsActive)
             .HasDefaultValue(true);
+
+        builder.HasMany(x => x.Products)
+            .WithOne(x => x.MeasurementUnit)
+            .HasForeignKey(x => x.MeasurementUnitId)
+            .OnDelete(DeleteBehavior.Restrict);
     }
 }

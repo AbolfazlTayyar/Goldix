@@ -1,4 +1,5 @@
 ﻿using Goldix.Domain.Entities.Notification;
+using Goldix.Domain.Entities.Trade;
 using Goldix.Domain.Entities.WalletManagement;
 
 namespace Goldix.Domain.Entities.User;
@@ -16,9 +17,14 @@ public class ApplicationUser : IdentityUser
 
     #region Navigation Properties
     public List<NotificationContent> NotificationContents { get; set; }
-    public List<UserRequest.UserRequest> UserRequests { get; set; }
-    public List<WalletTransaction> WalletTransactions { get; set; }
+    public List<UserNotification> UserNotifications { get; set; }
     public Wallet Wallet { get; set; }
     public Group Group { get; set; }
+
+    public List<WalletIncreaseRequest> SentWalletIncreaseRequests { get; set; }
+    public List<WalletIncreaseRequest> ReceivedWalletIncreaseRequests { get; set; }
+
+    public List<TradeRequest> SentTradeRequests { get; set; }
+    public List<TradeRequest> ReceivedTradeRequests { get; set; }
     #endregion
 }

@@ -9,14 +9,6 @@ public class WalletTransactionConfiguration : IEntityTypeConfiguration<WalletTra
     {
         builder.ToTable("WalletTransactions", schema: "Wallet");
 
-        builder.Property(x => x.AdminId)
-            .HasMaxLength(DataSchemaConstants.DEFAULT_USER_ID_LENGTH)
-            .IsRequired();
-
-        builder.Property(x => x.UserRequestId)
-            .HasMaxLength(DataSchemaConstants.DEFAULT_USER_ID_LENGTH)
-            .IsRequired(false);
-
         builder.Property(x => x.WalletId)
             .IsRequired();
 

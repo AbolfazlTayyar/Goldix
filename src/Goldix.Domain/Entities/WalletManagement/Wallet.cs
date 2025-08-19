@@ -1,4 +1,4 @@
-﻿using Goldix.Domain.Common;
+﻿using Goldix.Domain.Entities.Common;
 using Goldix.Domain.Entities.User;
 
 namespace Goldix.Domain.Entities.WalletManagement;

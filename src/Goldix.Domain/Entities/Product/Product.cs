@@ -1,4 +1,5 @@
-﻿using Goldix.Domain.Common;
+﻿using Goldix.Domain.Entities.Common;
+using Goldix.Domain.Entities.Trade;
 
 namespace Goldix.Domain.Entities.Product;
 
@@ -17,6 +18,6 @@ public class Product : BaseEntity
 
     #region Navigation Properties
     public MeasurementUnit MeasurementUnit { get; set; }
-    public List<UserRequest.UserRequest> UserRequests { get; set; }
+    public List<TradeRequest> TradeRequests { get; set; }
     #endregion
 }

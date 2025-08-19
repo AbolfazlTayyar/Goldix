@@ -25,5 +25,10 @@ public class GroupConfiguration : IEntityTypeConfiguration<Group>
             .HasPrecision(18, 2)
             .IsRequired()
             .HasDefaultValue(0);
+
+        builder.HasMany(x => x.Users)
+            .WithOne(x => x.Group)
+            .HasForeignKey(x => x.GroupId)
+            .OnDelete(DeleteBehavior.Cascade);
     }
 }

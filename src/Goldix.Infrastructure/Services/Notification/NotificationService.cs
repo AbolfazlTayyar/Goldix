@@ -31,7 +31,7 @@ public class NotificationService(ApplicationDbContext db, IMapper mapper, UserMa
             {
                 NotificationContentId = notification.Id,
                 IsRead = false,
-                UserId = user.Id,
+                ReceiverId = user.Id,
             })
             .ToList();
 
