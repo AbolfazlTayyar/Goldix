@@ -22,5 +22,13 @@ public class WalletEndpoints : IEndpointDefinition
             return ApiResponse.Ok();
         }).AddEndpointFilter<ValidationFilter<UpdateWalletBalanceDto>>()
           .RequireAuthorization(policy => policy.RequireRole(RoleConstants.ADMIN));
+
+        wallet.MapPost("/{userId}/increase-requests", async (string userId, WalletIncreaseRequestDto dto, IMediator mediator, CancellationToken cancellationToken) =>
+        {
+            await mediator.Send(new CreateWalletIncreaseRequestCommand(userId, dto), cancellationToken);
+
+            return ApiResponse.Ok();
+        }).AddEndpointFilter<ValidationFilter<WalletIncreaseRequestDto>>()
+          .RequireAuthorization(policy => policy.RequireRole(RoleConstants.USER));
     }
 }

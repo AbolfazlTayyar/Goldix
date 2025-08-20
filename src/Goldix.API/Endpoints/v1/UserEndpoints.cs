@@ -64,7 +64,7 @@ public class UserEndpoints : IEndpointDefinition
             return ApiResponse.Ok();
         }).RequireAuthorization(policy => policy.RequireRole(RoleConstants.ADMIN));
 
-        user.MapPatch("{id}/status", async (string id, [AsParameters] UserStatusDto dto, IMediator mediator, CancellationToken cancellationToken) =>
+        user.MapPatch("{id}", async (string id, [AsParameters] UserStatusDto dto, IMediator mediator, CancellationToken cancellationToken) =>
         {
             await mediator.Send(new ModifyUserStatusCommand(id, dto), cancellationToken);
 
