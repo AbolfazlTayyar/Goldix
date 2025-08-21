@@ -30,5 +30,14 @@ public class WalletEndpoints : IEndpointDefinition
             return ApiResponse.Ok();
         }).AddEndpointFilter<ValidationFilter<WalletIncreaseRequestDto>>()
           .RequireAuthorization(policy => policy.RequireRole(RoleConstants.USER));
+
+        // 'id' is the identifier of the WalletIncreaseRequest
+        wallet.MapPut("/increase-requests/{id}/status", async (int id, UpdateWalletIncreaseRequestStatusDto dto, IMediator mediator, CancellationToken cancellationToken) =>
+        {
+            await mediator.Send(new UpdateWalletIncreaseRequestStatusCommand(id, dto), cancellationToken);
+
+            return ApiResponse.Ok();
+        }).AddEndpointFilter<ValidationFilter<UpdateWalletIncreaseRequestStatusDto>>()
+          .RequireAuthorization(policy => policy.RequireRole(RoleConstants.ADMIN));
     }
 }
