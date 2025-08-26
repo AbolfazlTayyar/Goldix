@@ -53,6 +53,7 @@ public class TradeRequestEndpoints : IEndpointDefinition
             return ApiResponse.Ok(result);
         });
 
+            var result = await mediator.Send(new GetAllUserTradeRequestsQuery(userId, pagedRequest.Page, pagedRequest.PageSize), cancellationToken);
         //userRequest.MapPost("{userId}", async (string userId, UserRequestDto dto, IMediator mediator, CancellationToken cancellationToken) =>
         //{
         //    await mediator.Send(new ModifyUserRequestCommand(id, dto), cancellationToken);
