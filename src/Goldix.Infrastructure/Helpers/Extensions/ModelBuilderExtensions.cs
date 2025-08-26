@@ -1,5 +1,7 @@
 ﻿using Goldix.Domain.Entities.Common;
+using Goldix.Domain.Entities.Trade;
 using Goldix.Domain.Entities.User;
+using Goldix.Domain.Entities.WalletManagement;
 
 namespace Goldix.Infrastructure.Helpers.Extensions;
 
@@ -34,6 +36,14 @@ public static class ModelBuilderExtensions
     /// <summary>
     /// Ignores specific tables in the model.
     /// </summary>
-    public static void IgnoreTables(this ModelBuilder modelBuilder) =>
+    public static void IgnoreTablesAndForceTPT(this ModelBuilder modelBuilder)
+    {
         modelBuilder.Ignore<BaseRequest>();
+
+        modelBuilder.Entity<TradeRequest>()
+            .ToTable("TradeRequests", schema: "Trade");
+
+        modelBuilder.Entity<WalletIncreaseRequest>()
+            .ToTable("WalletIncreaseRequests", schema: "Wallet");
+    }
 }

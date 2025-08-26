@@ -2,14 +2,15 @@
 using Goldix.API.Filters;
 using Goldix.Application.Commands.User;
 using Goldix.Application.Extensions;
+using Goldix.Application.Models.Notification;
+using Goldix.Application.Models.Pagination;
+using Goldix.Application.Models.User;
 using Goldix.Application.Models.User.GetToken;
 using Goldix.Application.Models.User.Register;
-using Goldix.Application.Models.Notification;
+using Goldix.Application.Queries.Trade;
 using Goldix.Application.Queries.User;
 using Goldix.Application.Wrappers;
 using Goldix.Domain.Constants;
-using Goldix.Application.Models.User;
-using Goldix.Application.Models.Pagination;
 
 namespace Goldix.API.Endpoints.v1;
 
@@ -70,5 +71,12 @@ public class UserEndpoints : IEndpointDefinition
 
             return ApiResponse.Ok();
         }).RequireAuthorization(policy => policy.RequireRole(RoleConstants.ADMIN));
+
+        user.MapGet("{userId}/assets", async ([FromRoute] string userId, IMediator mediator, CancellationToken cancellationToken) =>
+        {
+            var result = await mediator.Send(new GetUserAssetsQuery(userId), cancellationToken);
+
+            return ApiResponse.Ok(result);
+        }).RequireAuthorization(policy => policy.RequireRole(RoleConstants.USER));
     }
 }

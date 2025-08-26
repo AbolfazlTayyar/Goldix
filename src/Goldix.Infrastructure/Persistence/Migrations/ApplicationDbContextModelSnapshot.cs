@@ -179,6 +179,34 @@ namespace Goldix.Infrastructure.Persistence.Migrations
                     b.ToTable("ApplicationSettings", "Setting");
                 });
 
+            modelBuilder.Entity("Goldix.Domain.Entities.Trade.Asset", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("Count")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ProductId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasMaxLength(450)
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ProductId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Assets", "Trade");
+                });
+
             modelBuilder.Entity("Goldix.Domain.Entities.Trade.TradeRequest", b =>
                 {
                     b.Property<int>("Id")
@@ -693,6 +721,25 @@ namespace Goldix.Infrastructure.Persistence.Migrations
                     b.Navigation("MeasurementUnit");
                 });
 
+            modelBuilder.Entity("Goldix.Domain.Entities.Trade.Asset", b =>
+                {
+                    b.HasOne("Goldix.Domain.Entities.Product.Product", "Product")
+                        .WithMany("Assets")
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("Goldix.Domain.Entities.User.ApplicationUser", "User")
+                        .WithMany("Assets")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Product");
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("Goldix.Domain.Entities.Trade.TradeRequest", b =>
                 {
                     b.HasOne("Goldix.Domain.Entities.Product.Product", "Product")
@@ -854,11 +901,15 @@ namespace Goldix.Infrastructure.Persistence.Migrations
 
             modelBuilder.Entity("Goldix.Domain.Entities.Product.Product", b =>
                 {
+                    b.Navigation("Assets");
+
                     b.Navigation("TradeRequests");
                 });
 
             modelBuilder.Entity("Goldix.Domain.Entities.User.ApplicationUser", b =>
                 {
+                    b.Navigation("Assets");
+
                     b.Navigation("NotificationContents");
 
                     b.Navigation("ReceivedTradeRequests");

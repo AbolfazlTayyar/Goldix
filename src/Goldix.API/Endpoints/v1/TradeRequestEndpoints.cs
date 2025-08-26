@@ -65,6 +65,6 @@ public class TradeRequestEndpoints : IEndpointDefinition
             var result = await mediator.Send(new GetAllUserTradeRequestsQuery(userId, pagedRequest.Page, pagedRequest.PageSize), cancellationToken);
 
             return ApiResponse.Ok(result);
-        });
+        }).RequireAuthorization(policy => policy.RequireRole(RoleConstants.USER));
     }
 }

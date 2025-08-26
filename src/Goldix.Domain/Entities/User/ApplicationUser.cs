@@ -19,6 +19,7 @@ public class ApplicationUser : IdentityUser
     public List<NotificationContent> NotificationContents { get; set; }
     public List<UserNotification> UserNotifications { get; set; }
     public List<WalletTransaction> WalletTransactions { get; set; }
+    public List<Asset> Assets { get; set; }
     public Wallet Wallet { get; set; }
     public Group Group { get; set; }
 

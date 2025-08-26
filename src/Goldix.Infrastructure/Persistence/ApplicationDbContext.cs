@@ -24,6 +24,7 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     public DbSet<Product> Products { get; set; }
     public DbSet<Group> Groups { get; set; }
     public DbSet<WalletIncreaseRequest> WalletIncreaseRequests { get; set; }
+    public DbSet<Asset> Assets { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -32,7 +33,7 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
         modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
         modelBuilder.AddRestrictDeleteBehaviorConvention();
         modelBuilder.ConfigureIdentityTables();
-        modelBuilder.IgnoreTables();
+        modelBuilder.IgnoreTablesAndForceTPT();
     }
 
     public override int SaveChanges()

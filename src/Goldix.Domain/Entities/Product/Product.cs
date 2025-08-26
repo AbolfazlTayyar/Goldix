@@ -19,5 +19,6 @@ public class Product : BaseEntity
     #region Navigation Properties
     public MeasurementUnit MeasurementUnit { get; set; }
     public List<TradeRequest> TradeRequests { get; set; }
+    public List<Asset> Assets { get; set; }
     #endregion
 }

@@ -15,6 +15,9 @@ namespace Goldix.Infrastructure.Persistence.Migrations
                 name: "Setting");
 
             migrationBuilder.EnsureSchema(
+                name: "Trade");
+
+            migrationBuilder.EnsureSchema(
                 name: "Identity");
 
             migrationBuilder.EnsureSchema(
@@ -22,9 +25,6 @@ namespace Goldix.Infrastructure.Persistence.Migrations
 
             migrationBuilder.EnsureSchema(
                 name: "Notification");
-
-            migrationBuilder.EnsureSchema(
-                name: "Trade");
 
             migrationBuilder.EnsureSchema(
                 name: "Wallet");
@@ -327,6 +327,36 @@ namespace Goldix.Infrastructure.Persistence.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Assets",
+                schema: "Trade",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    UserId = table.Column<string>(type: "nvarchar(450)", maxLength: 450, nullable: false),
+                    ProductId = table.Column<int>(type: "int", nullable: false),
+                    Count = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Assets", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Assets_Products_ProductId",
+                        column: x => x.ProductId,
+                        principalSchema: "Product",
+                        principalTable: "Products",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Assets_Users_UserId",
+                        column: x => x.UserId,
+                        principalSchema: "Identity",
+                        principalTable: "Users",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "UserNotifications",
                 schema: "Notification",
                 columns: table => new
@@ -371,11 +401,19 @@ namespace Goldix.Infrastructure.Persistence.Migrations
                     BalanceAfter = table.Column<decimal>(type: "decimal(18,2)", precision: 18, scale: 2, nullable: false),
                     Reason = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
                     TradeRequestId = table.Column<int>(type: "int", nullable: true),
-                    WalletIncreaseRequestId = table.Column<int>(type: "int", nullable: true)
+                    WalletIncreaseRequestId = table.Column<int>(type: "int", nullable: true),
+                    AdminId = table.Column<string>(type: "nvarchar(450)", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_WalletTransactions", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_WalletTransactions_Users_AdminId",
+                        column: x => x.AdminId,
+                        principalSchema: "Identity",
+                        principalTable: "Users",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_WalletTransactions_Wallets_WalletId",
                         column: x => x.WalletId,
@@ -479,6 +517,18 @@ namespace Goldix.Infrastructure.Persistence.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Assets_ProductId",
+                schema: "Trade",
+                table: "Assets",
+                column: "ProductId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Assets_UserId",
+                schema: "Trade",
+                table: "Assets",
+                column: "UserId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_NotificationContents_SenderId",
@@ -610,6 +660,12 @@ namespace Goldix.Infrastructure.Persistence.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
+                name: "IX_WalletTransactions_AdminId",
+                schema: "Wallet",
+                table: "WalletTransactions",
+                column: "AdminId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_WalletTransactions_WalletId",
                 schema: "Wallet",
                 table: "WalletTransactions",
@@ -622,6 +678,10 @@ namespace Goldix.Infrastructure.Persistence.Migrations
             migrationBuilder.DropTable(
                 name: "ApplicationSettings",
                 schema: "Setting");
+
+            migrationBuilder.DropTable(
+                name: "Assets",
+                schema: "Trade");
 
             migrationBuilder.DropTable(
                 name: "RoleClaims",
