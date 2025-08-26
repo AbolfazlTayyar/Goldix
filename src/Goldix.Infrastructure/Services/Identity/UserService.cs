@@ -4,11 +4,19 @@ using Goldix.Domain.Entities.User;
 using Goldix.Domain.Enums.User;
 using Goldix.Infrastructure.Helpers.Extensions;
 using Goldix.Infrastructure.Persistence;
+using Microsoft.AspNetCore.Http;
 
 namespace Goldix.Infrastructure.Services.Identity;
 
-public class UserService(ApplicationDbContext db, UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager) : IUserService
+public class UserService(ApplicationDbContext db, UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager,
+    IHttpContextAccessor httpContextAccessor) : IUserService
 {
+    public string GetCurrentUserId()
+    {
+        return httpContextAccessor.HttpContext?.User
+            .FindFirst(ClaimTypes.NameIdentifier)?.Value ?? throw new UnauthorizedAccessException();
+    }
+
     public async Task<ApplicationUser> RegisterUserAsync(string phoneNumber, string firstName, string lastName, string password, string roleName, UserStatus status = UserStatus.waiting, CancellationToken cancellationToken = default)
     {
         var userFromPhoneNumber = await userManager.FindByNameAsync(phoneNumber);
@@ -26,7 +34,7 @@ public class UserService(ApplicationDbContext db, UserManager<ApplicationUser> u
             UserName = phoneNumber,
             PhoneNumber = phoneNumber,
             CreatedAt = DateTime.Now,
-            Status = status.ToDisplay(),    
+            Status = status.ToDisplay(),
         };
 
         var createdUser = await userManager.CreateAsync(user, password);

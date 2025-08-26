@@ -9,4 +9,6 @@ public interface IUserService : IScopedService
     Task<ApplicationUser> RegisterUserAsync(string phoneNumber, string firstName, string lastName,
         string password, string roleName, UserStatus status = UserStatus.waiting,
         CancellationToken cancellationToken = default);
+
+    string GetCurrentUserId();
 }
