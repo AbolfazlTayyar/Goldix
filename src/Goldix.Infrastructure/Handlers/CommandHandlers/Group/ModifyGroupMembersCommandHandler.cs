@@ -10,8 +10,20 @@ public class ModifyGroupMembersCommandHandler(ApplicationDbContext db) : IReques
 {
     public async Task Handle(ModifyGroupMembersCommand request, CancellationToken cancellationToken)
     {
-        using var transaction = await db.Database.BeginTransactionAsync(cancellationToken);
+        if (db.Database.IsInMemory()) // for testing purposes   
+        {
+            await Operation(request, cancellationToken);
+        }
+        else
+        {
+            using var transaction = await db.Database.BeginTransactionAsync(cancellationToken);
+            await Operation(request, cancellationToken);
+            await transaction.CommitAsync(cancellationToken);
+        }
+    }
 
+    private async Task Operation(ModifyGroupMembersCommand request, CancellationToken cancellationToken)
+    {
         var allPhoneNumbers = new HashSet<string>();
 
         if (request.dto.UsersToAdd?.Any() == true)
@@ -25,12 +37,15 @@ public class ModifyGroupMembersCommandHandler(ApplicationDbContext db) : IReques
 
         bool isGroupExist = await db.Groups.AnyAsync(x => x.Id == request.id, cancellationToken);
         if (!isGroupExist)
-            throw new BadRequestException();
+            throw new NotFoundException();
 
         var userStatus = UserStatus.confirmed.ToDisplay();
         var users = await db.Users
             .Where(x => allPhoneNumbers.Contains(x.PhoneNumber) && x.Status == userStatus)
             .ToListAsync(cancellationToken);
+
+        if (users.Count <= 0)
+            throw new NotFoundException();
 
         var userLookup = users.ToDictionary(u => u.PhoneNumber, u => u);
 
@@ -53,6 +68,5 @@ public class ModifyGroupMembersCommandHandler(ApplicationDbContext db) : IReques
         }
 
         await db.SaveChangesAsync(cancellationToken);
-        await transaction.CommitAsync(cancellationToken);
     }
 }

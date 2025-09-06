@@ -8,11 +8,11 @@ public class DeleteGroupCommandHandler(ApplicationDbContext db) : IRequestHandle
 {
     public async Task Handle(DeleteGroupCommand request, CancellationToken cancellationToken)
     {
-        var group = await db.Groups.FirstOrDefaultAsync(x=>x.Id == request.id, cancellationToken);
+        var group = await db.Groups.FirstOrDefaultAsync(x => x.Id == request.id, cancellationToken);
         if (group is null)
             throw new NotFoundException();
 
         db.Groups.Remove(group);
-        await db.SaveChangesAsync(cancellationToken);    
+        await db.SaveChangesAsync(cancellationToken);
     }
 }

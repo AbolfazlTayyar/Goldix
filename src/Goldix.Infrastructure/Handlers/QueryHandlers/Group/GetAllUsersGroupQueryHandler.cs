@@ -18,6 +18,8 @@ public record GetAllUsersGroupQueryHandler(ApplicationDbContext db, RoleManager<
             throw new NotFoundException();
 
         var userRole = await roleManager.FindByNameAsync(RoleConstants.USER);
+        if (userRole is null)
+            throw new NotFoundException();
 
         var confirmedStatus = UserStatus.confirmed.ToDisplay();
         var baseQuery = db.Users

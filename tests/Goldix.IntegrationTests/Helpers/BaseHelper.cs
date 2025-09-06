@@ -1,13 +1,15 @@
 ﻿using Goldix.Application.Models.Group;
 using Goldix.Infrastructure.Persistence;
 
-public static class TestHelpers
+namespace Goldix.UnitTests.Helpers;
+
+public static class BaseHelper
 {
     public static IMapper CreateMapper()
     {
         var configExpression = new MapperConfigurationExpression();
         configExpression.AddMaps(typeof(GroupDto).Assembly);
-        var config = new MapperConfiguration(configExpression, NullLoggerFactory.Instance);
+        var config = new MapperConfiguration(configExpression);
         // Don't validate - allows unmapped properties
         return config.CreateMapper();
     }

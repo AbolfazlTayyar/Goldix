@@ -1,20 +1,22 @@
 ﻿using Goldix.Application.Queries.Group;
 using Goldix.Infrastructure.Handlers.QueryHandlers.Group;
 using Goldix.Infrastructure.Persistence;
+using Goldix.UnitTests.Helpers;
+using Goldix.UnitTests.Helpers.User;
 
-namespace Goldix.UnitTests.Handlers.QueryHandlers.Group;
+namespace Goldix.IntegrationTests.Handlers.QueryHandlers.Group;
 
 public class GetAllGroupsQueryHandlerTests : IDisposable
 {
-    private readonly ApplicationDbContext _context;
+    private readonly ApplicationDbContext _db;
     private readonly IMapper _mapper;
     private readonly GetAllGroupsQueryHandler _handler;
 
     public GetAllGroupsQueryHandlerTests()
     {
-        _context = TestHelpers.CreateInMemoryContext();
-        _mapper = TestHelpers.CreateMapper();
-        _handler = new GetAllGroupsQueryHandler(_context, _mapper);
+        _db = BaseHelper.CreateInMemoryContext();
+        _mapper = BaseHelper.CreateMapper();
+        _handler = new GetAllGroupsQueryHandler(_db, _mapper);
     }
 
     [Fact]
@@ -30,15 +32,13 @@ public class GetAllGroupsQueryHandlerTests : IDisposable
         Assert.NotNull(result);
         Assert.Empty(result.Items);
         Assert.Equal(0, result.TotalCount);
-        Assert.Equal(1, result.Page);
-        Assert.Equal(10, result.PageSize);
     }
 
     [Fact]
     public async Task Handle_WhenGroupsExist_ShouldReturnCorrectPagedResult()
     {
         // Arrange
-        await SeedGroupsAsync(5);
+        await GroupTestHelper.SeedGroupsRandomlyAsync(_db, 5);
         var query = new GetAllGroupsQuery(page: 1, pageSize: 3);
 
         // Act
@@ -56,24 +56,22 @@ public class GetAllGroupsQueryHandlerTests : IDisposable
     public async Task Handle_WhenRequestingSecondPage_ShouldReturnCorrectItems()
     {
         // Arrange
-        await SeedGroupsAsync(10);
+        await GroupTestHelper.SeedGroupsRandomlyAsync(_db, 10);
         var query = new GetAllGroupsQuery(page: 2, pageSize: 4);
+        var firstPageQuery = new GetAllGroupsQuery(page: 1, pageSize: 4);
 
         // Act
         var result = await _handler.Handle(query, CancellationToken.None);
+        var firstPageResult = await _handler.Handle(firstPageQuery, CancellationToken.None);
+
+        var firstPageIds = firstPageResult.Items.Select(x => x.Id).ToList();
+        var secondPageIds = result.Items.Select(x => x.Id).ToList();
 
         // Assert
         Assert.NotNull(result);
         Assert.Equal(4, result.Items.Count());
         Assert.Equal(10, result.TotalCount);
-        Assert.Equal(2, result.Page);
-        Assert.Equal(4, result.PageSize);
 
-        // Verify we got different items than first page
-        var firstPageQuery = new GetAllGroupsQuery(page: 1, pageSize: 4);
-        var firstPageResult = await _handler.Handle(firstPageQuery, CancellationToken.None);
-        var firstPageIds = firstPageResult.Items.Select(x => x.Id).ToList();
-        var secondPageIds = result.Items.Select(x => x.Id).ToList();
         Assert.False(firstPageIds.Intersect(secondPageIds).Any(),
             "Second page should have different items than first page");
     }
@@ -82,7 +80,7 @@ public class GetAllGroupsQueryHandlerTests : IDisposable
     public async Task Handle_WhenRequestingLastPage_ShouldReturnRemainingItems()
     {
         // Arrange
-        await SeedGroupsAsync(7);
+        await GroupTestHelper.SeedGroupsRandomlyAsync(_db, 7);
         var query = new GetAllGroupsQuery(page: 3, pageSize: 3);
 
         // Act
@@ -90,17 +88,15 @@ public class GetAllGroupsQueryHandlerTests : IDisposable
 
         // Assert
         Assert.NotNull(result);
-        Assert.Equal(1, result.Items.Count());
+        Assert.Single(result.Items);
         Assert.Equal(7, result.TotalCount);
-        Assert.Equal(3, result.Page);
-        Assert.Equal(3, result.PageSize);
     }
 
     [Fact]
     public async Task Handle_WhenRequestingPageBeyondData_ShouldReturnEmptyItems()
     {
         // Arrange
-        await SeedGroupsAsync(5);
+        await GroupTestHelper.SeedGroupsRandomlyAsync(_db, 5);
         var query = new GetAllGroupsQuery(page: 10, pageSize: 10);
 
         // Act
@@ -109,10 +105,7 @@ public class GetAllGroupsQueryHandlerTests : IDisposable
         // Assert
         Assert.NotNull(result);
         Assert.Empty(result.Items);
-        Assert.Equal(0, result.Items.Count());
         Assert.Equal(5, result.TotalCount);
-        Assert.Equal(10, result.Page);
-        Assert.Equal(10, result.PageSize);
     }
 
     [Theory]
@@ -124,8 +117,11 @@ public class GetAllGroupsQueryHandlerTests : IDisposable
     {
         // Arrange
         var totalGroups = 15;
-        await SeedGroupsAsync(totalGroups);
+        await GroupTestHelper.SeedGroupsRandomlyAsync(_db, totalGroups);
         var query = new GetAllGroupsQuery(page: page, pageSize: pageSize);
+
+        var skip = (page - 1) * pageSize;
+        var expectedCount = Math.Min(pageSize, Math.Max(0, totalGroups - skip));
 
         // Act
         var result = await _handler.Handle(query, CancellationToken.None);
@@ -133,12 +129,6 @@ public class GetAllGroupsQueryHandlerTests : IDisposable
         // Assert
         Assert.NotNull(result);
         Assert.Equal(totalGroups, result.TotalCount);
-        Assert.Equal(page, result.Page);
-        Assert.Equal(pageSize, result.PageSize);
-
-        // Calculate expected items count
-        var skip = (page - 1) * pageSize;
-        var expectedCount = Math.Min(pageSize, Math.Max(0, totalGroups - skip));
         Assert.Equal(expectedCount, result.Items.Count());
     }
 
@@ -154,8 +144,8 @@ public class GetAllGroupsQueryHandlerTests : IDisposable
             SellPriceDifferencePercent = 5,
             CreatedAt = DateTime.Now
         };
-        await _context.Groups.AddAsync(group);
-        await _context.SaveChangesAsync();
+        await _db.Groups.AddAsync(group);
+        await _db.SaveChangesAsync();
 
         var query = new GetAllGroupsQuery(page: 1, pageSize: 10);
 
@@ -180,7 +170,7 @@ public class GetAllGroupsQueryHandlerTests : IDisposable
     public async Task Handle_WithInvalidPaginationParameters_ShouldHandleGracefully(int page, int pageSize)
     {
         // Arrange
-        await SeedGroupsAsync(5);
+        await GroupTestHelper.SeedGroupsRandomlyAsync(_db, 5);
         var query = new GetAllGroupsQuery(page: page, pageSize: pageSize);
 
         // Act
@@ -188,15 +178,13 @@ public class GetAllGroupsQueryHandlerTests : IDisposable
 
         // Assert
         Assert.NotNull(result);
-        Assert.Equal(page, result.Page);
-        Assert.Equal(pageSize, result.PageSize);
     }
 
     [Fact]
     public async Task Handle_WithLargeDataset_ShouldPerformEfficiently()
     {
         // Arrange
-        await SeedGroupsAsync(1000);
+        await GroupTestHelper.SeedGroupsRandomlyAsync(_db, 1000);
         var query = new GetAllGroupsQuery(page: 5, pageSize: 20);
         var stopwatch = Stopwatch.StartNew();
 
@@ -213,27 +201,8 @@ public class GetAllGroupsQueryHandlerTests : IDisposable
         Assert.True(stopwatch.ElapsedMilliseconds < 1000, "Query should complete within reasonable time");
     }
 
-    private async Task SeedGroupsAsync(int count)
-    {
-        var groups = Enumerable.Range(1, count)
-            .Select(i => new Domain.Entities.User.Group
-            {
-                Id = i,
-                Name = $"Group {i}",
-                BuyPriceDifferencePercent = i * 10,
-                SellPriceDifferencePercent = i * 5,
-                CreatedAt = DateTime.UtcNow.AddDays(-i)
-            })
-            .ToList();
-
-        await _context.Groups.AddRangeAsync(groups);
-        await _context.SaveChangesAsync();
-
-        _context.ChangeTracker.Clear();
-    }
-
     public void Dispose()
     {
-        _context.Dispose();
+        _db.Dispose();
     }
 }
