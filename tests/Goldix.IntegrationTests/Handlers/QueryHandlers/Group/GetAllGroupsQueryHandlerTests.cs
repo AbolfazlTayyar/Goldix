@@ -1,8 +1,8 @@
 ﻿using Goldix.Application.Queries.Group;
 using Goldix.Infrastructure.Handlers.QueryHandlers.Group;
 using Goldix.Infrastructure.Persistence;
+using Goldix.IntegrationTests.Helpers.Group;
 using Goldix.UnitTests.Helpers;
-using Goldix.UnitTests.Helpers.User;
 
 namespace Goldix.IntegrationTests.Handlers.QueryHandlers.Group;
 
@@ -38,7 +38,7 @@ public class GetAllGroupsQueryHandlerTests : IDisposable
     public async Task Handle_WhenGroupsExist_ShouldReturnCorrectPagedResult()
     {
         // Arrange
-        await GroupTestHelper.SeedGroupsRandomlyAsync(_db, 5);
+        await GroupTestHelper.SeedGroupsAsync(_db, 5);
         var query = new GetAllGroupsQuery(page: 1, pageSize: 3);
 
         // Act
@@ -56,7 +56,7 @@ public class GetAllGroupsQueryHandlerTests : IDisposable
     public async Task Handle_WhenRequestingSecondPage_ShouldReturnCorrectItems()
     {
         // Arrange
-        await GroupTestHelper.SeedGroupsRandomlyAsync(_db, 10);
+        await GroupTestHelper.SeedGroupsAsync(_db, 10);
         var query = new GetAllGroupsQuery(page: 2, pageSize: 4);
         var firstPageQuery = new GetAllGroupsQuery(page: 1, pageSize: 4);
 
@@ -80,7 +80,7 @@ public class GetAllGroupsQueryHandlerTests : IDisposable
     public async Task Handle_WhenRequestingLastPage_ShouldReturnRemainingItems()
     {
         // Arrange
-        await GroupTestHelper.SeedGroupsRandomlyAsync(_db, 7);
+        await GroupTestHelper.SeedGroupsAsync(_db, 7);
         var query = new GetAllGroupsQuery(page: 3, pageSize: 3);
 
         // Act
@@ -96,7 +96,7 @@ public class GetAllGroupsQueryHandlerTests : IDisposable
     public async Task Handle_WhenRequestingPageBeyondData_ShouldReturnEmptyItems()
     {
         // Arrange
-        await GroupTestHelper.SeedGroupsRandomlyAsync(_db, 5);
+        await GroupTestHelper.SeedGroupsAsync(_db, 5);
         var query = new GetAllGroupsQuery(page: 10, pageSize: 10);
 
         // Act
@@ -117,7 +117,7 @@ public class GetAllGroupsQueryHandlerTests : IDisposable
     {
         // Arrange
         var totalGroups = 15;
-        await GroupTestHelper.SeedGroupsRandomlyAsync(_db, totalGroups);
+        await GroupTestHelper.SeedGroupsAsync(_db, totalGroups);
         var query = new GetAllGroupsQuery(page: page, pageSize: pageSize);
 
         var skip = (page - 1) * pageSize;
@@ -170,7 +170,7 @@ public class GetAllGroupsQueryHandlerTests : IDisposable
     public async Task Handle_WithInvalidPaginationParameters_ShouldHandleGracefully(int page, int pageSize)
     {
         // Arrange
-        await GroupTestHelper.SeedGroupsRandomlyAsync(_db, 5);
+        await GroupTestHelper.SeedGroupsAsync(_db, 5);
         var query = new GetAllGroupsQuery(page: page, pageSize: pageSize);
 
         // Act
@@ -184,7 +184,7 @@ public class GetAllGroupsQueryHandlerTests : IDisposable
     public async Task Handle_WithLargeDataset_ShouldPerformEfficiently()
     {
         // Arrange
-        await GroupTestHelper.SeedGroupsRandomlyAsync(_db, 1000);
+        await GroupTestHelper.SeedGroupsAsync(_db, 1000);
         var query = new GetAllGroupsQuery(page: 5, pageSize: 20);
         var stopwatch = Stopwatch.StartNew();
 

@@ -9,7 +9,7 @@ public class GroupDtoValidatorTests
 
     public GroupDtoValidatorTests()
     {
-        _validator = new GroupDtoValidator();
+        _validator = new();
     }
 
     [Fact]

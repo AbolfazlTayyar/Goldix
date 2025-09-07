@@ -3,8 +3,8 @@ using Goldix.Application.Extensions;
 using Goldix.Application.Queries.Group;
 using Goldix.Infrastructure.Handlers.QueryHandlers.Group;
 using Goldix.Infrastructure.Persistence;
+using Goldix.IntegrationTests.Helpers.Group;
 using Goldix.UnitTests.Helpers;
-using Goldix.UnitTests.Helpers.User;
 
 namespace Goldix.UnitTests.Handlers.QueryHandlers.Group;
 

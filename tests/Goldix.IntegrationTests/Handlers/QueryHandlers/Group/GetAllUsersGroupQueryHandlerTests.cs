@@ -5,6 +5,7 @@ using Goldix.Domain.Enums.User;
 using Goldix.Infrastructure.Handlers.QueryHandlers.Group;
 using Goldix.Infrastructure.Helpers.Extensions;
 using Goldix.Infrastructure.Persistence;
+using Goldix.IntegrationTests.Helpers.Group;
 using Goldix.UnitTests.Helpers;
 using Goldix.UnitTests.Helpers.User;
 
@@ -45,7 +46,7 @@ public class GetAllUsersGroupQueryHandlerTests : IDisposable
     public async Task Handle_WhenUserRoleNotFound_ShouldThrowNotFoundException()
     {
         // Arrange
-        await GroupTestHelper.SeedGroupsRandomlyAsync(_db, 1);
+        await GroupTestHelper.SeedGroupsAsync(_db, 1);
 
         var query = new GetAllUsersGroupQuery(id: 1, page: 1, pageSize: 10);
 
@@ -60,7 +61,7 @@ public class GetAllUsersGroupQueryHandlerTests : IDisposable
     public async Task Handle_WhenNoUsersHaveUserRole_ShouldReturnEmptyPagedResult()
     {
         // Arrange
-        await GroupTestHelper.SeedGroupsRandomlyAsync(_db, 1);
+        await GroupTestHelper.SeedGroupsAsync(_db, 1);
 
         await UserTestHelper.SeedRolesAsync(_db);
 
@@ -86,7 +87,7 @@ public class GetAllUsersGroupQueryHandlerTests : IDisposable
     public async Task Handle_WhenValidRequestWithUsersInUserRole_ShouldReturnPagedUserGroupDto()
     {
         // Arrange
-        await GroupTestHelper.SeedGroupsRandomlyAsync(_db, 3);
+        await GroupTestHelper.SeedGroupsAsync(_db, 3);
 
         await UserTestHelper.SeedRolesAsync(_db);
 

@@ -12,6 +12,9 @@ public class MarkNotificationAsReadCommandHandler(ApplicationDbContext db) : IRe
         if (userNotification is null)
             throw new NotFoundException();
 
+        if (userNotification.IsRead)
+            throw new BadRequestException();
+
         userNotification.IsRead = true;
         userNotification.ReadedAt = DateTime.Now;
         await db.SaveChangesAsync(cancellationToken);

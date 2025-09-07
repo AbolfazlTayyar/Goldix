@@ -1,11 +1,11 @@
 ﻿using Goldix.Application.Interfaces.Services.Notification;
 using Goldix.Application.Models.Notification;
 using Goldix.Domain.Constants;
-using Goldix.Domain.Entities.User;
 using Goldix.Domain.Entities.Notification;
-using Goldix.Infrastructure.Persistence;
+using Goldix.Domain.Entities.User;
 using Goldix.Domain.Enums.User;
 using Goldix.Infrastructure.Helpers.Extensions;
+using Goldix.Infrastructure.Persistence;
 
 namespace Goldix.Infrastructure.Services.Notification;
 
@@ -13,8 +13,20 @@ public class NotificationService(ApplicationDbContext db, IMapper mapper, UserMa
 {
     public async Task CreateNotificationAndSendToUsersAsync(CreateNotificationDto dto, CancellationToken cancellationToken)
     {
-        using var transaction = await db.Database.BeginTransactionAsync(cancellationToken);
+        if (db.Database.IsInMemory()) // for testing purposes   
+        {
+            await Operation(dto, cancellationToken);
+        }
+        else
+        {
+            using var transaction = await db.Database.BeginTransactionAsync(cancellationToken);
+            await Operation(dto, cancellationToken);
+            await transaction.CommitAsync(cancellationToken);
+        }
+    }
 
+    private async Task Operation(CreateNotificationDto dto, CancellationToken cancellationToken)
+    {
         var notification = mapper.Map<NotificationContent>(dto);
         notification.CreatedAt = DateTime.Now;
 
@@ -23,7 +35,7 @@ public class NotificationService(ApplicationDbContext db, IMapper mapper, UserMa
 
         var users = await userManager.GetUsersInRoleAsync(RoleConstants.USER);
         if (users.Count == 0)
-            throw new InvalidOperationException("No users found in USER role");
+            throw new InvalidOperationException();
 
         var confirmedStatus = UserStatus.confirmed.ToDisplay();
         var notifications = users.Where(x => x.Status == confirmedStatus)
@@ -34,10 +46,11 @@ public class NotificationService(ApplicationDbContext db, IMapper mapper, UserMa
                 ReceiverId = user.Id,
             })
             .ToList();
+        if (notifications.Count == 0)
+            throw new InvalidOperationException();
 
         await db.UserNotifications.AddRangeAsync(notifications, cancellationToken);
 
         await db.SaveChangesAsync(cancellationToken);
-        await transaction.CommitAsync(cancellationToken);
     }
 }

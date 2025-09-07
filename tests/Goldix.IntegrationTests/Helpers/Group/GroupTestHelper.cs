@@ -2,7 +2,7 @@
 using Goldix.Application.Models.Group;
 using Goldix.Infrastructure.Persistence;
 
-namespace Goldix.UnitTests.Helpers.User;
+namespace Goldix.IntegrationTests.Helpers.Group;
 
 public static class GroupTestHelper
 {
@@ -14,7 +14,7 @@ public static class GroupTestHelper
         db.ChangeTracker.Clear();
     }
 
-    public static async Task SeedGroupsRandomlyAsync(ApplicationDbContext db, int count)
+    public static async Task SeedGroupsAsync(ApplicationDbContext db, int count)
     {
         var groups = Enumerable.Range(1, count)
             .Select(i => new Domain.Entities.User.Group

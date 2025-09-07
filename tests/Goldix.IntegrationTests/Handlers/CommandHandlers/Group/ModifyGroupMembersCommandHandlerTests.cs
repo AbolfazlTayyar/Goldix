@@ -5,6 +5,7 @@ using Goldix.Domain.Enums.User;
 using Goldix.Infrastructure.Handlers.CommandHandlers.Group;
 using Goldix.Infrastructure.Helpers.Extensions;
 using Goldix.Infrastructure.Persistence;
+using Goldix.IntegrationTests.Helpers.Group;
 using Goldix.UnitTests.Helpers;
 using Goldix.UnitTests.Helpers.User;
 
@@ -49,7 +50,7 @@ public class ModifyGroupMembersCommandHandlerTests : IDisposable
     public async Task Handle_WhenNoUsersFound_ShouldThrowNotFoundException()
     {
         // Arrange
-        await GroupTestHelper.SeedGroupsRandomlyAsync(_db, 1);
+        await GroupTestHelper.SeedGroupsAsync(_db, 1);
 
         var command = GroupTestHelper.BuildModifyGroupMembersCommand();
 
@@ -61,7 +62,7 @@ public class ModifyGroupMembersCommandHandlerTests : IDisposable
     public async Task Handle_WhenValidCommand_ShouldAddOrRemoveUsersFromGroup()
     {
         // Arrange
-        await GroupTestHelper.SeedGroupsRandomlyAsync(_db, 5);
+        await GroupTestHelper.SeedGroupsAsync(_db, 5);
         await UserTestHelper.SeedUsersAsync(_db, 5, UserStatus.confirmed.ToDisplay(), true);
 
         var command = new ModifyGroupMembersCommand(3, new ModifyGroupMembersDto

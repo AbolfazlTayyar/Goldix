@@ -3,8 +3,8 @@ using Goldix.Application.Exceptions;
 using Goldix.Application.Models.Group;
 using Goldix.Infrastructure.Handlers.CommandHandlers.Group;
 using Goldix.Infrastructure.Persistence;
+using Goldix.IntegrationTests.Helpers.Group;
 using Goldix.UnitTests.Helpers;
-using Goldix.UnitTests.Helpers.User;
 
 namespace Goldix.IntegrationTests.Handlers.CommandHandlers.Group;
 
@@ -68,7 +68,7 @@ public class UpdateGroupCommandHandlerTests : IDisposable
     public async Task Handle_WhenMultipleGroupsExist_ShouldUpdateOnlySpecifiedGroup()
     {
         // Arrange
-        await GroupTestHelper.SeedGroupsRandomlyAsync(_db, 5);
+        await GroupTestHelper.SeedGroupsAsync(_db, 5);
 
         var updateDto = new CreateUpdateGroupDto
         {
