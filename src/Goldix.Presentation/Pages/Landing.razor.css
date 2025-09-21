@@ -30,16 +30,6 @@
     width: inherit;
 }
 
-.logo-container {
-    width: 96px;
-    height: 96px;
-    border-radius: 50%;
-    background-color: var(--primary-button-bg);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
 .logo-icon {
     height: 160px;
     width: inherit;

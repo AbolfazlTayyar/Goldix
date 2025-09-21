@@ -12,9 +12,10 @@ public class UpdateProductCommandHandler(ApplicationDbContext db, IMapper mapper
         if (product is null)
             throw new NotFoundException();
 
+        mapper.Map(request.dto, product);
+
         product.LastModifiedAt = DateTime.Now;
 
-        mapper.Map(request.dto, product);
         await db.SaveChangesAsync(cancellationToken);
     }
 }
