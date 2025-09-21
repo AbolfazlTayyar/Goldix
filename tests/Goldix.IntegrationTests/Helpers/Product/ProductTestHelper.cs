@@ -1,5 +1,4 @@
-﻿using Goldix.Domain.Entities.Product;
-using Goldix.Infrastructure.Persistence;
+﻿using Goldix.Infrastructure.Persistence;
 
 namespace Goldix.IntegrationTests.Helpers.Product;
 
@@ -15,7 +14,7 @@ public static class ProductTestHelper
                 SellPrice = 15 + i,
                 CreatedAt = DateTime.Now,
                 IsActive = true,
-                MeasurementUnit = new MeasurementUnit
+                MeasurementUnit = new Domain.Entities.Product.MeasurementUnit
                 {
                     Name = $"Unit{i}"
                 },
