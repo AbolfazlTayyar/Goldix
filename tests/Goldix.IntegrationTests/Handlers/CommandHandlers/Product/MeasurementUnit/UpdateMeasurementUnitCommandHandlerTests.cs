@@ -4,7 +4,7 @@ using Goldix.Application.Models.Product;
 using Goldix.Infrastructure.Handlers.CommandHandlers.Product.MeasurementUnit;
 using Goldix.Infrastructure.Persistence;
 using Goldix.IntegrationTests.Helpers.MeasurementUnit;
-using Goldix.UnitTests.Helpers;
+using Goldix.IntegrationTests.Helpers;
 
 namespace Goldix.IntegrationTests.Handlers.CommandHandlers.Product.MeasurementUnit;
 

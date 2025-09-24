@@ -1,7 +1,7 @@
 ﻿using Goldix.Application.Models.Group;
 using Goldix.Application.Validators.Group;
 
-namespace Goldix.UnitTests.Validators.Group;
+namespace Goldix.IntegrationTests.Validators.Group;
 
 public class GroupDtoValidatorTests
 {

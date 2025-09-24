@@ -1,7 +1,7 @@
 ﻿using Goldix.Application.Models.Product;
 using Goldix.Application.Validators.Product;
 
-namespace Goldix.UnitTests.Validators.Product;
+namespace Goldix.IntegrationTests.Validators.Product;
 
 public class PriceDtoValidatorTests
 {
@@ -64,7 +64,7 @@ public class PriceDtoValidatorTests
     }
 
     [Fact]
-    public async Task Handle_When_BuyPriceHasMoreThanTwoDecimalPlaces_ShouldHaveValidationError()
+    public async Task Handle_WhenBuyPriceHasMoreThanTwoDecimalPlaces_ShouldHaveValidationError()
     {
         // Arrange
         var dto = new PricingDto

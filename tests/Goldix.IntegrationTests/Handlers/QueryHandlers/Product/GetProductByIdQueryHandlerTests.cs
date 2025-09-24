@@ -2,7 +2,7 @@
 using Goldix.Infrastructure.Handlers.QueryHandlers.Product;
 using Goldix.Infrastructure.Persistence;
 using Goldix.IntegrationTests.Helpers.Product;
-using Goldix.UnitTests.Helpers;
+using Goldix.IntegrationTests.Helpers;
 
 namespace Goldix.IntegrationTests.Handlers.QueryHandlers.Product;
 

@@ -4,9 +4,9 @@ using Goldix.Application.Queries.Group;
 using Goldix.Infrastructure.Handlers.QueryHandlers.Group;
 using Goldix.Infrastructure.Persistence;
 using Goldix.IntegrationTests.Helpers.Group;
-using Goldix.UnitTests.Helpers;
+using Goldix.IntegrationTests.Helpers;
 
-namespace Goldix.UnitTests.Handlers.QueryHandlers.Group;
+namespace Goldix.IntegrationTests.Handlers.QueryHandlers.Group;
 
 public class GetGroupByIdQueryHandlerTests : IDisposable
 {

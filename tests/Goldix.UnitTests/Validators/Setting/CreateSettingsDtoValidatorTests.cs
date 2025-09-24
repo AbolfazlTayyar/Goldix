@@ -1,7 +1,7 @@
 ﻿using Goldix.Application.Models.Setting;
 using Goldix.Application.Validators.Settings;
 
-namespace Goldix.UnitTests.Validators.Setting;
+namespace Goldix.IntegrationTests.Validators.Setting;
 
 public class CreateSettingsDtoValidatorTests
 {

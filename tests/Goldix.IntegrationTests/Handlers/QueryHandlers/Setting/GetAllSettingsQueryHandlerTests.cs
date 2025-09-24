@@ -2,7 +2,7 @@
 using Goldix.Domain.Entities.Setting;
 using Goldix.Infrastructure.Handlers.QueryHandlers.Notification;
 using Goldix.Infrastructure.Persistence;
-using Goldix.UnitTests.Helpers;
+using Goldix.IntegrationTests.Helpers;
 
 namespace Goldix.IntegrationTests.Handlers.QueryHandlers.Setting;
 

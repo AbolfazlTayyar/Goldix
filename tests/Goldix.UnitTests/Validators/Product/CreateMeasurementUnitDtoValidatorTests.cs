@@ -2,7 +2,7 @@
 using Goldix.Application.Validators.Product;
 using Goldix.Domain.Constants;
 
-namespace Goldix.UnitTests.Validators.Product;
+namespace Goldix.IntegrationTests.Validators.Product;
 
 public class CreateMeasurementUnitDtoValidatorTests
 {

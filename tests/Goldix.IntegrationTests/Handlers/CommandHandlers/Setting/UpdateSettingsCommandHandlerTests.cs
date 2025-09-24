@@ -4,7 +4,7 @@ using Goldix.Application.Models.Setting;
 using Goldix.Domain.Entities.Setting;
 using Goldix.Infrastructure.Handlers.CommandHandlers.Setting;
 using Goldix.Infrastructure.Persistence;
-using Goldix.UnitTests.Helpers;
+using Goldix.IntegrationTests.Helpers;
 
 namespace Goldix.IntegrationTests.Handlers.CommandHandlers.Setting;
 

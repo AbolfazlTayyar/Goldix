@@ -2,7 +2,7 @@
 using Goldix.Application.Validators.Notification;
 using Goldix.Domain.Constants;
 
-namespace Goldix.UnitTests.Validators.Notification;
+namespace Goldix.IntegrationTests.Validators.Notification;
 
 public class NotificationContentDtoValidatorTests
 {

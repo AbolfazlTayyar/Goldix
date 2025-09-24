@@ -3,7 +3,7 @@ using Goldix.Application.Exceptions;
 using Goldix.Infrastructure.Handlers.CommandHandlers.Product;
 using Goldix.Infrastructure.Persistence;
 using Goldix.IntegrationTests.Helpers.Product;
-using Goldix.UnitTests.Helpers;
+using Goldix.IntegrationTests.Helpers;
 
 namespace Goldix.IntegrationTests.Handlers.CommandHandlers.Product;
 

@@ -22,6 +22,9 @@ public class CreateTradeRequestCommandHandler(ApplicationDbContext db, IUserServ
         if (user is null)
             throw new NotFoundException();
 
+        if (user.Wallet is null)
+            throw new BadRequestException();
+
         var totalPrice = productPrice * request.dto.ProductCount;
         if (user.Wallet.Balance < totalPrice)
             throw new BadRequestException();

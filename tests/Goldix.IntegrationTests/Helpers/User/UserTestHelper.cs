@@ -1,8 +1,11 @@
 ﻿using Goldix.Domain.Constants;
 using Goldix.Domain.Entities.User;
+using Goldix.Domain.Entities.WalletManagement;
+using Goldix.Domain.Enums.User;
+using Goldix.Infrastructure.Helpers.Extensions;
 using Goldix.Infrastructure.Persistence;
 
-namespace Goldix.UnitTests.Helpers.User;
+namespace Goldix.IntegrationTests.Helpers.User;
 
 public static class UserTestHelper
 {
@@ -21,7 +24,7 @@ public static class UserTestHelper
         db.ChangeTracker.Clear();
     }
 
-    public static async Task<List<ApplicationUser>> SeedUsersAsync(ApplicationDbContext db, int count, string status, bool isActive)
+    public static async Task<List<ApplicationUser>> SeedUsersAsync(ApplicationDbContext db, int count, string status = null, bool isActive = true, bool shouldHaveWallet = false)
     {
         var users = Enumerable.Range(1, count)
             .Select(i => new ApplicationUser
@@ -31,9 +34,16 @@ public static class UserTestHelper
                 LastName = $"Last{i}",
                 PhoneNumber = $"090000000{i:D2}",
                 IsActive = isActive,
-                Status = status,
+                Status = status ?? UserStatus.confirmed.ToDisplay(),
                 CreatedAt = DateTime.Now,
                 GroupId = 1,
+                Wallet = shouldHaveWallet == true ?
+                new Wallet
+                {
+                    UserId = i.ToString(),
+                    Balance = i * 100000,
+                    CreatedAt = DateTime.Now
+                } : null
             })
             .ToList();
 

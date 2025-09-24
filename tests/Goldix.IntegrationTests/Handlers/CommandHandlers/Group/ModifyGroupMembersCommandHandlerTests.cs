@@ -6,8 +6,8 @@ using Goldix.Infrastructure.Handlers.CommandHandlers.Group;
 using Goldix.Infrastructure.Helpers.Extensions;
 using Goldix.Infrastructure.Persistence;
 using Goldix.IntegrationTests.Helpers.Group;
-using Goldix.UnitTests.Helpers;
-using Goldix.UnitTests.Helpers.User;
+using Goldix.IntegrationTests.Helpers;
+using Goldix.IntegrationTests.Helpers.User;
 
 namespace Goldix.IntegrationTests.Handlers.CommandHandlers.Group;
 

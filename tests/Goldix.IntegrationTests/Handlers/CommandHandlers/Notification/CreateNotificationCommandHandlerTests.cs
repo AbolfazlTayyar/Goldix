@@ -6,7 +6,7 @@ using Goldix.Infrastructure.Handlers.CommandHandlers.Notification;
 using Goldix.Infrastructure.Helpers.Extensions;
 using Goldix.Infrastructure.Persistence;
 using Goldix.Infrastructure.Services.Notification;
-using Goldix.UnitTests.Helpers;
+using Goldix.IntegrationTests.Helpers;
 
 namespace Goldix.IntegrationTests.Handlers.CommandHandlers.Notification;
 

@@ -12,6 +12,12 @@ public static class DateTimeExtensions
         return shamsiDate;
     }
 
+    public static string ToShamsiDateFormatted(this DateTime dateTime)
+    {
+        var pc = new PersianCalendar();
+        return $"{pc.GetYear(dateTime):0000}/{pc.GetMonth(dateTime):00}/{pc.GetDayOfMonth(dateTime):00}";
+    }
+
     public static DateTime? ToMiladi(this string shamsiDate)
     {
         if (string.IsNullOrEmpty(shamsiDate))

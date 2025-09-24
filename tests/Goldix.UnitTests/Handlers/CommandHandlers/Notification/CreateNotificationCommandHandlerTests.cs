@@ -3,7 +3,7 @@ using Goldix.Application.Interfaces.Services.Notification;
 using Goldix.Application.Models.Notification;
 using Goldix.Infrastructure.Handlers.CommandHandlers.Notification;
 
-namespace Goldix.UnitTests.Handlers.CommandHandlers.Notification;
+namespace Goldix.IntegrationTests.Handlers.CommandHandlers.Notification;
 
 public class CreateNotificationCommandHandlerTests
 {

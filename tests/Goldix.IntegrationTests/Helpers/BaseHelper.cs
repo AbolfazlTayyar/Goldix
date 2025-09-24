@@ -1,7 +1,7 @@
 ﻿using Goldix.Application.Models.Group;
 using Goldix.Infrastructure.Persistence;
 
-namespace Goldix.UnitTests.Helpers;
+namespace Goldix.IntegrationTests.Helpers;
 
 public static class BaseHelper
 {
