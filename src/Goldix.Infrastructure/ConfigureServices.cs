@@ -11,8 +11,7 @@ public static class ConfigureServices
             .AddMarkedServices(typeof(IValidationService).Assembly, Assembly.GetExecutingAssembly())
             .AddMediatRServices()
             .AddIdentityServices(configuration)
-            .AddAuthenticationServices(configuration)
-            .AddSerilog(configuration);
+            .AddAuthenticationServices(configuration);
 
         return services;
     }

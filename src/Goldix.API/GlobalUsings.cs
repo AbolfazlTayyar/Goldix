@@ -1,10 +1,10 @@
 ﻿global using Asp.Versioning.Builder;
-global using Microsoft.AspNetCore.Antiforgery;
-global using MediatR;
 global using Asp.Versioning.Conventions;
-global using System.Net;
+global using MediatR;
+global using Microsoft.AspNetCore.Antiforgery;
 global using Microsoft.AspNetCore.Identity;
-global using System.Security.Claims;
-global using System.Text.Json;
 global using Microsoft.AspNetCore.Mvc;
 global using Serilog;
+global using System.Net;
+global using System.Security.Claims;
+global using System.Text.Json;

@@ -6,12 +6,14 @@ namespace Goldix.API.Middlewares;
 public class GlobalExceptionHandlingMiddleware
 {
     private readonly ILogger<GlobalExceptionHandlingMiddleware> _logger;
+    private readonly IHostEnvironment _environment;
     private readonly RequestDelegate _next;
 
-    public GlobalExceptionHandlingMiddleware(RequestDelegate next, ILogger<GlobalExceptionHandlingMiddleware> logger)
+    public GlobalExceptionHandlingMiddleware(RequestDelegate next, ILogger<GlobalExceptionHandlingMiddleware> logger, IHostEnvironment environment)
     {
-        _next = next;
         _logger = logger;
+        _environment = environment;
+        _next = next;
     }
 
     public async Task InvokeAsync(HttpContext context)
@@ -25,11 +27,11 @@ public class GlobalExceptionHandlingMiddleware
         }
         catch (Exception ex)
         {
-            await HandleResponseAsync(context, _logger, ex);
+            await HandleResponseAsync(context, _logger, ex, _environment);
         }
     }
 
-    private static async Task HandleResponseAsync(HttpContext context, Microsoft.Extensions.Logging.ILogger logger = null, Exception exception = null)
+    private static async Task HandleResponseAsync(HttpContext context, ILogger logger = null, Exception exception = null, IHostEnvironment environment = null)
     {
         if (context.Response.HasStarted)
             return;
@@ -59,7 +61,7 @@ public class GlobalExceptionHandlingMiddleware
                     break;
                 default:
                     context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
-                    response = ExceptionResponse.CreateUnhandledErrorResponse(exception, logger);
+                    response = ExceptionResponse.CreateUnhandledErrorResponse(exception, logger, environment);
                     break;
             }
         }

@@ -6,6 +6,11 @@ using Goldix.Infrastructure;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Host.UseSerilog((context, configuration) =>
+{
+    configuration.ReadFrom.Configuration(context.Configuration);
+});
+
 builder.Services.AddAntiforgery();
 
 builder.Services.AddApplicationServices();
@@ -13,8 +18,6 @@ builder.Services.AddInfrastructureServices(builder.Configuration);
 
 builder.Services.AddApiVersioning();
 builder.Services.AddAuthorization();
-
-builder.Host.UseSerilog();
 
 // Configure the HTTP request pipeline.
 

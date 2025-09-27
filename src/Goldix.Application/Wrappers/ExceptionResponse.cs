@@ -1,4 +1,5 @@
 ﻿using Goldix.Application.Exceptions;
+using Microsoft.Extensions.Hosting;
 
 namespace Goldix.Application.Wrappers;
 
@@ -40,17 +41,19 @@ public static class ExceptionResponse
         return response;
     }
 
-    public static ApiResponse<object> CreateUnhandledErrorResponse(Exception exception, ILogger logger)
+    public static ApiResponse<object> CreateUnhandledErrorResponse(Exception exception, ILogger logger, IHostEnvironment environment)
     {
-        ///production
-        //return ApiResponse<object>.FailureResult(
-        //    "An unhandled exception occurred");
+        if (environment.IsDevelopment())
+        {
+            var response = ApiResponse.Fail(exception.InnerException?.ToString() ?? exception.ToString());
+            response.Message = "An unhandled exception occurred";
+            return response;
+        }
+        else
+        {
+            logger.LogError(exception: exception.InnerException, message: exception.Message);
 
-        logger.LogError(exception: exception.InnerException, message: exception.Message);
-
-        ///development
-        var response = ApiResponse.Fail(exception.InnerException != null ? exception.InnerException.ToString() : exception.ToString());
-        response.Message = "An unhandled exception occurred";
-        return response;
+            return ApiResponse<object>.Fail("An unhandled exception occurred");
+        }
     }
 }
