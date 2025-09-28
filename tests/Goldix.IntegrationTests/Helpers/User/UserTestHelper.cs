@@ -33,6 +33,7 @@ public static class UserTestHelper
                 FirstName = $"First{i}",
                 LastName = $"Last{i}",
                 PhoneNumber = $"090000000{i:D2}",
+                UserName = $"090000000{i:D2}",
                 IsActive = isActive,
                 Status = status ?? UserStatus.confirmed.ToDisplay(),
                 CreatedAt = DateTime.Now,

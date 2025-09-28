@@ -22,18 +22,9 @@ public class CreateNotificationCommandHandlerTests : IDisposable
     {
         _db = BaseHelper.CreateInMemoryContext();
         _mapper = BaseHelper.CreateMapper();
-        _mockUserManager = MockUserManager();
+        _mockUserManager = BaseHelper.MockUserManager();
         _notificationService = new NotificationService(_db, _mapper, _mockUserManager.Object);
         _handler = new CreateNotificationCommandHandler(_notificationService);
-    }
-
-    private Mock<UserManager<ApplicationUser>> MockUserManager()
-    {
-        var store = new Mock<IUserStore<ApplicationUser>>();
-        var userManager = new Mock<UserManager<ApplicationUser>>(store.Object, null, null, null, null, null, null, null, null);
-        userManager.Object.UserValidators.Add(new UserValidator<ApplicationUser>());
-        userManager.Object.PasswordValidators.Add(new PasswordValidator<ApplicationUser>());
-        return userManager;
     }
 
     [Fact]

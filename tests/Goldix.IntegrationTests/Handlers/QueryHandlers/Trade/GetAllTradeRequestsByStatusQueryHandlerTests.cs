@@ -3,12 +3,12 @@ using Goldix.Application.Queries.Trade;
 using Goldix.Domain.Enums.Common;
 using Goldix.Infrastructure.Handlers.QueryHandlers.Trade;
 using Goldix.Infrastructure.Persistence;
-using Goldix.IntegrationTests.Helpers.Trade;
 using Goldix.IntegrationTests.Helpers;
+using Goldix.IntegrationTests.Helpers.Trade;
 
 namespace Goldix.IntegrationTests.Handlers.QueryHandlers.Trade;
 
-public class GetAllTradeRequestsByStatusQueryHandlerTests
+public class GetAllTradeRequestsByStatusQueryHandlerTests : IDisposable
 {
     private readonly ApplicationDbContext _db;
     private readonly IMapper _mapper;

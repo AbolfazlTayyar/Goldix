@@ -1,4 +1,5 @@
 ﻿using Goldix.Application.Models.Group;
+using Goldix.Domain.Entities.User;
 using Goldix.Infrastructure.Persistence;
 
 namespace Goldix.IntegrationTests.Helpers;
@@ -20,5 +21,23 @@ public static class BaseHelper
             .UseInMemoryDatabase(databaseName: Guid.NewGuid().ToString())
             .Options;
         return new ApplicationDbContext(options);
+    }
+
+    public static Mock<UserManager<ApplicationUser>> MockUserManager()
+    {
+        var store = new Mock<IUserStore<ApplicationUser>>();
+        var userManager = new Mock<UserManager<ApplicationUser>>(store.Object, null, null, null, null, null, null, null, null);
+        userManager.Object.UserValidators.Add(new UserValidator<ApplicationUser>());
+        userManager.Object.PasswordValidators.Add(new PasswordValidator<ApplicationUser>());
+        return userManager;
+    }
+
+    public static Mock<RoleManager<IdentityRole>> MockRoleManager()
+    {
+        var store = new Mock<IRoleStore<IdentityRole>>();
+        var roleManager = new Mock<RoleManager<IdentityRole>>(
+            store.Object, null, null, null, null
+        );
+        return roleManager;
     }
 }

@@ -5,8 +5,8 @@ using Goldix.Domain.Enums.User;
 using Goldix.Infrastructure.Handlers.QueryHandlers.Group;
 using Goldix.Infrastructure.Helpers.Extensions;
 using Goldix.Infrastructure.Persistence;
-using Goldix.IntegrationTests.Helpers.Group;
 using Goldix.IntegrationTests.Helpers;
+using Goldix.IntegrationTests.Helpers.Group;
 using Goldix.IntegrationTests.Helpers.User;
 
 namespace Goldix.IntegrationTests.Handlers.QueryHandlers.Group;
@@ -20,12 +20,7 @@ public class GetAllUsersGroupQueryHandlerTests : IDisposable
     public GetAllUsersGroupQueryHandlerTests()
     {
         _db = BaseHelper.CreateInMemoryContext();
-
-        var store = new Mock<IRoleStore<IdentityRole>>();
-        _mockRoleManager = new Mock<RoleManager<IdentityRole>>(
-            store.Object, null, null, null, null
-        );
-
+        _mockRoleManager = BaseHelper.MockRoleManager();
         _handler = new GetAllUsersGroupQueryHandler(_db, _mockRoleManager.Object);
     }
 

@@ -5,11 +5,11 @@ namespace Goldix.API.Middlewares;
 
 public class GlobalExceptionHandlingMiddleware
 {
-    private readonly ILogger<GlobalExceptionHandlingMiddleware> _logger;
+    private readonly Serilog.ILogger _logger;
     private readonly IHostEnvironment _environment;
     private readonly RequestDelegate _next;
 
-    public GlobalExceptionHandlingMiddleware(RequestDelegate next, ILogger<GlobalExceptionHandlingMiddleware> logger, IHostEnvironment environment)
+    public GlobalExceptionHandlingMiddleware(RequestDelegate next, Serilog.ILogger logger, IHostEnvironment environment)
     {
         _logger = logger;
         _environment = environment;
@@ -31,7 +31,7 @@ public class GlobalExceptionHandlingMiddleware
         }
     }
 
-    private static async Task HandleResponseAsync(HttpContext context, ILogger logger = null, Exception exception = null, IHostEnvironment environment = null)
+    private static async Task HandleResponseAsync(HttpContext context, Serilog.ILogger logger = null, Exception exception = null, IHostEnvironment environment = null)
     {
         if (context.Response.HasStarted)
             return;
