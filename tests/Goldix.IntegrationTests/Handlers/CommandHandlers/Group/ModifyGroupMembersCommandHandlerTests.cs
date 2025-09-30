@@ -63,7 +63,7 @@ public class ModifyGroupMembersCommandHandlerTests : IDisposable
     {
         // Arrange
         await GroupTestHelper.SeedGroupsAsync(_db, 5);
-        await UserTestHelper.SeedUsersAsync(_db, 5, UserStatus.confirmed.ToDisplay(), true);
+        await UserTestHelper.CreateUsersAsync(_db, 5, UserStatus.confirmed.ToDisplay(), true);
 
         var command = new ModifyGroupMembersCommand(3, new ModifyGroupMembersDto
         {

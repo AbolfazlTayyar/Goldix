@@ -58,12 +58,12 @@ public class GetAllUsersGroupQueryHandlerTests : IDisposable
         // Arrange
         await GroupTestHelper.SeedGroupsAsync(_db, 1);
 
-        await UserTestHelper.SeedRolesAsync(_db);
+        await UserTestHelper.CreateRolesAsync(_db);
 
         _mockRoleManager.Setup(rm => rm.FindByNameAsync("User"))
             .ReturnsAsync(new IdentityRole("User"));
 
-        var users = await UserTestHelper.SeedUsersAsync(_db, 5, status: "confirmed", isActive: true);
+        var users = await UserTestHelper.CreateUsersAsync(_db, 5, status: "confirmed", isActive: true);
 
         await UserTestHelper.AddUsersToRole(_db, users, "Admin");
 
@@ -84,7 +84,7 @@ public class GetAllUsersGroupQueryHandlerTests : IDisposable
         // Arrange
         await GroupTestHelper.SeedGroupsAsync(_db, 3);
 
-        await UserTestHelper.SeedRolesAsync(_db);
+        await UserTestHelper.CreateRolesAsync(_db);
 
         _mockRoleManager.Setup(rm => rm.FindByNameAsync(RoleConstants.USER))
             .ReturnsAsync(new IdentityRole(RoleConstants.USER)
@@ -92,7 +92,7 @@ public class GetAllUsersGroupQueryHandlerTests : IDisposable
                 Id = "1"
             });
 
-        var users = await UserTestHelper.SeedUsersAsync(_db, 5, status: UserStatus.confirmed.ToDisplay(), isActive: true);
+        var users = await UserTestHelper.CreateUsersAsync(_db, 5, status: UserStatus.confirmed.ToDisplay(), isActive: true);
         await UserTestHelper.AddUsersToRole(_db, users, RoleConstants.USER);
 
         var query = new GetAllUsersGroupQuery(id: 1, page: 1, pageSize: 3);

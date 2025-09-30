@@ -6,7 +6,7 @@ namespace Goldix.IntegrationTests.Helpers.Notification;
 
 public static class NotificationTestHelper
 {
-    public static async Task SeedNotificationsAsync(ApplicationDbContext db, int count)
+    public static async Task<List<NotificationContent>> SeedNotificationsAsync(ApplicationDbContext db, int count)
     {
         var notifications = Enumerable.Range(1, count)
             .Select(i => new NotificationContent
@@ -30,24 +30,22 @@ public static class NotificationTestHelper
         await db.NotificationContents.AddRangeAsync(notifications);
         await db.SaveChangesAsync();
 
-        db.ChangeTracker.Clear();
+        return notifications;
     }
 
-    public static async Task<List<UserNotification>> SeedUserNotificationsAsync(ApplicationDbContext db, int count, bool isRead = false)
+    public static async Task<List<UserNotification>> SeedUserNotificationsAsync(ApplicationDbContext db, int count, bool isRead = false, string userId = null, NotificationContent notificationContent = null)
     {
         var userNotifications = Enumerable.Range(1, count)
             .Select(i => new UserNotification
             {
-                NotificationContentId = i,
-                ReceiverId = Guid.NewGuid().ToString(),
+                NotificationContentId = notificationContent != null ? notificationContent.Id : i,
+                ReceiverId = userId ?? Guid.NewGuid().ToString(),
                 IsRead = isRead,
             })
             .ToList();
 
         await db.UserNotifications.AddRangeAsync(userNotifications);
         await db.SaveChangesAsync();
-
-        db.ChangeTracker.Clear();
 
         return userNotifications;
     }

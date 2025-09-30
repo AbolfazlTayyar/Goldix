@@ -54,9 +54,9 @@ public class GetAllUsersByStatusQueryHandlerTests : IDisposable
     public async Task Handle_WhenUsersWithGivenStatusExist_ShouldReturnPagedResult()
     {
         // Arrange
-        await UserTestHelper.SeedRolesAsync(_db);
+        await UserTestHelper.CreateRolesAsync(_db);
 
-        var users = await UserTestHelper.SeedUsersAsync(_db, 5, UserStatus.confirmed.ToDisplay());
+        var users = await UserTestHelper.CreateUsersAsync(_db, 5, UserStatus.confirmed.ToDisplay());
         await UserTestHelper.AddUsersToRole(_db, users, RoleConstants.USER);
 
         var firstUserRoleId = _db.UserRoles.First().RoleId;

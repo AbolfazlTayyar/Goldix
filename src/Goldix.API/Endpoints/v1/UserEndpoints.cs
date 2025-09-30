@@ -24,7 +24,7 @@ public class UserEndpoints : IEndpointDefinition
 
         user.MapPost("/login", async (GetTokenRequestDto dto, IMediator mediator, CancellationToken cancellationToken) =>
         {
-            var result = await mediator.Send(new GetTokenQuery(dto), cancellationToken);
+            var result = await mediator.Send(new AuthenticateUserCommand(dto), cancellationToken);
 
             return ApiResponse<GetTokenResponseDto>.Ok(result);
         }).AddEndpointFilter<ValidationFilter<GetTokenRequestDto>>();

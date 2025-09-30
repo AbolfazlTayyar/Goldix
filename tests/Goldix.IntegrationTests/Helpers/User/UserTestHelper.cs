@@ -9,7 +9,7 @@ namespace Goldix.IntegrationTests.Helpers.User;
 
 public static class UserTestHelper
 {
-    public static async Task SeedRolesAsync(ApplicationDbContext db)
+    public static async Task CreateRolesAsync(ApplicationDbContext db)
     {
         var roles = new List<IdentityRole>
         {
@@ -24,7 +24,7 @@ public static class UserTestHelper
         db.ChangeTracker.Clear();
     }
 
-    public static async Task<List<ApplicationUser>> SeedUsersAsync(ApplicationDbContext db, int count, string status = null, bool isActive = true, bool shouldHaveWallet = false)
+    public static async Task<List<ApplicationUser>> CreateUsersAsync(ApplicationDbContext db, int count, string status = null, bool isActive = true, bool shouldHaveWallet = false)
     {
         var users = Enumerable.Range(1, count)
             .Select(i => new ApplicationUser

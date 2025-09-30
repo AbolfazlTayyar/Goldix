@@ -1,13 +1,13 @@
-﻿using Goldix.Application.Interfaces.Services.Identity;
+﻿using Goldix.Application.Commands.User;
+using Goldix.Application.Interfaces.Services.Identity;
 using Goldix.Application.Models.User.GetToken;
-using Goldix.Application.Queries.User;
 
-namespace Goldix.Infrastructure.Handlers.QueryHandlers.User;
+namespace Goldix.Infrastructure.Handlers.CommandHandlers.User;
 
-public class GetTokenQueryHandler(IAuthenticationService authenticationService, IClaimsService claimsService, ITokenService tokenService) 
-    : IRequestHandler<GetTokenQuery, GetTokenResponseDto>
+public class AuthenticateUserCommandHandler(IAuthenticationService authenticationService, IClaimsService claimsService, ITokenService tokenService)
+    : IRequestHandler<AuthenticateUserCommand, GetTokenResponseDto>
 {
-    public async Task<GetTokenResponseDto> Handle(GetTokenQuery request, CancellationToken cancellationToken)
+    public async Task<GetTokenResponseDto> Handle(AuthenticateUserCommand request, CancellationToken cancellationToken)
     {
         var user = await authenticationService.ValidateUserAsync(request.dto.UserName, request.dto.Password, cancellationToken);
         var claims = await claimsService.GenerateUserClaimsAsync(user);

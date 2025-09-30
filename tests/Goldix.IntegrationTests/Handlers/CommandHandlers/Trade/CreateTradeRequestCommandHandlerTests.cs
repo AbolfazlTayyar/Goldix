@@ -68,7 +68,7 @@ public class CreateTradeRequestCommandHandlerTests : IDisposable
     public async Task Handle_WhenUserDoesNotHaveWallet_ShouldThrowBadRequestException()
     {
         // Arrange
-        await UserTestHelper.SeedUsersAsync(_db, 1);
+        await UserTestHelper.CreateUsersAsync(_db, 1);
 
         _userService.Setup(x => x.GetCurrentUserId()).Returns("1");
 
@@ -91,7 +91,7 @@ public class CreateTradeRequestCommandHandlerTests : IDisposable
     public async Task Handle_WhenTotalPriceIsMoreThanWalletBalance_ShouldThrowBadRequestException()
     {
         // Arrange
-        await UserTestHelper.SeedUsersAsync(_db, 1, shouldHaveWallet: true);
+        await UserTestHelper.CreateUsersAsync(_db, 1, shouldHaveWallet: true);
 
         _userService.Setup(x => x.GetCurrentUserId()).Returns("1");
 
@@ -114,7 +114,7 @@ public class CreateTradeRequestCommandHandlerTests : IDisposable
     public async Task Handle_WhenCommandIsValid_ShouldCreateTradeRequest()
     {
         // Arrange
-        await UserTestHelper.SeedUsersAsync(_db, 1, shouldHaveWallet: true);
+        await UserTestHelper.CreateUsersAsync(_db, 1, shouldHaveWallet: true);
 
         _userService.Setup(x => x.GetCurrentUserId()).Returns("1");
 
