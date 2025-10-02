@@ -9,7 +9,7 @@ public class ModifyUserRequestCommandHandler(ApplicationDbContext db) : IRequest
 {
     public async Task Handle(ModifyTradeRequestCommand request, CancellationToken cancellationToken)
     {
-        var record = await db.TradeRequests.FirstOrDefaultAsync(x=>x.Id == request.id, cancellationToken);
+        var record = await db.TradeRequests.FirstOrDefaultAsync(x => x.Id == request.id, cancellationToken);
         if (record is null)
             throw new NotFoundException();
 

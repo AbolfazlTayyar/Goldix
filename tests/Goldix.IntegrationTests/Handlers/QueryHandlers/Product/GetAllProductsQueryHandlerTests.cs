@@ -38,7 +38,7 @@ public class GetAllProductsQueryHandlerTests : IDisposable
     public async Task Handle_WhenProductsExist_ReturnsPagedResult()
     {
         // Arrange
-        await ProductTestHelper.SeedProductsAsync(_db, 15);
+        await ProductTestHelper.CreateProductsAsync(_db, 15);
 
         var query = new GetAllProductsQuery(page: 1, pageSize: 10);
 

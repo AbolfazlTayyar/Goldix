@@ -33,7 +33,7 @@ public class GetProductByIdQueryHandlerTests : IDisposable
     public async Task Handle_WhenProductExists_ShouldReturnProduct()
     {
         // Arrange
-        await ProductTestHelper.SeedProductsAsync(_db, 3);
+        await ProductTestHelper.CreateProductsAsync(_db, 3);
 
         var query = new GetProductByIdQuery(1);
 

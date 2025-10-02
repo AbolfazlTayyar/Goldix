@@ -51,8 +51,6 @@ public static class UserTestHelper
         await db.Users.AddRangeAsync(users);
         await db.SaveChangesAsync();
 
-        db.ChangeTracker.Clear();
-
         return users;
     }
 

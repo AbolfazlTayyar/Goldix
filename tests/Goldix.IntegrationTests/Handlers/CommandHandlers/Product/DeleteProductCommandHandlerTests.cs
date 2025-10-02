@@ -33,7 +33,7 @@ public class DeleteProductCommandHandlerTests : IDisposable
     public async Task Handle_WhenProductExists_ShouldDeleteProduct()
     {
         // Arrange
-        await ProductTestHelper.SeedProductsAsync(_db, 1);
+        await ProductTestHelper.CreateProductsAsync(_db, 1);
 
         var command = new DeleteProductCommand(1);
 

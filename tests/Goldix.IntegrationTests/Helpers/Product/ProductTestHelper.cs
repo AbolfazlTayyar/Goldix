@@ -4,7 +4,7 @@ namespace Goldix.IntegrationTests.Helpers.Product;
 
 public static class ProductTestHelper
 {
-    public static async Task SeedProductsAsync(ApplicationDbContext db, int count)
+    public static async Task<List<Domain.Entities.Product.Product>> CreateProductsAsync(ApplicationDbContext db, int count)
     {
         var products = Enumerable.Range(1, count)
             .Select(i => new Domain.Entities.Product.Product
@@ -24,6 +24,6 @@ public static class ProductTestHelper
         await db.Products.AddRangeAsync(products);
         await db.SaveChangesAsync();
 
-        db.ChangeTracker.Clear();
+        return products;
     }
 }

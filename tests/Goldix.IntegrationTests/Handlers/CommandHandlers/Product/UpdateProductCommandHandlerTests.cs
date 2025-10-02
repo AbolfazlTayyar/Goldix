@@ -36,7 +36,7 @@ public class UpdateProductCommandHandlerTests : IDisposable
     public async Task Handle_WhenProductExists_ShouldUpdateProduct()
     {
         // Arrange
-        await ProductTestHelper.SeedProductsAsync(_db, 1);
+        await ProductTestHelper.CreateProductsAsync(_db, 1);
 
         var updatedProductDto = new ProductDto
         {

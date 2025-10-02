@@ -42,7 +42,7 @@ public class ModifyProductPricesCommandHandlerTests : IDisposable
     public async Task Handle_ShouldModifyProductPrices()
     {
         // Arrange
-        await ProductTestHelper.SeedProductsAsync(_db, 1);
+        await ProductTestHelper.CreateProductsAsync(_db, 1);
 
         var command = new ModifyProductPricesCommand
         (
